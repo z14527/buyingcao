@@ -3,10 +3,12 @@ package com.gyg.buyingcao;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.zhy.base.fileprovider.FileProvider7;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,20 +50,26 @@ public class CaseFragment extends Fragment {
                 String case_number = case_number_editText.getText().toString();
           //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                Toast.makeText(getActivity(),"目标文件：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_LONG).show();
-                if(!writeTxtToFile(case_number,patentPath,case_number + ".0.txt",false))
+             //   Toast.makeText(getActivity(),"目标文件：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_LONG).show();
+                if(!writeTxtToFile(case_number,patentPath,case_number + ".0.txt"))
                     return;
-                Toast.makeText(getActivity(),"写文件成功：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(patentPath + case_number + ".0.txt")));  //传输图片或者文件 采用流的方式
-                intent.setType("*/*");   //分享文件
-                getContext().getApplicationContext().startActivity(Intent.createChooser(intent, "分享"));
+                Toast.makeText(getActivity(),"写文件成功：\n" + case_number + ".0.txt", Toast.LENGTH_SHORT).show();
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    File file = new File(patentPath,case_number + ".0.txt");
+                 //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
     // 将字符串写入到文本文件中
-    private boolean writeTxtToFile(String strcontent, String filePath, String fileName,boolean append) {
+    private boolean writeTxtToFile(String strcontent, String filePath, String fileName) {
         //生成文件夹之后，再生成文件，不然会出错
         if(makeFilePath(filePath, fileName)==null){
              return false;
@@ -69,15 +79,10 @@ public class CaseFragment extends Fragment {
         String strContent = strcontent + "\r\n";
         try {
             File file = new File(strFilePath);
-            if (!file.exists() || append == false) {
-              //  Log.d("TestFile", "Create the file:" + strFilePath);
-                file.getParentFile().mkdirs();
-                if(append == false)
-                    file.deleteOnExit();
-                file.createNewFile();
-            }
+            file.deleteOnExit();
+            file.createNewFile();
             RandomAccessFile raf = new RandomAccessFile(file, "rwd");
-            raf.seek(file.length());
+            raf.seek(0);
             raf.write(strContent.getBytes());
             raf.close();
         } catch (Exception e) {
