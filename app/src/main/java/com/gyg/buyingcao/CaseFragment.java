@@ -2,10 +2,12 @@ package com.gyg.buyingcao;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -30,7 +32,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button button;
+    private Button btnOK,btnDTxt,btnDPdf,btnUTxt;
+    private EditText numEText,apdEText,classEText;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private String strCaseNum="",strCaseApd="",strCaseClass="";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,22 +47,31 @@ public class CaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
       //  textView=(TextView)getActivity().findViewById(R.id.case_textView1);
-        button=(Button)getActivity().findViewById(R.id.case_txt_down);
-        button.setOnClickListener(new View.OnClickListener() {
+        strCaseNum = pref.getString("CaseNum","");
+        strCaseApd = pref.getString("CaseApd","");
+        strCaseClass = pref.getString("CaseClass","");
+        numEText=(EditText)getActivity().findViewById(R.id.case_number);
+        apdEText=(EditText)getActivity().findViewById(R.id.case_date);
+        classEText=(EditText)getActivity().findViewById(R.id.case_class);
+        numEText.setText(strCaseNum);
+        apdEText.setText(strCaseApd);
+        classEText.setText(strCaseClass);
+        btnDTxt=(Button)getActivity().findViewById(R.id.case_txt_down);
+        btnDTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText case_number_editText = getActivity().findViewById(R.id.case_number);
-                String case_number = case_number_editText.getText().toString();
+                strCaseNum = numEText.getText().toString();
           //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
              //   Toast.makeText(getActivity(),"目标文件：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_LONG).show();
-                if(!writeTxtToFile(case_number,patentPath,case_number + ".0.txt"))
+                if(!writeTxtToFile(strCaseNum,patentPath,strCaseNum + ".0.txt"))
                     return;
-                Toast.makeText(getActivity(),"写文件成功：\n" + case_number + ".0.txt", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
                 try {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    File file = new File(patentPath,case_number + ".0.txt");
+                    File file = new File(patentPath,strCaseNum + ".0.txt");
                  //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     Uri uri = FileProvider7.getUriForFile(getContext(),file);
                     intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
@@ -65,6 +80,21 @@ public class CaseFragment extends Fragment {
                 }catch (Exception e) {
                     Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btnOK=(Button)getActivity().findViewById(R.id.case_ok);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor = pref.edit();
+                strCaseNum = numEText.getText().toString();
+                strCaseApd = apdEText.getText().toString();
+                strCaseClass = classEText.getText().toString();
+                editor.putString("CaseNum",strCaseNum);
+                editor.putString("CaseApd",strCaseApd);
+                editor.putString("CaseClass",strCaseClass);
+                editor.commit();
             }
         });
     }
