@@ -52,20 +52,30 @@ public class ViewFragment extends Fragment {
         strCaseNum = pref.getString("CaseNum","");
         EditText key_editText = getActivity().findViewById(R.id.file_key);
         key_editText.setText(strCaseNum);
-        path = Environment.getExternalStorageDirectory().getPath();
+        path = Environment.getExternalStorageDirectory().getPath()+"/download/";
      //   info = getString(R.string.info);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText key_editText = getActivity().findViewById(R.id.file_key);
-                key = key_editText.getText().toString() + ".*txt";
+                key = key_editText.getText().toString();
+                result.setText("");
                 search(new File(path));
             }
         });
     }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+//        strCaseNum = pref.getString("CaseNum","");
+//        EditText key_editText = getActivity().findViewById(R.id.file_key);
+//        key_editText.setText(strCaseNum);
+//    }
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         strCaseNum = pref.getString("CaseNum","");
         EditText key_editText = getActivity().findViewById(R.id.file_key);
@@ -74,18 +84,20 @@ public class ViewFragment extends Fragment {
     private void search(File fileold)
     {
         File[] files=fileold.listFiles();
-        Pattern p = Pattern.compile(key);
         if(files.length>0)
         {
             for(int j=0;j<files.length;j++)
             {
                 if(!files[j].isDirectory()) {
-                    if (p.matcher(files[j].getName()).matches()) {
+                 //   Pattern p = Pattern.compile(key);
+                 //   if (p.matcher(files[j].getName()).matches()) {
+                    if(files[j].getName().contains(key)){
                         String fname = files[j].getAbsolutePath();
+                        result.append("\n"+fname+"\n");
                         String res = "";
                         try {
                             res = readExternal(getContext(), fname, "GBK");
-                            result.setText(res);
+                            result.append(res);
                             return;
                         } catch (IOException e) {
                             e.printStackTrace();
