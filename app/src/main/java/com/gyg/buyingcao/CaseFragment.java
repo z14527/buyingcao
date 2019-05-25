@@ -32,7 +32,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnOK,btnDTxt,btnDPdf,btnUTxt;
+    private Button btnOK,btnDTxt,btnDPdf,btnClear;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -82,6 +82,31 @@ public class CaseFragment extends Fragment {
                 }
             }
         });
+        btnDPdf=(Button)getActivity().findViewById(R.id.case_pdf_down);
+        btnDPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                strCaseNum = numEText.getText().toString();
+                //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
+                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                //   Toast.makeText(getActivity(),"目标文件：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_LONG).show();
+                if(!writeTxtToFile(strCaseNum,patentPath,strCaseNum + ".0.pdf"))
+                    return;
+                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.pdf", Toast.LENGTH_SHORT).show();
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    File file = new File(patentPath,strCaseNum + ".0.pdf");
+                    //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         btnOK=(Button)getActivity().findViewById(R.id.case_ok);
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +122,15 @@ public class CaseFragment extends Fragment {
                 editor.commit();
             }
         });
+        btnClear=(Button)getActivity().findViewById(R.id.case_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numEText.setText("");
+                apdEText.setText("");
+                classEText.setText("");
+             }
+        });
     }
     // 将字符串写入到文本文件中
     private boolean writeTxtToFile(String strcontent, String filePath, String fileName) {
@@ -109,7 +143,8 @@ public class CaseFragment extends Fragment {
         String strContent = strcontent + "\r\n";
         try {
             File file = new File(strFilePath);
-            file.deleteOnExit();
+            if(file.exists())
+                file.delete();
             file.createNewFile();
             RandomAccessFile raf = new RandomAccessFile(file, "rwd");
             raf.seek(0);
