@@ -21,9 +21,11 @@ import android.widget.Toast;
 
 import com.zhy.base.fileprovider.FileProvider7;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -32,7 +34,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnOK,btnDTxt,btnDPdf,btnClear;
+    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -107,7 +109,43 @@ public class CaseFragment extends Fragment {
             }
         });
 
-
+        btnImport=(Button)getActivity().findViewById(R.id.case_import);
+        btnImport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                strCaseNum = numEText.getText().toString();
+                //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
+                String patentTxTPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
+                File txtFile =new File(patentTxTPath);
+                if(!txtFile.exists()) {
+                    Toast.makeText(getActivity(),"目标文件：\n" + patentTxTPath + "不存在", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
+                try {
+                    String pTxt = readFileData(patentTxTPath);
+              //      Toast.makeText(getActivity(), pTxt.substring(0, 100), Toast.LENGTH_LONG).show();
+      //              if (1 > 0)
+      //                  return;
+                    String[] ptn = pTxt.split("\n");
+            //        Toast.makeText(getActivity(), ptn[0], Toast.LENGTH_LONG).show();
+            //        Toast.makeText(getActivity(), ptn[1], Toast.LENGTH_LONG).show();
+            //        Toast.makeText(getActivity(), ptn[2], Toast.LENGTH_LONG).show();
+                    if (ptn.length > 3) {
+                        String strIC = ptn[1];
+                        String strPN = ptn[2];
+                        String ic = strIC.substring(strIC.indexOf("-") + 1, strIC.indexOf("/"));
+                        String pn = strPN.substring(strPN.lastIndexOf(" ") + 1);
+                        String pn1 = pn.substring(0, 4) + "-" + pn.substring(4,6) + "-" + pn.substring(6, 8);
+                        pn1 = pn1.replaceAll("-0","-");
+                        apdEText.setText(pn1);
+                        classEText.setText(ic);
+                    }
+                }catch(Exception e1){
+                    Toast.makeText(getActivity(),e1.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         btnOK=(Button)getActivity().findViewById(R.id.case_ok);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,15 +231,18 @@ public class CaseFragment extends Fragment {
     public String readFileData(String fileName){
         String result="";
         try{
-            FileInputStream fis = getContext().openFileInput(fileName);
+            FileReader freader = new FileReader(fileName);
             //获取文件长度
-            int lenght = fis.available();
-            byte[] buffer = new byte[lenght];
-            fis.read(buffer);
-            //将byte数组转换成指定格式的字符串
-            result = new String(buffer, "UTF-8");
+            BufferedReader br =new BufferedReader(freader);
+
+/*4.可以调用字符缓冲流br的readLine()方法度一行输入文本*/
+            String line =null;
+            while((line =br.readLine())!=null){
+                result = result + line +"\n";
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getActivity(),"读文件"+fileName+"失败\n"+e.toString(), Toast.LENGTH_LONG).show();
         }
         return  result;
     }

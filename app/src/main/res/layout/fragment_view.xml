@@ -27,6 +27,28 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="查找" />
+    <LinearLayout
+        android:id="@+id/LinearLayout05"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="本申请文本文件"
+            android:id="@+id/case_txt_view"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
+            android:text="关键词"
+            android:id="@+id/case_key_view"
+            android:layout_width="150dip"
+            android:layout_height="150dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+    </LinearLayout>
     <TextView
         android:id="@+id/view_textView1"
         android:layout_width="fill_parent"

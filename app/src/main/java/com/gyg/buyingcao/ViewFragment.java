@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class ViewFragment extends Fragment {
     private TextView result;
-    private Button button;
+    private Button button,btnCaseTxt,btnCaseKey;
     private File file;
     private String path = "";
     private String info = "";
@@ -49,6 +49,8 @@ public class ViewFragment extends Fragment {
         result=(TextView)getActivity().findViewById(R.id.view_textView1);
         result.setMovementMethod(ScrollingMovementMethod.getInstance());
         button=(Button)getActivity().findViewById(R.id.view_button1);
+        btnCaseTxt=(Button)getActivity().findViewById(R.id.case_txt_view);
+        btnCaseKey=(Button)getActivity().findViewById(R.id.case_key_view);
         strCaseNum = pref.getString("CaseNum","");
         EditText key_editText = getActivity().findViewById(R.id.file_key);
         key_editText.setText(strCaseNum);
@@ -61,6 +63,45 @@ public class ViewFragment extends Fragment {
                 key = key_editText.getText().toString();
                 result.setText("");
                 search(new File(path));
+            }
+        });
+        btnCaseTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
+                File txtFile =new File(txtFilePath);
+                if(!txtFile.exists()) {
+                    Toast.makeText(getActivity(),"目标文件：\n" + txtFilePath + "不存在", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String strTxt = "";
+                try {
+                    strTxt = readExternal(getContext(),txtFilePath,"GBK");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(),e.toString(), Toast.LENGTH_LONG).show();
+                }
+                result.setText(strTxt);
+            }
+        });
+
+        btnCaseKey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum+".2.txt";
+                File txtFile =new File(txtFilePath);
+                if(!txtFile.exists()) {
+                    Toast.makeText(getActivity(),"目标文件：\n" + txtFilePath + "不存在", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String strTxt = "";
+                try {
+                    strTxt = readExternal(getContext(),txtFilePath,"GBK");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(),e.toString(), Toast.LENGTH_LONG).show();
+                }
+                result.setText(strTxt);
             }
         });
     }

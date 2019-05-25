@@ -91,9 +91,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <Button
+                android:text="导入"
+                android:id="@+id/case_import"
+                android:layout_width="120dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>           <Button
                 android:text="确定"
                 android:id="@+id/case_ok"
-                android:layout_width="150dip"
+                android:layout_width="120dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"
                 android:gravity="center">
@@ -101,7 +108,7 @@
             <Button
                 android:text="文本下载"
                 android:id="@+id/case_txt_down"
-                android:layout_width="150dip"
+                android:layout_width="120dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"
                 android:gravity="center">
