@@ -70,6 +70,12 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
+                Intent intent = new Intent(getContext(),AviewActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
+                if(1>0)
+                    return;
+
                 File txtFile =new File(txtFilePath);
                 if(!txtFile.exists()) {
                     Toast.makeText(getActivity(),"目标文件：\n" + txtFilePath + "不存在", Toast.LENGTH_LONG).show();
