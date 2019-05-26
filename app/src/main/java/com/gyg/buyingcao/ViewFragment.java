@@ -1,6 +1,7 @@
 package com.gyg.buyingcao;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,8 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ViewFragment extends Fragment {
-    private TextView result;
-    private Button button,btnCaseTxt,btnCaseKey;
+   // private TextView result;
+    private Button btnCaseTxt,btnCaseKey,btnCaseKeyExpand,btnCaseSearch,btnCaseSearchRunHistory,btnCaseAbstractEnglishDown,btnCaseAbstractChineseDown,btnCaseResultView;
     private File file;
     private String path = "";
     private String info = "";
@@ -46,17 +47,17 @@ public class ViewFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        result=(TextView)getActivity().findViewById(R.id.view_textView1);
-        result.setMovementMethod(ScrollingMovementMethod.getInstance());
-        button=(Button)getActivity().findViewById(R.id.view_button1);
+     //   result=(TextView)getActivity().findViewById(R.id.view_textView1);
+      //  result.setMovementMethod(ScrollingMovementMethod.getInstance());
+    //    button=(Button)getActivity().findViewById(R.id.view_button1);
         btnCaseTxt=(Button)getActivity().findViewById(R.id.case_txt_view);
         btnCaseKey=(Button)getActivity().findViewById(R.id.case_key_view);
         strCaseNum = pref.getString("CaseNum","");
-        EditText key_editText = getActivity().findViewById(R.id.file_key);
-        key_editText.setText(strCaseNum);
+     //   EditText key_editText = getActivity().findViewById(R.id.file_key);
+      //  key_editText.setText(strCaseNum);
         path = Environment.getExternalStorageDirectory().getPath()+"/download/";
      //   info = getString(R.string.info);
-        button.setOnClickListener(new View.OnClickListener() {
+   /*     button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText key_editText = getActivity().findViewById(R.id.file_key);
@@ -64,7 +65,7 @@ public class ViewFragment extends Fragment {
                 result.setText("");
                 search(new File(path));
             }
-        });
+        });*/
         btnCaseTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +82,7 @@ public class ViewFragment extends Fragment {
                     e.printStackTrace();
                     Toast.makeText(getActivity(),e.toString(), Toast.LENGTH_LONG).show();
                 }
-                result.setText(strTxt);
+                //result.setText(strTxt);
             }
         });
 
@@ -101,7 +102,51 @@ public class ViewFragment extends Fragment {
                     e.printStackTrace();
                     Toast.makeText(getActivity(),e.toString(), Toast.LENGTH_LONG).show();
                 }
-                result.setText(strTxt);
+              //  result.setText(strTxt);
+            }
+        });
+        btnCaseKeyExpand=(Button)getActivity().findViewById(R.id.case_key_expand_view);
+        btnCaseKeyExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"关键词扩展查看", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnCaseSearch=(Button)getActivity().findViewById(R.id.case_search_view);
+        btnCaseSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"检索式查看", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(),AviewActivity.class);
+                startActivity(intent);
+            }
+         });
+        btnCaseSearchRunHistory=(Button)getActivity().findViewById(R.id.case_search_run_history_view);
+        btnCaseSearchRunHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"检索历史查看", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnCaseAbstractChineseDown=(Button)getActivity().findViewById(R.id.case_abstract_chinese_down);
+        btnCaseAbstractChineseDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"下载中文摘要", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnCaseAbstractEnglishDown=(Button)getActivity().findViewById(R.id.case_abstract_english_down);
+        btnCaseAbstractEnglishDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"下载英文摘要", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnCaseResultView=(Button)getActivity().findViewById(R.id.case_search_result_view);
+        btnCaseResultView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,8 +164,8 @@ public class ViewFragment extends Fragment {
         super.onHiddenChanged(hidden);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         strCaseNum = pref.getString("CaseNum","");
-        EditText key_editText = getActivity().findViewById(R.id.file_key);
-        key_editText.setText(strCaseNum);
+      //  EditText key_editText = getActivity().findViewById(R.id.file_key);
+     //  key_editText.setText(strCaseNum);
     }
     private void search(File fileold)
     {
@@ -134,11 +179,11 @@ public class ViewFragment extends Fragment {
                  //   if (p.matcher(files[j].getName()).matches()) {
                     if(files[j].getName().contains(key)){
                         String fname = files[j].getAbsolutePath();
-                        result.append("\n"+fname+"\n");
+                        //result.append("\n"+fname+"\n");
                         String res = "";
                         try {
                             res = readExternal(getContext(), fname, "GBK");
-                            result.append(res);
+                       //     result.append(res);
                             return;
                         } catch (IOException e) {
                             e.printStackTrace();

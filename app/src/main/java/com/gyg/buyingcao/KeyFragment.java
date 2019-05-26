@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class KeyFragment extends Fragment {
     private TextView textView;
-    private Button button;
+    private Button btnKeyDown,btnKeyExpand;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,12 +25,19 @@ public class KeyFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView=(TextView)getActivity().findViewById(R.id.key_textView1);
-        button=(Button)getActivity().findViewById(R.id.key_button1);
-        button.setOnClickListener(new View.OnClickListener() {
+       // textView=(TextView)getActivity().findViewById(R.id.key_textView1);
+        btnKeyDown=(Button)getActivity().findViewById(R.id.case_key_down);
+        btnKeyExpand=(Button)getActivity().findViewById(R.id.case_key_expand);
+        btnKeyDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"KeyFragment", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"关键词下载", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnKeyExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"关键词扩展", Toast.LENGTH_SHORT).show();
             }
         });
     }

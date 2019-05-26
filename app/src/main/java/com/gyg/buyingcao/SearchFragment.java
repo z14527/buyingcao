@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SearchFragment extends Fragment {
     private TextView textView;
-    private Button button;
+    private Button btnSearchGet,btnSearchModify,btnSearchDo;
+    private CheckBox cbSearchEnglish;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,13 +27,28 @@ public class SearchFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView=(TextView)getActivity().findViewById(R.id.search_textView1);
-        button=(Button)getActivity().findViewById(R.id.search_button1);
-        button.setOnClickListener(new View.OnClickListener() {
+     //   textView=(TextView)getActivity().findViewById(R.id.search_textView1);
+        btnSearchGet=(Button)getActivity().findViewById(R.id.case_search_get);
+        btnSearchGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"SearchFragment", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"生成检索式", Toast.LENGTH_SHORT).show();
             }
         });
+        btnSearchModify=(Button)getActivity().findViewById(R.id.case_search_modify);
+        btnSearchModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"修改检索式", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnSearchDo=(Button)getActivity().findViewById(R.id.case_search_go);
+        btnSearchDo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"开始检索", Toast.LENGTH_SHORT).show();
+            }
+        });
+        cbSearchEnglish=(CheckBox) getActivity().findViewById(R.id.case_search_english);
     }
 }

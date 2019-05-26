@@ -3,30 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:text="文件名查找关键词："
-        android:id="@+id/file_key_text"
-        android:textColor="#222222"
-        android:layout_width="wrap_content"
-        android:layout_height="50dip"
-        android:layout_marginLeft="5dip"
-        android:textSize="18dip"
-        android:gravity="center_vertical">
-    </TextView>
-    <EditText
-        android:id="@+id/file_key"
-        android:singleLine="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dip"
-        android:hint="请输入文件名的关键词"
-        android:text="">
-    </EditText>
-    <Button
-        android:id="@+id/view_button1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="查找" />
     <LinearLayout
         android:id="@+id/LinearLayout05"
         android:orientation="horizontal"
@@ -36,7 +12,7 @@
             android:text="本申请文本文件"
             android:id="@+id/case_txt_view"
             android:layout_width="150dip"
-            android:layout_height="150dip"
+            android:layout_height="120dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -44,16 +20,75 @@
             android:text="关键词"
             android:id="@+id/case_key_view"
             android:layout_width="150dip"
-            android:layout_height="150dip"
+            android:layout_height="120dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
     </LinearLayout>
-    <TextView
-        android:id="@+id/view_textView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:text="" />
+    <LinearLayout
+        android:id="@+id/LinearLayout09"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="关键词扩展"
+            android:id="@+id/case_key_expand_view"
+            android:layout_width="150dip"
+            android:layout_height="120dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
+            android:text="检索式"
+            android:id="@+id/case_search_view"
+            android:layout_width="150dip"
+            android:layout_height="120dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayout10"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="检索运行历史"
+            android:id="@+id/case_search_run_history_view"
+            android:layout_width="150dip"
+            android:layout_height="120dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
+            android:text="下载中文摘要"
+            android:id="@+id/case_abstract_chinese_down"
+            android:layout_width="150dip"
+            android:layout_height="120dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayout11"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="下载英文摘要"
+            android:id="@+id/case_abstract_english_down"
+            android:layout_width="150dip"
+            android:layout_height="120dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
+            android:text="概览"
+            android:id="@+id/case_search_result_view"
+            android:layout_width="150dip"
+            android:layout_height="120dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+    </LinearLayout>
 </LinearLayout>
