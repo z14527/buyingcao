@@ -12,13 +12,11 @@
 
     <TextView
         android:id="@+id/textview"
-        android:focusableInTouchMode="true"
-        android:ellipsize="marquee"
-        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scrollbars="vertical"
+        android:fadeScrollbars="false"
         android:textSize="25dip"
         android:text="床前明月光\n疑是地上霜\n举头望明月\n低头思故乡" />
 </LinearLayout>

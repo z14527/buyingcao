@@ -134,7 +134,11 @@ public class CaseFragment extends Fragment {
                     if (ptn.length > 3) {
                         String strIC = ptn[1];
                         String strPN = ptn[2];
-                        String ic = strIC.substring(strIC.indexOf("-") + 1, strIC.indexOf("/"));
+                        String ic = "";
+                        if(strIC.indexOf("/")>0) {
+                            ic = strIC.substring(strIC.indexOf("-") + 1, strIC.indexOf("/"));
+                        }else
+                            strPN = ptn[1];
                         String pn = strPN.substring(strPN.lastIndexOf(" ") + 1);
                         String pn1 = pn.substring(0, 4) + "-" + pn.substring(4,6) + "-" + pn.substring(6, 8);
                         pn1 = pn1.replaceAll("-0","-");

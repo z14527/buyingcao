@@ -17,10 +17,19 @@ public abstract class LianxiView<V extends View> {
 
     private int mode = NONE;
     float oldDist;
-
+    float oldy = 0;
+    float scale;
+    int viewHeigh;
+    float rate = 1;
     public LianxiView(V view) {
         this.view = view;
         setTouchListener();
+    }
+    public void setScale(float s){
+        this.scale = s;
+    }
+    public void setVh(int h){
+        this.viewHeigh = h;
     }
 
     private void setTouchListener() {
@@ -29,10 +38,20 @@ public abstract class LianxiView<V extends View> {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:
+                        oldy = event.getY();
                    //     Toast.makeText(v.getContext(),"按下第一个点\nMotionEvent.ACTION_DOWN", Toast.LENGTH_LONG).show();
                         mode = DRAG;
                         break;
                     case MotionEvent.ACTION_UP:
+                        if(oldy<event.getY() && event.getY()<v.getHeight()*4/5 )
+                            v.scrollTo(0,v.getScrollY()-(int)(v.getHeight()*rate/5));
+                        if(oldy>event.getY() && event.getY()>v.getHeight()/5 )
+                            v.scrollTo(0,v.getScrollY()+(int)(v.getHeight()*rate/5));
+                        if(event.getY()<v.getHeight()/5 && oldy>event.getY())
+                            v.scrollTo(0,0);
+                        if(event.getY()>v.getHeight()*4/5 && oldy<event.getY())
+                            v.scrollTo(0, viewHeigh);
+                         break;
                     case MotionEvent.ACTION_POINTER_UP:
                      //   Toast.makeText(v.getContext(),"空\nMotionEvent.ACTION_UP，ACTION_POINTER_UP", Toast.LENGTH_LONG).show();
                         mode = NONE;
