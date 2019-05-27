@@ -65,16 +65,13 @@ public class CaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
-          //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-             //   Toast.makeText(getActivity(),"目标文件：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_LONG).show();
-                if(!writeTxtToFile(strCaseNum,patentPath,strCaseNum + ".0.txt"))
+                if(!writeTxtToFile(strCaseNum,patentPath,"t"+strCaseNum + ".0.txt"))
                     return;
                 Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
                 try {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    File file = new File(patentPath,strCaseNum + ".0.txt");
-                 //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    File file = new File(patentPath,"t"+strCaseNum + ".0.txt");
                     Uri uri = FileProvider7.getUriForFile(getContext(),file);
                     intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
                     intent.setType("*/*");   //分享文件
@@ -89,16 +86,13 @@ public class CaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
-                //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                //   Toast.makeText(getActivity(),"目标文件：\n" + patentPath + case_number + ".0.txt", Toast.LENGTH_LONG).show();
-                if(!writeTxtToFile(strCaseNum,patentPath,strCaseNum + ".0.pdf"))
+                if(!writeTxtToFile(strCaseNum,patentPath,"p"+strCaseNum + ".0.pdf"))
                     return;
                 Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.pdf", Toast.LENGTH_SHORT).show();
                 try {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    File file = new File(patentPath,strCaseNum + ".0.pdf");
-                    //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    File file = new File(patentPath,"p"+strCaseNum + ".0.pdf");
                     Uri uri = FileProvider7.getUriForFile(getContext(),file);
                     intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
                     intent.setType("*/*");   //分享文件
@@ -114,8 +108,7 @@ public class CaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
-                //      Toast.makeText(getActivity(),"下载申请文件文本\n" + "申请号：" + case_number, Toast.LENGTH_LONG).show();
-                String patentTxTPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
+                 String patentTxTPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
                 File txtFile =new File(patentTxTPath);
                 if(!txtFile.exists()) {
                     Toast.makeText(getActivity(),"目标文件：\n" + patentTxTPath + "不存在", Toast.LENGTH_LONG).show();
@@ -124,25 +117,18 @@ public class CaseFragment extends Fragment {
                 Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
                 try {
                     String pTxt = readFileData(patentTxTPath);
-              //      Toast.makeText(getActivity(), pTxt.substring(0, 100), Toast.LENGTH_LONG).show();
-      //              if (1 > 0)
-      //                  return;
                     String[] ptn = pTxt.split("\n");
-            //        Toast.makeText(getActivity(), ptn[0], Toast.LENGTH_LONG).show();
-            //        Toast.makeText(getActivity(), ptn[1], Toast.LENGTH_LONG).show();
-            //        Toast.makeText(getActivity(), ptn[2], Toast.LENGTH_LONG).show();
                     if (ptn.length > 3) {
                         String strIC = ptn[1];
-                        String strPN = ptn[2];
+                        String strAP = ptn[0];
                         String ic = "";
                         if(strIC.indexOf("/")>0) {
                             ic = strIC.substring(strIC.indexOf("-") + 1, strIC.indexOf("/"));
-                        }else
-                            strPN = ptn[1];
-                        String pn = strPN.substring(strPN.lastIndexOf(" ") + 1);
-                        String pn1 = pn.substring(0, 4) + "-" + pn.substring(4,6) + "-" + pn.substring(6, 8);
-                        pn1 = pn1.replaceAll("-0","-");
-                        apdEText.setText(pn1);
+                        }
+                        String ap = strAP.substring(strAP.lastIndexOf(" ") + 1);
+                        String ap1 = ap.substring(0, 4) + "-" + ap.substring(4,6) + "-" + ap.substring(6, 8);
+                        ap1 = ap1.replaceAll("-0","-");
+                        apdEText.setText(ap1);
                         classEText.setText(ic);
                     }
                 }catch(Exception e1){
