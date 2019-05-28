@@ -23,7 +23,7 @@ import java.io.RandomAccessFile;
 
 public class KeyFragment extends Fragment {
     private TextView textView;
-    private Button btnKeyEdit,btnKeyExpand;
+    private Button btnKeyEdit,btnKeyExpand,btnKeyExpandEdit;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     String strCaseNum = "";
@@ -42,36 +42,14 @@ public class KeyFragment extends Fragment {
         strCaseNum = pref.getString("CaseNum","");
         btnKeyEdit=(Button)getActivity().findViewById(R.id.case_key_edit);
         btnKeyExpand=(Button)getActivity().findViewById(R.id.case_key_expand);
+        btnKeyExpandEdit=(Button)getActivity().findViewById(R.id.case_key_expand_edit);
         btnKeyEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                try {
-                    File file = new File(patentPath,"CN"+strCaseNum.substring(0,strCaseNum.length()-1) + ".2.txt");
-                    if(!file.exists()){
-                        Toast.makeText(getActivity(),"找不到文件:\n" + "CN"+strCaseNum.substring(0,strCaseNum.length()-1) + ".2.txt", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                  //  Uri uri = FileProvider7.getUriForFile(getContext(),file);
-                    Intent intent = new Intent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //设置intent的Action属性
-                    intent.setAction(Intent.ACTION_VIEW);
-                    //获取文件file的MIME类型
-                    String type = "text/plain";
-                    //设置intent的data和Type属性。
-                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
-                    intent.setDataAndType(uri, type);
-                    startActivity(intent);
-//                    Intent intent = new Intent();
-//                    intent.setAction(Intent.ACTION_VIEW);
-//                    String type = "text/*";
-//                    FileProvider7.setIntentDataAndType(getContext(),intent,type,file,true);
-//                //    intent.setDataAndType(uri,type);
-//                    startActivity(intent);
-                }catch (Exception e) {
-                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
-                }
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".2.txt";
+                Intent intent = new Intent(getContext(),EditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
             }
         });
         btnKeyExpand.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +81,15 @@ public class KeyFragment extends Fragment {
                 }catch (Exception e) {
                     Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        btnKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
+                Intent intent = new Intent(getContext(),EditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
             }
         });
     }

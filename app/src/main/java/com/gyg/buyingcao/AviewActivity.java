@@ -46,7 +46,10 @@ public class AviewActivity extends AppCompatActivity {
         }else {
             String strTxt = "";
             try {
-                strTxt = readExternal(this, txtFilePath, "GBK");
+                if(txtFilePath.indexOf(".2.txt")>0)
+                    strTxt = readExternal(this, txtFilePath, "UTF-8");
+                else
+                    strTxt = readExternal(this, txtFilePath, "GBK");
                 textView.setText(strTxt);
                 textView.setMovementMethod(ScrollingMovementMethod.getInstance());
                 textView.setVerticalScrollBarEnabled(true);
