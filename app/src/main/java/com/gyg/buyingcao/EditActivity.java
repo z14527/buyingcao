@@ -27,6 +27,7 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         editText = (EditText) this.findViewById(R.id.et_text);
+      //  editText.setSelected(true);
         tvOK = (TextView)findViewById(R.id.tv_save);
         tvQuit = (TextView)findViewById(R.id.tv_quit);
         File txtFile = null;

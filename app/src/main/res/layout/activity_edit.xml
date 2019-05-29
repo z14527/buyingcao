@@ -6,15 +6,17 @@
     <EditText
         android:id="@+id/et_text"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:enabled="true"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:textIsSelectable="true"
+        android:minLines="4"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:layout_height="500dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:minLines="10"
-        android:textIsSelectable="true"
         android:textSize="30sp"
-        android:background="@null"
-        android:drawablePadding="10dp"
-        android:padding="10dp"
         android:layout_marginTop="10dp"/>
     <LinearLayout
         android:id="@+id/LinearLayout03"

@@ -47,7 +47,7 @@ public class KeyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".2.txt";
-                Intent intent = new Intent(getContext(),EditActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 startActivity(intent);
             }
@@ -87,7 +87,7 @@ public class KeyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
-                Intent intent = new Intent(getContext(),EditActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 startActivity(intent);
             }
