@@ -66,7 +66,7 @@ public class CaseFragment extends Fragment {
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                if(!writeTxtToFile(strCaseNum,patentPath,"t"+strCaseNum + ".0.txt"))
+                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath,"t"+strCaseNum + ".0.txt")))
                     return;
                 Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
                 try {
@@ -87,7 +87,7 @@ public class CaseFragment extends Fragment {
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                if(!writeTxtToFile(strCaseNum,patentPath,"p"+strCaseNum + ".0.pdf"))
+                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath,"p"+strCaseNum + ".0.pdf")))
                     return;
                 Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.pdf", Toast.LENGTH_SHORT).show();
                 try {
@@ -116,7 +116,7 @@ public class CaseFragment extends Fragment {
                 }
                 Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
                 try {
-                    String pTxt = readFileData(patentTxTPath);
+                    String pTxt = new MyUtil(getActivity()).readFileData(patentTxTPath);
                     String[] ptn = pTxt.split("\n");
                     if (ptn.length > 3) {
                         String strIC = ptn[1];
@@ -159,81 +159,5 @@ public class CaseFragment extends Fragment {
                 classEText.setText("");
              }
         });
-    }
-    // 将字符串写入到文本文件中
-    private boolean writeTxtToFile(String strcontent, String filePath, String fileName) {
-        //生成文件夹之后，再生成文件，不然会出错
-        if(makeFilePath(filePath, fileName)==null){
-             return false;
-        }
-        String strFilePath = filePath + fileName;
-        // 每次写入时，都换行写
-        String strContent = strcontent + "\r\n";
-        try {
-            File file = new File(strFilePath);
-            if(file.exists())
-                file.delete();
-            file.createNewFile();
-            RandomAccessFile raf = new RandomAccessFile(file, "rwd");
-            raf.seek(0);
-            raf.write(strContent.getBytes());
-            raf.close();
-        } catch (Exception e) {
-            Toast.makeText(getActivity(),"Error on write File:\n" + e, Toast.LENGTH_LONG).show();
-            return false;
-         //   Log.e("TestFile", "Error on write File:" + e);
-        }
-        return true;
-    }
-
-//生成文件
-
-    private File makeFilePath(String filePath, String fileName) {
-        File file = null;
-        makeRootDirectory(filePath);
-        try {
-            file = new File(filePath + fileName);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(),"Error on makeFilePath File:\n" + filePath + fileName + "\n" +e, Toast.LENGTH_LONG).show();
-            file = null;
-        }
-        return file;
-    }
-
-//生成文件夹
-
-    private static void makeRootDirectory(String filePath) {
-        File file = null;
-        try {
-            file = new File(filePath);
-            if (!file.exists()) {
-                file.mkdir();
-            }
-        } catch (Exception e) {
-            //Log.i("error:", e + "");
-        }
-    }
-    //打开指定文件，读取其数据，返回字符串对象
-    public String readFileData(String fileName){
-        String result="";
-        try{
-            FileReader freader = new FileReader(fileName);
-            //获取文件长度
-            BufferedReader br =new BufferedReader(freader);
-
-/*4.可以调用字符缓冲流br的readLine()方法度一行输入文本*/
-            String line =null;
-            while((line =br.readLine())!=null){
-                result = result + line +"\n";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(),"读文件"+fileName+"失败\n"+e.toString(), Toast.LENGTH_LONG).show();
-        }
-        return  result;
     }
 }

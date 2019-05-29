@@ -56,16 +56,6 @@ public class ViewFragment extends Fragment {
      //   EditText key_editText = getActivity().findViewById(R.id.file_key);
       //  key_editText.setText(strCaseNum);
         path = Environment.getExternalStorageDirectory().getPath()+"/download/";
-     //   info = getString(R.string.info);
-   /*     button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText key_editText = getActivity().findViewById(R.id.file_key);
-                key = key_editText.getText().toString();
-                result.setText("");
-                search(new File(path));
-            }
-        });*/
         btnCaseTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -46,10 +46,7 @@ public class AviewActivity extends AppCompatActivity {
         }else {
             String strTxt = "";
             try {
-                if(txtFilePath.indexOf(".2.txt")>0)
-                    strTxt = readExternal(this, txtFilePath, "UTF-8");
-                else
-                    strTxt = readExternal(this, txtFilePath, "GBK");
+                strTxt = new MyUtil(this).readExternal(txtFilePath);
                 textView.setText(strTxt);
                 textView.setMovementMethod(ScrollingMovementMethod.getInstance());
                 textView.setVerticalScrollBarEnabled(true);
@@ -108,20 +105,4 @@ public class AviewActivity extends AppCompatActivity {
         int padding = pTextView.getCompoundPaddingTop() + pTextView.getCompoundPaddingBottom();
         return desired + padding;
     }
-    public String readExternal(Context context, String filename, String coding) throws IOException {
-        StringBuilder sb = new StringBuilder("");
-        //打开文件输入流
-        FileInputStream inputStream = new FileInputStream(filename);
-        byte[] buffer = new byte[1024];
-        int len = inputStream.read(buffer);
-        //读取文件内容
-        while(len > 0){
-            sb.append(new String(buffer,0,len,coding));
-            //继续将数据放到buffer中
-            len = inputStream.read(buffer);
-        }
-        //关闭输入流
-        inputStream.close();
-        return sb.toString();
-    }
-}
+ }
