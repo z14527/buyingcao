@@ -23,7 +23,7 @@ import java.io.RandomAccessFile;
 
 public class KeyFragment extends Fragment {
     private TextView textView;
-    private Button btnKeyEdit,btnKeyExpand,btnKeyExpandEdit;
+    private Button btnKeyEdit,btnKeyExpand,btnCNKeyExpandEdit,btnENKeyExpandEdit;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     String strCaseNum = "";
@@ -42,7 +42,8 @@ public class KeyFragment extends Fragment {
         strCaseNum = pref.getString("CaseNum","");
         btnKeyEdit=(Button)getActivity().findViewById(R.id.case_key_edit);
         btnKeyExpand=(Button)getActivity().findViewById(R.id.case_key_expand);
-        btnKeyExpandEdit=(Button)getActivity().findViewById(R.id.case_key_expand_edit);
+        btnCNKeyExpandEdit=(Button)getActivity().findViewById(R.id.case_cn_key_expand_edit);
+        btnENKeyExpandEdit=(Button)getActivity().findViewById(R.id.case_en_key_expand_edit);
         btnKeyEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,26 +56,15 @@ public class KeyFragment extends Fragment {
         btnKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                if(!writeTxtToFile(strCaseNum,patentPath,"k"+strCaseNum + ".2.txt"))
+                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".2.txt";
+                File f1 = new File(patentPath);
+                if(!f1.exists()){
+                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
                     return;
-                Toast.makeText(getActivity(),"写文件成功：\nk" + strCaseNum + ".2.txt", Toast.LENGTH_SHORT).show();
+                }
                 try {
-//                    Intent intent = new Intent();
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    //设置intent的Action属性
-//                    intent.setAction(Intent.ACTION_VIEW);
-//                    //获取文件file的MIME类型
-//                    String type = "text/plain";
-//                    //设置intent的data和Type属性。
-//                    File file = new File(patentPath,"k"+strCaseNum + ".2.txt");
-//                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
-//                    intent.setDataAndType(uri, type);
-//                    startActivity(intent);
-
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    File file = new File(patentPath,"k"+strCaseNum + ".2.txt");
-                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
                     intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
                     intent.setType("*/*");   //分享文件
                     startActivity(Intent.createChooser(intent, "分享"));
@@ -83,10 +73,19 @@ public class KeyFragment extends Fragment {
                 }
             }
         });
-        btnKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
+        btnCNKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
+            }
+        });
+        btnENKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.e.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 startActivity(intent);

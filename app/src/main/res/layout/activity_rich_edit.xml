@@ -25,7 +25,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="保 存"
-            android:textColor="#ffffffff"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/black"
             android:textSize="18sp" />
         <TextView
             android:id="@+id/tv_quit"
@@ -35,7 +36,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="退 出"
-            android:textColor="#ffffffff"
+            android:background="@android:color/darker_gray"
+            android:textColor="@android:color/black"
             android:textSize="18sp" />
     </LinearLayout>
     <HorizontalScrollView

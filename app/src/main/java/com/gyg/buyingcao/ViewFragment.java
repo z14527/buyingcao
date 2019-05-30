@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class ViewFragment extends Fragment {
    // private TextView result;
-    private Button btnCaseTxt,btnCaseKey,btnCaseKeyExpand,btnCaseSearch,btnCaseSearchRunHistory,btnCaseAbstractEnglishDown,btnCaseAbstractChineseDown,btnCaseResultView;
+    private Button btnCaseTxt,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseAbstractEnglishDown,btnCaseAbstractChineseDown,btnCaseResultView;
     private File file;
     private String path = "";
     private String info = "";
@@ -75,27 +75,54 @@ public class ViewFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btnCaseKeyExpand=(Button)getActivity().findViewById(R.id.case_key_expand_view);
-        btnCaseKeyExpand.setOnClickListener(new View.OnClickListener() {
+        btnCaseCNKeyExpand=(Button)getActivity().findViewById(R.id.case_cn_key_expand_view);
+        btnCaseCNKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"关键词扩展查看", Toast.LENGTH_SHORT).show();
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
+                Intent intent = new Intent(getContext(),AviewActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
             }
         });
-        btnCaseSearch=(Button)getActivity().findViewById(R.id.case_search_view);
-        btnCaseSearch.setOnClickListener(new View.OnClickListener() {
+        btnCaseENKeyExpand=(Button)getActivity().findViewById(R.id.case_en_key_expand_view);
+        btnCaseENKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"检索式查看", Toast.LENGTH_SHORT).show();
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.e.txt";
                 Intent intent = new Intent(getContext(),AviewActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
+            }
+        });
+        btnCaseCNSearch=(Button)getActivity().findViewById(R.id.case_cn_search_view);
+        btnCaseCNSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.txt";
+                Intent intent = new Intent(getContext(),AviewActivity.class);
+                intent.putExtra("fname",txtFilePath);
                 startActivity(intent);
             }
          });
+        btnCaseENSearch=(Button)getActivity().findViewById(R.id.case_cn_search_view);
+        btnCaseENSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.e.txt";
+                Intent intent = new Intent(getContext(),AviewActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
+            }
+        });
         btnCaseSearchRunHistory=(Button)getActivity().findViewById(R.id.case_search_run_history_view);
         btnCaseSearchRunHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"检索历史查看", Toast.LENGTH_SHORT).show();
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".9.txt";
+                Intent intent = new Intent(getContext(),AviewActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                startActivity(intent);
             }
         });
         btnCaseAbstractChineseDown=(Button)getActivity().findViewById(R.id.case_abstract_chinese_down);

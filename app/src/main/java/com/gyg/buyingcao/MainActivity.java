@@ -13,11 +13,21 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,29 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment[] fragments;
     private int lastfragment;//用于记录上个选择的Fragment
 
-   /* private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_case:
-                    mTextMessage.setText(R.string.title_case);
-                    return true;
-                case R.id.navigation_key:
-                    mTextMessage.setText(R.string.title_key);
-                    return true;
-                case R.id.navigation_search:
-                    mTextMessage.setText(R.string.title_search);
-                    return true;
-                case R.id.navigation_view:
-                    mTextMessage.setText(R.string.title_search);
-                    return true;
-            }
-            return false;
-        }
-    };
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -280,4 +268,232 @@ class MyUtil {
         return  result;
     }
 
+}
+class pf {
+
+    @SuppressWarnings("null")
+    public void writefile(String filename, String code, String[] text){
+        BufferedWriter wd = null;
+        try {
+            try {
+                FileOutputStream fos = new FileOutputStream(filename);
+                if(code.indexOf("utf")>=0 ||code.indexOf("UTF")>=0){
+                    try {
+                        fos.write(new byte[]{(byte)0xEF,(byte)0xBB,(byte)0xBF});
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        try {
+                            fos.close();
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+                wd = new BufferedWriter(new OutputStreamWriter(fos,code));
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                try {
+                    wd.close();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            for(int i = 0; i < text.length; i++){
+                String t1 = text[i];
+                if(t1!=null && !t1.isEmpty())
+                    wd.write((String)text[i]+"\r\n");
+                wd.flush();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            wd.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public void appendfile(String filename, String code, String[] text){
+        BufferedWriter wd = null;
+        try {
+            try {
+                wd = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(filename,true),code));
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            System.out.println(text.length);
+            for(int i = 0; i < text.length; i++){
+                String t1 = text[i];
+                if(t1!=null && !t1.isEmpty())
+                    wd.append((String)text[i]+"\r\n");
+                wd.flush();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            wd.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public void appendfile(String filename, String code, String text){
+        BufferedWriter wd = null;
+        try {
+            try {
+                wd = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(filename,true),code));
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            System.out.println(text);
+            wd.append(text+"\r\n");
+            wd.flush();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            wd.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public String[] readfile(String filename, String code){
+        BufferedReader rd = null;
+        String ret[] = null;
+        File f1 = new File(filename);
+        if(!f1.exists())
+            return ret;
+        ArrayList <String> info = new ArrayList<String>();
+        FileInputStream fis = null;
+        try {
+            try {
+                fis = new FileInputStream(filename);
+                rd = new BufferedReader(new InputStreamReader(fis,code));
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        if(code.indexOf("utf")>=0 ||code.indexOf("UTF")>=0){
+            try {
+                fis.read(new byte[3]);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        String ts = null;
+        try {
+            while((ts = rd.readLine())!=null){
+                if(!ts.isEmpty() && ts!=null)
+                    info.add(ts);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            rd.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ret = new String[info.size()];
+        for(int i = 0; i < info.size(); i++)
+            ret[i] = (String)info.get(i);
+        return ret;
+    }
+
+    public void Dcmd(String cmd){
+        String scs = cmd;
+        Process p = null;
+        System.out.println(scs);
+        try {
+            p = Runtime.getRuntime().exec(scs);
+            new Thread(new StreamDrainer(p.getInputStream())).start();
+            new Thread(new StreamDrainer(p.getErrorStream())).start();
+//			p.getInputStream().close();
+//			p.getErrorStream().close();
+//			p.getOutputStream().close();
+//			p.waitFor();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+        }
+    }
+    public void Dcmd(String cmd, boolean f1 ){
+        String scs = cmd;
+        Process p = null;
+        System.out.println(scs);
+        try {
+            p = Runtime.getRuntime().exec(scs);
+            new Thread(new StreamDrainer(p.getInputStream())).start();
+            p.getOutputStream().close();
+            if(f1)
+                try {
+                    p.waitFor();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+        }
+    }
+}
+class StreamDrainer implements Runnable{
+    private InputStream ins;
+    public StreamDrainer(InputStream ins){
+        this.ins = ins;
+    }
+    public void run(){
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
+            String line = null;
+            while((line =  reader.readLine())!=null){
+                System.out.println(line);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
