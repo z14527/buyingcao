@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="编辑关键词"
+            android:text="编辑关键词→"
             android:id="@+id/case_key_edit"
             android:layout_width="150dip"
             android:layout_height="150dip"
@@ -18,7 +18,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="扩展关键词"
+            android:text="扩展关键词→"
             android:id="@+id/case_key_expand"
             android:layout_width="150dip"
             android:layout_height="150dip"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         <Button
-            android:text="中文扩展关键词后编辑"
+            android:text="中文扩展关键词后编辑∷"
             android:id="@+id/case_cn_key_expand_edit"
             android:layout_width="150dip"
             android:layout_height="150dip"
@@ -40,7 +40,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="英文扩展关键词后编辑"
+            android:text="英文扩展关键词后编辑∷"
             android:id="@+id/case_en_key_expand_edit"
             android:layout_width="150dip"
             android:layout_height="150dip"

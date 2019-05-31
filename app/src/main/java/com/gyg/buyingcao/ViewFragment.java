@@ -62,8 +62,9 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -72,8 +73,9 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".2.txt";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -82,8 +84,9 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -92,8 +95,9 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.e.txt";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -102,18 +106,20 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.txt";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
          });
-        btnCaseENSearch=(Button)getActivity().findViewById(R.id.case_cn_search_view);
+        btnCaseENSearch=(Button)getActivity().findViewById(R.id.case_en_search_view);
         btnCaseENSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.e.txt";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -122,8 +128,9 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".log";
-                Intent intent = new Intent(getContext(),AviewActivity.class);
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
                 startActivity(intent);
             }
         });
@@ -181,7 +188,12 @@ public class ViewFragment extends Fragment {
         btnCaseResultView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".log";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","3");
+                startActivity(intent);
+            //    Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
             }
         });
     }

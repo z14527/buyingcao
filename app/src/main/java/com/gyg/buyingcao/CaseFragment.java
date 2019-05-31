@@ -114,7 +114,7 @@ public class CaseFragment extends Fragment {
                     Toast.makeText(getActivity(),"目标文件：\n" + patentTxTPath + "不存在", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
+          //      Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
                 try {
                     String pTxt = new MyUtil(getActivity()).readFileData(patentTxTPath);
                     String[] ptn = pTxt.split("\n");

@@ -6,11 +6,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jp.wasabeef.richeditor.RichEditor;
 
@@ -19,7 +22,10 @@ public class RichEditActivity extends AppCompatActivity {
     private RichEditor mEditor;
     private TextView mPreview;
     private String txtFilePath = "";
+    private String viewType = "";
     private TextView tvOK = null,tvQuit = null;
+    private int nPagView = 1;
+    private String[] pns = null;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +34,7 @@ public class RichEditActivity extends AppCompatActivity {
         tvOK = (TextView)findViewById(R.id.tv_save);
         tvQuit = (TextView)findViewById(R.id.tv_quit);
         mEditor.setEditorHeight(500);
-        mEditor.setEditorFontSize(22);
+        mEditor.setEditorFontSize(25);
         mEditor.setEditorFontColor(Color.RED);
         //mEditor.setEditorBackgroundColor(Color.BLUE);
         //mEditor.setBackgroundColor(Color.BLUE);
@@ -46,10 +52,33 @@ public class RichEditActivity extends AppCompatActivity {
         File txtFile = null;
         try {
             txtFilePath = getIntent().getStringExtra("fname");
+            viewType = getIntent().getStringExtra("type");
             txtFile = new File(txtFilePath);
         }catch (Exception e1){
             Toast.makeText(this,e1.toString(), Toast.LENGTH_LONG).show();
             return;
+        }
+        if(viewType.equals("2")) {
+            //    mEditor.setEnabled(false);
+            mEditor.setFocusableInTouchMode(false);
+            mEditor.setVerticalScrollBarEnabled(true);
+            HorizontalScrollView  horizontalScrollView = (HorizontalScrollView)findViewById(R.id.tv_toolbar);
+            horizontalScrollView.setVisibility(View.GONE);
+            tvOK.setVisibility(View.GONE);
+            tvQuit.setVisibility(View.GONE);
+            mEditor.setEditorFontColor(Color.BLACK);
+        }
+        if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
+            //    mEditor.setEnabled(false);
+            mEditor.setFocusableInTouchMode(false);
+            mEditor.setVerticalScrollBarEnabled(true);
+            HorizontalScrollView  horizontalScrollView = (HorizontalScrollView)findViewById(R.id.tv_toolbar);
+            horizontalScrollView.setVisibility(View.GONE);
+            tvOK.setText("←");
+            tvQuit.setText("→");
+            mEditor.setEditorFontColor(Color.BLACK);
+            pns = (new pf()).readfile(txtFilePath,"GBK");
+            setText(nPagView);
         }
         if(!txtFile.exists()) {
             Toast.makeText(this,"目标文件：\n" + txtFilePath + "不存在", Toast.LENGTH_LONG).show();
@@ -59,8 +88,7 @@ public class RichEditActivity extends AppCompatActivity {
             try {
                 strTxt = new MyUtil(getApplication()).readExternal(txtFilePath).replaceAll("\n","<br />");
                 mEditor.setHtml(strTxt);
-                mEditor.setFontSize(20);
-             } catch (IOException e) {
+              } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             }
@@ -69,6 +97,11 @@ public class RichEditActivity extends AppCompatActivity {
         tvOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
+                    nPagView--;
+                    setText(nPagView);
+                    return;
+                }
                 try{
                     String keys1 = mEditor.getHtml();
                     String keys2 = keys1.replaceAll("</?[^>]+>", "\n"); //剔出<html>的标签
@@ -89,6 +122,11 @@ public class RichEditActivity extends AppCompatActivity {
         tvQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
+                    nPagView++;
+                    setText(nPagView);
+                    return;
+                }
                 finish();
             }
         });
@@ -249,5 +287,76 @@ public class RichEditActivity extends AppCompatActivity {
                 mEditor.insertTodo();
             }
         });
+    }
+    public void setText(int index){
+        int i = index;
+        if(i==1)
+            tvOK.setEnabled(false);
+        else
+            tvOK.setEnabled(true);
+        int n1=0;
+        int n2=0 ;
+        boolean en=false;
+        Pattern p=null;
+        Matcher m=null;
+        for(int j =0;j<pns.length;j++){
+            p=Pattern.compile("^DWPI");
+            m=p.matcher(pns[j]);
+            if(m.find()){
+                en=true;
+//	        		System.out.println("n1:"+n1);
+                break;
+            }
+        }
+        String title = "";
+        for(int j =0;j<pns.length;j++){
+            p=Pattern.compile("^[0-9]{1,}/[0-9]{1,}");
+            m=p.matcher(pns[j]);
+            if(m.find()) {
+                i = i - 1;
+                title = m.group();
+            }
+            if(i<=0) {
+                n1 = j;
+                break;
+            }
+        }
+        if(n1 == 0) {
+            n1 = pns.length - 1;
+            tvQuit.setEnabled(false);
+        }else
+            tvQuit.setEnabled(true);
+        for(int j = n1 + 1;j<pns.length;j++){
+            p=Pattern.compile("^[0-9]{1,}/[0-9]{1,}");
+            m=p.matcher(pns[j]);
+            if(m.find()){
+                n2 = j;
+                break;
+            }
+         }
+         String content = title + "<br />";
+         if(n2 == 0) {
+             n2 = pns.length - 1;
+             tvQuit.setEnabled(false);
+         }else
+             tvQuit.setEnabled(true);
+   //     Toast.makeText(this,"index = " + index + ";n1 = " + n1 + ";n2 = " + n2, Toast.LENGTH_LONG).show();
+        for(int j=n1+1;j<n2;j++) {
+            p = Pattern.compile("^[a-zA-Z0-9-]");
+            m = p.matcher(pns[j]);
+            if (m.find()) {
+                if (pns[j].indexOf(" DW") >= 0)
+                    content += "<br />" + pns[j].replaceAll("  +", " ").replaceAll("\\t", "").replaceAll("。", "。<br />");
+                else
+                    content += "<br />" + pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br />") + " ";
+            } else {
+                if (pns[j].indexOf(" DW") >= 0)
+                    content += pns[j].replaceAll("  +", " ").replaceAll("\\t", "").replaceAll("。", "。<br />");
+                else
+                    content += pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br />") + " ";
+            }
+        }
+        mEditor.setHtml(content);
+        mEditor.scrollTo(0,0);
     }
 }

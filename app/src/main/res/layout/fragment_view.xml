@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="本申请文本文件"
+            android:text="本申请文本@-@"
             android:id="@+id/case_txt_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -17,7 +17,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="关键词"
+            android:text="关键词@-@"
             android:id="@+id/case_key_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="中文关键词扩展"
+            android:text="中文关键词扩展@-@"
             android:id="@+id/case_cn_key_expand_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -39,7 +39,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="英文关键词扩展"
+            android:text="英文关键词扩展@-@"
             android:id="@+id/case_en_key_expand_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="中文检索式"
+            android:text="中文检索式@-@"
             android:id="@+id/case_cn_search_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -61,7 +61,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="英文检索式"
+            android:text="英文检索式@-@"
             android:id="@+id/case_en_search_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="下载中文摘要"
+            android:text="下载中文摘要→"
             android:id="@+id/case_abstract_chinese_down"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -83,7 +83,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="下载英文摘要"
+            android:text="下载英文摘要→"
             android:id="@+id/case_abstract_english_down"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="检索运行历史"
+            android:text="检索运行结果@-@"
             android:id="@+id/case_search_run_history_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
@@ -105,7 +105,7 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="概览"
+            android:text="逐篇概览@-@"
             android:id="@+id/case_search_result_view"
             android:layout_width="150dip"
             android:layout_height="90dip"
