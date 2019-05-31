@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhy.base.fileprovider.FileProvider7;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -119,7 +121,7 @@ public class ViewFragment extends Fragment {
         btnCaseSearchRunHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".9.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".log";
                 Intent intent = new Intent(getContext(),AviewActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 startActivity(intent);
@@ -129,14 +131,50 @@ public class ViewFragment extends Fragment {
         btnCaseAbstractChineseDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"下载中文摘要", Toast.LENGTH_SHORT).show();
+                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".8.txt";
+                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
+                    return;
+                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
+                File f1 = new File(patentPath);
+                if(!f1.exists()){
+                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                }
+             //   Toast.makeText(getActivity(),"下载中文摘要", Toast.LENGTH_SHORT).show();
             }
         });
         btnCaseAbstractEnglishDown=(Button)getActivity().findViewById(R.id.case_abstract_english_down);
         btnCaseAbstractEnglishDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"下载英文摘要", Toast.LENGTH_SHORT).show();
+                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".7.txt";
+                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
+                    return;
+                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
+                File f1 = new File(patentPath);
+                if(!f1.exists()){
+                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                }
+                //   Toast.makeText(getActivity(),"下载中文摘要", Toast.LENGTH_SHORT).show();
             }
         });
         btnCaseResultView=(Button)getActivity().findViewById(R.id.case_search_result_view);
