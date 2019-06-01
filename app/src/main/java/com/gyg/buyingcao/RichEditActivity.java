@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +28,7 @@ public class RichEditActivity extends AppCompatActivity {
     private TextView tvOK = null,tvQuit = null;
     private int nPagView = 1;
     private String[] pns = null;
+    private String[] kws = null;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -356,7 +359,61 @@ public class RichEditActivity extends AppCompatActivity {
                     content += pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br />") + " ";
             }
         }
+        try {
+            kws = getKwd();
+        }catch (Exception e1)
+        {
+            Toast.makeText(this,e1.toString(), Toast.LENGTH_LONG).show();
+            return;
+        }
+        String strColors = "#FF0000,#FFFFFF,#00FFFF,#C0C0C0,#0000FF,#808080,#0000A0,#000000,#ADD8E6,#FFA500,#800080,#A52A2A,#FFFF00,#800000,#00FF00,#008000,#FF00FF,#808000";
+        String[] colors = strColors.split(",");
+        int m1 = 0;
+        for(String kw1:kws){
+            m1=(m1+1)%colors.length;
+            content = content.replaceAll(kw1,"<h4><font color=\"" + colors[m1] + "\">" + kw1 + "</font></h4>");
+        }
         mEditor.setHtml(content);
         mEditor.scrollTo(0,0);
+    }
+    public String[] getKwd(){
+        String[]  k1 = (new pf()).readfile(txtFilePath.replace(".log",".2.txt"),"GBK");
+        String f3=txtFilePath.replace(".log",".3.txt");
+        String f3e=txtFilePath.replace(".log",".3.e.txt");
+        String[]  k2 = (new pf()).readfile(f3,"GBK");
+        String[]  k2e = (new pf()).readfile(f3e,"GBK");
+        List<String> klist = new ArrayList<String>();
+        for(String k11:k1){
+            String[] k12 = k11.split(",");
+            for(String k13:k12){
+                if(klist.toString().indexOf(k13) == -1){
+                    klist.add(k13);
+                }
+            }
+        }
+        for(String k21:k2){
+            k21 = k21.replaceAll(".*=", "");
+            k21 = k21.replaceAll("\\(|\\)|or| ","");
+            String[] k22 = k21.split(",");
+            for(String k23:k22){
+                if(klist.toString().indexOf(k23) == -1){
+                    klist.add(k23);
+                }
+            }
+        }
+        for(String k21:k2e){
+            k21 = k21.replaceAll(".*=", "");
+            k21 = k21.replaceAll("\\(|\\)|or| ","");
+            String[] k22 = k21.split(",");
+            for(String k23:k22){
+                if(klist.toString().indexOf(k23) == -1){
+                    klist.add(k23);
+                }
+            }
+        }
+        String[] ret = new String[klist.size()];
+        for(int i=0;i<klist.size();i++)
+            ret[i]=klist.get(i);
+        return ret;
     }
 }
