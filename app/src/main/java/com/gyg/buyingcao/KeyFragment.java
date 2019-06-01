@@ -50,6 +50,7 @@ public class KeyFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".2.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","0");
                 startActivity(intent);
             }
         });
@@ -79,6 +80,7 @@ public class KeyFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","0");
                 startActivity(intent);
             }
         });
@@ -88,6 +90,7 @@ public class KeyFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.e.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","0");
                 startActivity(intent);
             }
         });

@@ -104,6 +104,7 @@ public class SearchFragment extends Fragment {
                     txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.e.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","0");
                 startActivity(intent);
             }
         });
