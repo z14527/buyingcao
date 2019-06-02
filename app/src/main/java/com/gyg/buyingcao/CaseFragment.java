@@ -28,13 +28,15 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear;
+    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -140,8 +142,12 @@ public class CaseFragment extends Fragment {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                strCaseNum = numEText.getText().toString().replaceAll(" ","");
+                if(strCaseNum.length()<3){
+                    Toast.makeText(getActivity(),"申请号格式不对", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 editor = pref.edit();
-                strCaseNum = numEText.getText().toString();
                 strCaseApd = apdEText.getText().toString();
                 strCaseClass = classEText.getText().toString();
                 editor.putString("CaseNum",strCaseNum);
@@ -159,5 +165,28 @@ public class CaseFragment extends Fragment {
                 classEText.setText("");
              }
         });
+        btnExec=(Button)getActivity().findViewById(R.id.case_exec);
+        btnExec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","4");
+                startActivity(intent);
+            }
+        });
+        btnGetFile=(Button)getActivity().findViewById(R.id.case_get_file);
+        btnGetFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".f.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","4");
+                startActivity(intent);
+            }
+        });
     }
+
 }

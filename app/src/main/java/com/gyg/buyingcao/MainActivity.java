@@ -1,7 +1,9 @@
 package com.gyg.buyingcao;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 public class MainActivity extends AppCompatActivity {
 
  //   private TextView mTextMessage;
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private  ViewFragment viewFragment;
     private Fragment[] fragments;
     private int lastfragment;//用于记录上个选择的Fragment
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private String strCaseNum="",strCaseApd="",strCaseClass="";
 
 
     @Override
@@ -115,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
     {
          FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.hide(fragments[lastfragment]);//隐藏上个Fragment
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        strCaseNum = pref.getString("CaseNum","");
+        if(strCaseNum.length()<3){
+            Toast.makeText(this,"申请号格式不对", Toast.LENGTH_LONG).show();
+            return;
+        }
         if(fragments[index].isAdded()==false)
         {
             transaction.add(R.id.mainview,fragments[index]);
@@ -267,6 +280,7 @@ class MyUtil {
         }
         return  result;
     }
+
 
 }
 class pf {

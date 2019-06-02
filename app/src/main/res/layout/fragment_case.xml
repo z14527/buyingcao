@@ -136,5 +136,27 @@
                 android:gravity="center">
             </Button>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LinearLayout06"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:text=" 执行命令 "
+                android:id="@+id/case_exec"
+                android:layout_width="150dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>
+            <Button
+                android:text=" 下载指定文件 "
+                android:id="@+id/case_get_file"
+                android:layout_width="150dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

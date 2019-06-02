@@ -1,5 +1,7 @@
 package com.gyg.buyingcao;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -10,6 +12,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhy.base.fileprovider.FileProvider7;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jp.wasabeef.richeditor.RichEditor;
+
+import static java.security.AccessController.getContext;
 
 public class RichEditActivity extends AppCompatActivity {
 
@@ -53,11 +59,13 @@ public class RichEditActivity extends AppCompatActivity {
             }
         });
         File txtFile = null;
+        txtFilePath = getIntent().getStringExtra("fname");
+        viewType = getIntent().getStringExtra("type");
+        txtFile = new File(txtFilePath);
         try {
-            txtFilePath = getIntent().getStringExtra("fname");
-            viewType = getIntent().getStringExtra("type");
-            txtFile = new File(txtFilePath);
-        }catch (Exception e1){
+            if(!txtFile.exists())
+                txtFile.createNewFile();
+         }catch (Exception e1){
             Toast.makeText(this,e1.toString(), Toast.LENGTH_LONG).show();
             return;
         }
@@ -100,6 +108,7 @@ public class RichEditActivity extends AppCompatActivity {
         tvOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+              //  Toast.makeText(getApplication(), "viewType="+viewType+";txtFilePath="+txtFilePath, Toast.LENGTH_LONG).show();
                 if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                     nPagView--;
                     setText(nPagView);
@@ -119,8 +128,19 @@ public class RichEditActivity extends AppCompatActivity {
                 }catch (Exception e) {
                     Toast.makeText(getApplication(), e.toString(), Toast.LENGTH_LONG).show();
                 }
+                if(viewType.equals("4")){
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        File file = new File(txtFilePath);
+                        Uri uri = FileProvider7.getUriForFile(getApplication(),file);
+                        intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                        intent.setType("*/*");   //分享文件
+                        startActivity(Intent.createChooser(intent, "分享"));
+                    }catch (Exception e) {
+                        Toast.makeText(getApplication(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                    }
+                }
             }
-
         });
         tvQuit.setOnClickListener(new View.OnClickListener() {
             @Override
