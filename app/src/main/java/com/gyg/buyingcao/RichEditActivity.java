@@ -1,7 +1,11 @@
 package com.gyg.buyingcao;
 
+import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -35,6 +39,10 @@ public class RichEditActivity extends AppCompatActivity {
     private int nPagView = 1;
     private String[] pns = null;
     private String[] kws = null;
+    private String[] colors = null;
+    private String strCaseApd = null;
+    private SharedPreferences pref;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +96,7 @@ public class RichEditActivity extends AppCompatActivity {
             tvOK.setText("←");
             tvQuit.setText("→");
             mEditor.setEditorFontColor(Color.BLACK);
+            registerClipEvents();
             pns = (new pf()).readfile(txtFilePath,"GBK");
             setText(nPagView);
         }
@@ -295,8 +304,7 @@ public class RichEditActivity extends AppCompatActivity {
 
         findViewById(R.id.action_insert_image).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
-                        "dachshund");
+                mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG","dachshund");
             }
         });
 
@@ -380,19 +388,27 @@ public class RichEditActivity extends AppCompatActivity {
             }
         }
         try {
-            kws = getKwd();
+            if(kws == null)
+                kws = getKwd();
         }catch (Exception e1)
         {
             Toast.makeText(this,e1.toString(), Toast.LENGTH_LONG).show();
             return;
         }
-        String strColors = "#FF0000,#FFFFFF,#00FFFF,#C0C0C0,#0000FF,#808080,#0000A0,#000000,#ADD8E6,#FFA500,#800080,#A52A2A,#FFFF00,#800000,#00FF00,#008000,#FF00FF,#808000";
-        String[] colors = strColors.split(",");
+        if(colors == null) {
+            String strColors = "#FF0000,#FFFFFF,#00FFFF,#C0C0C0,#0000FF,#808080,#0000A0,#000000,#ADD8E6,#FFA500,#800080,#A52A2A,#FFFF00,#800000,#00FF00,#008000,#FF00FF,#808000";
+            colors = strColors.split(",");
+        }
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(strCaseApd == null)
+            strCaseApd = pref.getString("CaseApd","");
         int m1 = 0;
         for(String kw1:kws){
             m1=(m1+1)%colors.length;
-            content = content.replaceAll(kw1,"<h4><font color=\"" + colors[m1] + "\">" + kw1 + "</font></h4>");
+            content = content.replaceAll(kw1,"<font color=\"" + colors[m1] + "\" size = 30>" + kw1 + "</font>");
         }
+        if(!strCaseApd.equals(""))
+            content = "<font color=\"red\"><u>" + strCaseApd + "</u></font><br /><br />" + content;
         mEditor.setHtml(content);
         mEditor.scrollTo(0,0);
     }
@@ -435,5 +451,37 @@ public class RichEditActivity extends AppCompatActivity {
         for(int i=0;i<klist.size();i++)
             ret[i]=klist.get(i);
         return ret;
+    }
+    public void registerClipEvents() {
+        final ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+        manager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
+            @Override
+            public void onPrimaryClipChanged() {
+                if (manager.hasPrimaryClip() && manager.getPrimaryClip().getItemCount() > 0) {
+                    CharSequence addedText = manager.getPrimaryClip().getItemAt(0).getText();
+                    if (addedText != null) {
+                        String pn = addedText.toString();
+                        if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
+                            Toast.makeText(getApplication(),"选择文字：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
+                            String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                            if(!(new MyUtil(getApplication()).writeTxtToFile(pn,patentPath,"p"+pn + ".0.pdf")))
+                                return;
+                            Toast.makeText(getApplication(),"写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                File file = new File(patentPath,"p"+pn + ".0.pdf");
+                                Uri uri = FileProvider7.getUriForFile(getApplication(),file);
+                                intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                                intent.setType("*/*");   //分享文件
+                                startActivity(Intent.createChooser(intent, "分享"));
+                            }catch (Exception e) {
+                                Toast.makeText(getApplication(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }
