@@ -46,6 +46,6 @@
             android:layout_height="150dip"
             android:textSize="18dip"
             android:gravity="center">
-        </Button>  </LinearLayout>
-
+        </Button>
+    </LinearLayout>
 </LinearLayout>

@@ -36,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile;
+    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -185,6 +185,27 @@ public class CaseFragment extends Fragment {
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","4");
                 startActivity(intent);
+            }
+        });
+        btnGetSx=(Button)getActivity().findViewById(R.id.case_get_sx);
+        btnGetSx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                strCaseNum = numEText.getText().toString();
+                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath,"p"+strCaseNum + ".s.txt")))
+                    return;
+                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".s.txt", Toast.LENGTH_SHORT).show();
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    File file = new File(patentPath,"p"+strCaseNum + ".s.txt");
+                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -1,17 +1,20 @@
 package com.gyg.buyingcao;
 
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +45,8 @@ public class RichEditActivity extends AppCompatActivity {
     private String[] colors = null;
     private String strCaseApd = null;
     private SharedPreferences pref;
-
+    private SharedPreferences.Editor editor;
+    private String strCaseNum=null,strCaseClass=null,strPns=null;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +97,8 @@ public class RichEditActivity extends AppCompatActivity {
             mEditor.setVerticalScrollBarEnabled(true);
             HorizontalScrollView  horizontalScrollView = (HorizontalScrollView)findViewById(R.id.tv_toolbar);
             horizontalScrollView.setVisibility(View.GONE);
-            tvOK.setText("←");
-            tvQuit.setText("→");
+            tvOK.setText("<= 前一页");
+            tvQuit.setText("后一页 =>");
             mEditor.setEditorFontColor(Color.BLACK);
             registerClipEvents();
             pns = (new pf()).readfile(txtFilePath,"GBK");
@@ -461,23 +465,52 @@ public class RichEditActivity extends AppCompatActivity {
                 if (manager.hasPrimaryClip() && manager.getPrimaryClip().getItemCount() > 0) {
                     CharSequence addedText = manager.getPrimaryClip().getItemAt(0).getText();
                     if (addedText != null) {
-                        String pn = addedText.toString();
+                        final String pn = addedText.toString();
                         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                             Toast.makeText(getApplication(),"选择文字：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
-                            String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                            if(!(new MyUtil(getApplication()).writeTxtToFile(pn,patentPath,"p"+pn + ".0.pdf")))
-                                return;
-                            Toast.makeText(getApplication(),"写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
-                            try {
-                                Intent intent = new Intent(Intent.ACTION_SEND);
-                                File file = new File(patentPath,"p"+pn + ".0.pdf");
-                                Uri uri = FileProvider7.getUriForFile(getApplication(),file);
-                                intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
-                                intent.setType("*/*");   //分享文件
-                                startActivity(Intent.createChooser(intent, "分享"));
-                            }catch (Exception e) {
-                                Toast.makeText(getApplication(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                            final String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                            editor = pref.edit();
+                            strCaseNum = pref.getString("CaseNum","");
+                            strPns = pref.getString(strCaseNum,"");
+                            if(strPns.indexOf(pn)<0) {
+                                editor.putString(strCaseNum, strPns + ";" + pn);
+                                editor.commit();
                             }
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RichEditActivity.this);
+                            builder.setTitle("提示");    //设置对话框标题
+                            builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
+                            final TextView tv = new TextView(RichEditActivity.this);
+                            builder.setView(tv);
+                            tv.setText("选择复制的内容已经保存!\n是否要立即下载全文?");
+                            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(!(new MyUtil(getApplication()).writeTxtToFile(pn,patentPath,"p"+pn + ".0.pdf")))
+                                        return;
+                                    Toast.makeText(getApplication(),"写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        File file = new File(patentPath,"p"+pn + ".0.pdf");
+                                        Uri uri = FileProvider7.getUriForFile(getApplication(),file);
+                                        intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                                        intent.setType("*/*");   //分享文件
+                                        startActivity(Intent.createChooser(intent, "分享"));
+                                    }catch (Exception e) {
+                                        Toast.makeText(getApplication(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(getApplication(), "你点了取消", Toast.LENGTH_SHORT).show();
+                               //     finish();
+                                }
+                            });
+                            builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
+                            AlertDialog dialog = builder.create();  //创建对话框
+                            dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+                            dialog.show();
                         }
                     }
                 }

@@ -106,8 +106,8 @@
                 android:gravity="center">
             </Button>
             <Button
-                android:text="文本下载"
-                android:id="@+id/case_txt_down"
+                android:text=" 清空 "
+                android:id="@+id/case_clear"
                 android:layout_width="120dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"
@@ -122,15 +122,23 @@
             <Button
                 android:text=" pdf下载 "
                 android:id="@+id/case_pdf_down"
-                android:layout_width="150dip"
+                android:layout_width="120dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"
                 android:gravity="center">
             </Button>
             <Button
-                android:text=" 清空 "
-                android:id="@+id/case_clear"
-                android:layout_width="150dip"
+                android:text="文本下载"
+                android:id="@+id/case_txt_down"
+                android:layout_width="120dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>
+            <Button
+                android:text=" 执行命令 "
+                android:id="@+id/case_exec"
+                android:layout_width="120dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"
                 android:gravity="center">
@@ -142,16 +150,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <Button
-                android:text=" 执行命令 "
-                android:id="@+id/case_exec"
+                android:text="下载指定文件"
+                android:id="@+id/case_get_file"
                 android:layout_width="150dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"
                 android:gravity="center">
             </Button>
             <Button
-                android:text=" 下载指定文件 "
-                android:id="@+id/case_get_file"
+                android:text="下载审限数据"
+                android:id="@+id/case_get_sx"
                 android:layout_width="150dip"
                 android:layout_height="50dip"
                 android:textSize="18dip"

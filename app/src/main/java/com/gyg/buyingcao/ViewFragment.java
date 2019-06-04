@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 public class ViewFragment extends Fragment {
    // private TextView result;
-    private Button btnCaseTxt,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseAbstractEnglishDown,btnCaseAbstractChineseDown,btnCaseResultView;
+    private Button btnCaseTxt,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseAbstractEnglishDown,btnCaseAbstractChineseDown,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView;
     private File file;
     private String path = "";
     private String info = "";
@@ -196,15 +196,31 @@ public class ViewFragment extends Fragment {
             //    Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
             }
         });
+        btnCaseSearchFileSelectView=(Button)getActivity().findViewById(R.id.case_search_files_select_view);
+        btnCaseSearchFileSelectView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".log";
+                Intent intent = new Intent(getContext(),FileSelectActivity.class);
+                //intent.putExtra("fname",txtFilePath);
+                //intent.putExtra("type","3");
+                startActivity(intent);
+                //    Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnSxFileView=(Button)getActivity().findViewById(R.id.case_sx_view);
+        btnSxFileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".s.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
+                startActivity(intent);
+            }
+        });
     }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-//        strCaseNum = pref.getString("CaseNum","");
-//        EditText key_editText = getActivity().findViewById(R.id.file_key);
-//        key_editText.setText(strCaseNum);
-//    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub

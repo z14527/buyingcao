@@ -113,4 +113,25 @@
             android:gravity="center">
         </Button>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayout13"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="备选文件@-@"
+            android:id="@+id/case_search_files_select_view"
+            android:layout_width="150dip"
+            android:layout_height="90dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
+            android:text="审限文件@-@"
+            android:id="@+id/case_sx_view"
+            android:layout_width="150dip"
+            android:layout_height="90dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>    </LinearLayout>
 </LinearLayout>
