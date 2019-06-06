@@ -36,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx;
+    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx,btnDZhulu,btnDSCAJ,btnDPCT;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -128,9 +128,7 @@ public class CaseFragment extends Fragment {
                             ic = strIC.substring(strIC.indexOf("-") + 1, strIC.indexOf("/"));
                         }
                         String ap = strAP.substring(strAP.lastIndexOf(" ") + 1);
-                        String ap1 = ap.substring(0, 4) + "-" + ap.substring(4,6) + "-" + ap.substring(6, 8);
-                        ap1 = ap1.replaceAll("-0","-");
-                        apdEText.setText(ap1);
+                        apdEText.setText(ap);
                         classEText.setText(ic);
                     }
                 }catch(Exception e1){
@@ -173,6 +171,52 @@ public class CaseFragment extends Fragment {
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","4");
+                intent.putExtra("cmd","");
+                startActivity(intent);
+            }
+        });
+        btnDZhulu=(Button)getActivity().findViewById(R.id.case_get_zhulu);
+        btnDZhulu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","4");
+                String strCmd = "echo \"" + strCaseNum +
+                        "\" > d:\\temp\\sipoe.txt \n" +
+                        "d:\\workspace\\sipoe0605\\getSipoeZ.bat d:\\temp\\sipoe.txt";
+                intent.putExtra("cmd",strCmd);
+                startActivity(intent);
+            }
+        });
+        btnDSCAJ=(Button)getActivity().findViewById(R.id.case_get_exam);
+        btnDSCAJ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","4");
+                String strCmd = "echo \"" + strCaseNum +
+                        "\" > d:\\temp\\sipoe.txt \n" +
+                        "d:\\workspace\\sipoe0605\\getSipoe.bat d:\\temp\\sipoe.txt";
+                intent.putExtra("cmd",strCmd);
+                startActivity(intent);
+            }
+        });
+        btnDPCT=(Button)getActivity().findViewById(R.id.case_get_pct);
+        btnDPCT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","4");
+                String strCmd = "echo \"" + strCaseNum +
+                        "\" > d:\\temp\\sipoe.txt \n" +
+                        "d:\\workspace\\sipoe0605\\getSipoePCT.bat d:\\temp\\sipoe.txt";
+                intent.putExtra("cmd",strCmd);
                 startActivity(intent);
             }
         });

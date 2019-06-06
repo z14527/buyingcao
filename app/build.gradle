@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+    compile 'com.github.348476129:RxPermission:0.1.0'
     compile 'com.zhy.base:fileprovider:1.0.0'
     compile 'jp.wasabeef:richeditor-android:1.2.0'
     compile 'com.tranwon:expandablelistview:1.0.2'

@@ -26,7 +26,7 @@ import java.util.List;
 public class SearchFragment extends Fragment {
     private TextView textView;
     private Button btnSearchGet,btnSearchModify,btnSearchDo,btnSearchHistoryGet;
-    private CheckBox cbSearchEnglish;
+    private CheckBox cbSearchEnglish,cbSearchFulltext;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     String strCaseNum = "";
@@ -43,11 +43,13 @@ public class SearchFragment extends Fragment {
      //   textView=(TextView)getActivity().findViewById(R.id.search_textView1);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         cbSearchEnglish=(CheckBox) getActivity().findViewById(R.id.case_search_english);
+        cbSearchFulltext=(CheckBox) getActivity().findViewById(R.id.case_search_fulltext);
         strCaseNum = pref.getString("CaseNum","");
         btnSearchGet=(Button)getActivity().findViewById(R.id.case_search_get);
         btnSearchGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                strCaseNum = pref.getString("CaseNum","");
                 String info = checkKwd();
                 if(info.equals(""))
                     Toast.makeText(getActivity(),"可以生成检索式", Toast.LENGTH_SHORT).show();
@@ -76,6 +78,7 @@ public class SearchFragment extends Fragment {
         btnSearchHistoryGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                strCaseNum = pref.getString("CaseNum","");
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".9.txt";
                 File f1 = new File(patentPath);
                 if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
@@ -99,9 +102,39 @@ public class SearchFragment extends Fragment {
         btnSearchModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                strCaseNum = pref.getString("CaseNum","");
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.txt";
                 if(cbSearchEnglish.isChecked())
                     txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.e.txt";
+                String[] jss = new pf().readfile(txtFilePath,"GBK");
+                String caseApd = pref.getString("CaseApd","");
+                String caseClass = pref.getString("CaseClass","");
+                String ap1 = caseApd.substring(0, 4) + "-" + caseApd.substring(4,6) + "-" + caseApd.substring(6, 8);
+                ap1 = ap1.replaceAll("-0","-");
+                for(int i = 0; i < jss.length; i++){
+                    if(!caseApd.equals("") && jss[i].indexOf("pd<=")>=0) {
+                        String jss1 = jss[i].substring(0, jss[i].indexOf("="));
+                        jss[i] = jss1 + ap1 + " |";
+                    }
+                    if(!caseClass.equals("") && jss[i].indexOf("/ic or ")>=0) {
+                        String jss1 = "/ic or " + caseClass + "," + caseClass + " |";
+                        jss1 = jss1.replaceAll(",,",",");
+                        jss1 = jss1.replaceAll("，",",");
+                        jss[i] = jss1;
+                    }
+                    if(cbSearchFulltext.isChecked() && jss[i].indexOf("..fi ")>=0) {
+                        if (cbSearchEnglish.isChecked())
+                            jss[i] = "..fi ustxt |";
+                        else
+                            jss[i] = "..fi cntxt |";
+                    }else if(!cbSearchFulltext.isChecked() && jss[i].indexOf("..fi ")>=0){
+                        if (cbSearchEnglish.isChecked())
+                            jss[i] = "..fi dwpi |";
+                        else
+                            jss[i] = "..fi cnabs |";
+                    }
+                }
+                new pf().writefile(txtFilePath,"GBK",jss);
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","0");
@@ -112,6 +145,7 @@ public class SearchFragment extends Fragment {
         btnSearchDo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                strCaseNum = pref.getString("CaseNum","");
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".4.txt";
                 if(cbSearchEnglish.isChecked())
                     patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".4.e.txt";

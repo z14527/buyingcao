@@ -89,8 +89,11 @@ public class RichEditActivity extends AppCompatActivity {
             horizontalScrollView.setVisibility(View.GONE);
             tvOK.setVisibility(View.GONE);
             tvQuit.setVisibility(View.GONE);
+            if(viewType.equals("4"))
+                mEditor.setFontSize(15);
             mEditor.setEditorFontColor(Color.BLACK);
         }
+
         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
             //    mEditor.setEnabled(false);
             mEditor.setFocusableInTouchMode(false);
@@ -112,6 +115,12 @@ public class RichEditActivity extends AppCompatActivity {
             try {
                 strTxt = new MyUtil(getApplication()).readExternal(txtFilePath).replaceAll("\n","<br />");
                 mEditor.setHtml(strTxt);
+                if(viewType.equals("4")) {
+                    if(strTxt.length()<2) {
+                        String strCmd = getIntent().getStringExtra("cmd");
+                        mEditor.setHtml(strCmd);
+                    }
+                }
               } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
@@ -132,7 +141,9 @@ public class RichEditActivity extends AppCompatActivity {
                     String keys2 = keys1.replaceAll("</?[^>]+>", "\n"); //剔出<html>的标签
                     String keys3 = keys2.replaceAll("<a>\\s*|\t|\r|\n</a>", "");
                     String keys4 = keys3.replaceAll("^\n", "");
-                    String keys = keys4.replaceAll("\n+", "\n");
+                    String keys5 = keys4.replaceAll("\n+", "\n");
+                    String keys = keys5.replaceAll("&gt;", ">");
+
                     if(keys.indexOf("---")>0)
                         keys = keys.split("---")[0];
                     new MyUtil(getApplication()).writeTxtToFile(keys,txtFilePath);

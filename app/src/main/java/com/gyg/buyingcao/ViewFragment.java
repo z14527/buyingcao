@@ -215,7 +215,7 @@ public class ViewFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".s.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
+                intent.putExtra("type","4");
                 startActivity(intent);
             }
         });

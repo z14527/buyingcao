@@ -1,5 +1,6 @@
 package com.gyg.buyingcao;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.rxpermisson.PermissionAppCompatActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -31,9 +34,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import rx.Subscriber;
+
 import static java.security.AccessController.getContext;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends PermissionAppCompatActivity {
 
  //   private TextView mTextMessage;
     private BottomNavigationView bottomNavigationView;
@@ -53,6 +58,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
+        checkPermission(R.string.base_permission, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.INTERNET)
+                .subscribe(new Subscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        if (o.equals(true)){
+                            Toast.makeText(MainActivity.this,"请求权限成功",Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(MainActivity.this,"请求权限成功",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                });
     /*    mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/

@@ -166,5 +166,41 @@
                 android:gravity="center">
             </Button>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LinearLayout08"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="下载著录项目"
+                android:id="@+id/case_get_zhulu"
+                android:layout_width="150dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>
+            <Button
+                android:text="下载审查案卷"
+                android:id="@+id/case_get_exam"
+                android:layout_width="150dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LinearLayout09"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="下载PCT"
+                android:id="@+id/case_get_pct"
+                android:layout_width="150dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

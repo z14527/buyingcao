@@ -3,9 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
     <LinearLayout
         android:id="@+id/LinearLayout07"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:text="英文"
+            android:id="@+id/case_search_english"
+            android:layout_width="150dip"
+            android:layout_height="70dip"
+            android:textSize="18dip"
+            android:background="@android:drawable/spinner_background"
+            android:gravity="center">
+        </CheckBox>
+        <CheckBox
+            android:text="全文"
+            android:id="@+id/case_search_fulltext"
+            android:layout_width="150dip"
+            android:layout_height="70dip"
+            android:background="@android:drawable/spinner_background"
+            android:textSize="18dip"
+            android:gravity="center">
+        </CheckBox>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayout08"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -27,18 +50,10 @@
         </Button>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/LinearLayout08"
+        android:id="@+id/LinearLayout10"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <CheckBox
-            android:text="英文"
-            android:id="@+id/case_search_english"
-            android:layout_width="150dip"
-            android:layout_height="150dip"
-            android:textSize="18dip"
-            android:gravity="center">
-        </CheckBox>
         <Button
             android:text="开始检索→"
             android:id="@+id/case_search_go"
@@ -47,14 +62,8 @@
             android:textSize="18dip"
             android:gravity="center">
         </Button>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/LinearLayout09"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
         <Button
-            android:text="获取检索历史记录→"
+            android:text="获取检索记录→"
             android:id="@+id/case_search_history_get"
             android:layout_width="150dip"
             android:layout_height="150dip"
