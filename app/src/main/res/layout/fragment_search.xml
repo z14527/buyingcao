@@ -11,7 +11,7 @@
         <CheckBox
             android:text="英文"
             android:id="@+id/case_search_english"
-            android:layout_width="150dip"
+            android:layout_width="160dip"
             android:layout_height="70dip"
             android:textSize="18dip"
             android:background="@android:drawable/spinner_background"
@@ -20,7 +20,7 @@
         <CheckBox
             android:text="全文"
             android:id="@+id/case_search_fulltext"
-            android:layout_width="150dip"
+            android:layout_width="160dip"
             android:layout_height="70dip"
             android:background="@android:drawable/spinner_background"
             android:textSize="18dip"
@@ -33,9 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="生成检索式→"
+            android:text="生成检索式=>"
             android:id="@+id/case_search_get"
-            android:layout_width="150dip"
+            android:layout_width="160dip"
             android:layout_height="150dip"
             android:textSize="18dip"
             android:gravity="center">
@@ -43,7 +43,7 @@
         <Button
             android:text="编辑检索式∷"
             android:id="@+id/case_search_modify"
-            android:layout_width="150dip"
+            android:layout_width="160dip"
             android:layout_height="150dip"
             android:textSize="18dip"
             android:gravity="center">
@@ -55,17 +55,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="开始检索→"
+            android:text="开始检索=>"
             android:id="@+id/case_search_go"
-            android:layout_width="150dip"
+            android:layout_width="160dip"
             android:layout_height="150dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
         <Button
-            android:text="获取检索记录→"
+            android:text="获取检索记录=>"
             android:id="@+id/case_search_history_get"
-            android:layout_width="150dip"
+            android:layout_width="160dip"
             android:layout_height="150dip"
             android:textSize="18dip"
             android:gravity="center">

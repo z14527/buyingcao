@@ -4,6 +4,7 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -89,11 +90,16 @@ public class RichEditActivity extends AppCompatActivity {
             horizontalScrollView.setVisibility(View.GONE);
             tvOK.setVisibility(View.GONE);
             tvQuit.setVisibility(View.GONE);
-            if(viewType.equals("4"))
-                mEditor.setFontSize(15);
             mEditor.setEditorFontColor(Color.BLACK);
         }
-
+        if(viewType.equals("4")) {
+            mEditor.setFontSize(15);
+            tvOK.setVisibility(View.GONE);
+            tvQuit.setVisibility(View.GONE);
+            HorizontalScrollView  horizontalScrollView = (HorizontalScrollView)findViewById(R.id.tv_toolbar);
+            horizontalScrollView.setVisibility(View.GONE);
+            mEditor.setEditorFontColor(Color.BLACK);
+        }
         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
             //    mEditor.setEnabled(false);
             mEditor.setFocusableInTouchMode(false);
@@ -119,6 +125,10 @@ public class RichEditActivity extends AppCompatActivity {
                     if(strTxt.length()<2) {
                         String strCmd = getIntent().getStringExtra("cmd");
                         mEditor.setHtml(strCmd);
+                    }else{
+                        String txt1 = strTxt.replaceAll("<th>","<th><font size=\"5\">");
+                        String txt2 = txt1.replaceAll("</th>","</th></font>");
+                        mEditor.setHtml(txt2);
                     }
                 }
               } catch (IOException e) {
@@ -333,6 +343,12 @@ public class RichEditActivity extends AppCompatActivity {
                 mEditor.insertTodo();
             }
         });
+
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // 在这里添加屏幕切换后的操作
     }
     public void setText(int index){
         int i = index;

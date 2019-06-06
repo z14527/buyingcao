@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -212,7 +213,13 @@ public class ViewFragment extends Fragment {
         btnSxFileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".s.txt";
+               String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".s.txt";
+                String txtFilePath1 = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                List<File> fileList = new pf().listFileSortByModifyTime(txtFilePath1);
+                for(File file1: fileList){
+                    if(file1.getName().indexOf(".s.txt")>=0 && file1.length()>0 && file1.getName().indexOf("p")<0)
+                        txtFilePath = file1.getAbsolutePath();
+                }
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","4");

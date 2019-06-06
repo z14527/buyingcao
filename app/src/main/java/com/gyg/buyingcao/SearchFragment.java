@@ -106,35 +106,38 @@ public class SearchFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.txt";
                 if(cbSearchEnglish.isChecked())
                     txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".4.e.txt";
-                String[] jss = new pf().readfile(txtFilePath,"GBK");
-                String caseApd = pref.getString("CaseApd","");
-                String caseClass = pref.getString("CaseClass","");
-                String ap1 = caseApd.substring(0, 4) + "-" + caseApd.substring(4,6) + "-" + caseApd.substring(6, 8);
-                ap1 = ap1.replaceAll("-0","-");
-                for(int i = 0; i < jss.length; i++){
-                    if(!caseApd.equals("") && jss[i].indexOf("pd<=")>=0) {
-                        String jss1 = jss[i].substring(0, jss[i].indexOf("="));
-                        jss[i] = jss1 + ap1 + " |";
+                File f4 = new File(txtFilePath);
+                if(f4.exists()) {
+                    String[] jss = new pf().readfile(txtFilePath, "GBK");
+                    String caseApd = pref.getString("CaseApd", "");
+                    String caseClass = pref.getString("CaseClass", "");
+                    String ap1 = caseApd.substring(0, 4) + "-" + caseApd.substring(4, 6) + "-" + caseApd.substring(6, 8);
+                    ap1 = ap1.replaceAll("-0", "-");
+                    for (int i = 0; i < jss.length; i++) {
+                        if (!caseApd.equals("") && jss[i].indexOf("pd<=") >= 0) {
+                            String jss1 = jss[i].substring(0, jss[i].indexOf("="));
+                            jss[i] = jss1 + ap1 + " |";
+                        }
+                        if (!caseClass.equals("") && jss[i].indexOf("/ic or ") >= 0) {
+                            String jss1 = "/ic or " + caseClass + "," + caseClass + " |";
+                            jss1 = jss1.replaceAll(",,", ",");
+                            jss1 = jss1.replaceAll("，", ",");
+                            jss[i] = jss1;
+                        }
+                        if (cbSearchFulltext.isChecked() && jss[i].indexOf("..fi ") >= 0) {
+                            if (cbSearchEnglish.isChecked())
+                                jss[i] = "..fi ustxt |";
+                            else
+                                jss[i] = "..fi cntxt |";
+                        } else if (!cbSearchFulltext.isChecked() && jss[i].indexOf("..fi ") >= 0) {
+                            if (cbSearchEnglish.isChecked())
+                                jss[i] = "..fi dwpi |";
+                            else
+                                jss[i] = "..fi cnabs |";
+                        }
                     }
-                    if(!caseClass.equals("") && jss[i].indexOf("/ic or ")>=0) {
-                        String jss1 = "/ic or " + caseClass + "," + caseClass + " |";
-                        jss1 = jss1.replaceAll(",,",",");
-                        jss1 = jss1.replaceAll("，",",");
-                        jss[i] = jss1;
-                    }
-                    if(cbSearchFulltext.isChecked() && jss[i].indexOf("..fi ")>=0) {
-                        if (cbSearchEnglish.isChecked())
-                            jss[i] = "..fi ustxt |";
-                        else
-                            jss[i] = "..fi cntxt |";
-                    }else if(!cbSearchFulltext.isChecked() && jss[i].indexOf("..fi ")>=0){
-                        if (cbSearchEnglish.isChecked())
-                            jss[i] = "..fi dwpi |";
-                        else
-                            jss[i] = "..fi cnabs |";
-                    }
+                    new pf().writefile(txtFilePath, "GBK", jss);
                 }
-                new pf().writefile(txtFilePath,"GBK",jss);
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","0");
