@@ -182,7 +182,7 @@ public class CaseFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","4");
+                intent.putExtra("type","6");
                 String strCmd = "echo \"" + strCaseNum +
                         "\" > d:\\temp\\sipoe.txt \n" +
                         "d:\\workspace\\sipoe0605\\getSipoeZ.bat d:\\temp\\sipoe.txt";
@@ -197,7 +197,7 @@ public class CaseFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","4");
+                intent.putExtra("type","6");
                 String strCmd = "echo \"" + strCaseNum +
                         "\" > d:\\temp\\sipoe.txt \n" +
                         "d:\\workspace\\sipoe0605\\getSipoe.bat d:\\temp\\sipoe.txt";
@@ -212,7 +212,7 @@ public class CaseFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","4");
+                intent.putExtra("type","6");
                 String strCmd = "echo \"" + strCaseNum +
                         "\" > d:\\temp\\sipoe.txt \n" +
                         "d:\\workspace\\sipoe0605\\getSipoePCT.bat d:\\temp\\sipoe.txt";

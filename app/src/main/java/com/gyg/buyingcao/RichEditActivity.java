@@ -92,8 +92,8 @@ public class RichEditActivity extends AppCompatActivity {
             tvQuit.setVisibility(View.GONE);
             mEditor.setEditorFontColor(Color.BLACK);
         }
-        if(viewType.equals("4")) {
-            mEditor.setFontSize(15);
+        if(viewType.equals("5")) {
+            mEditor.setFontSize(10);
             tvOK.setVisibility(View.GONE);
             tvQuit.setVisibility(View.GONE);
             HorizontalScrollView  horizontalScrollView = (HorizontalScrollView)findViewById(R.id.tv_toolbar);
@@ -121,15 +121,24 @@ public class RichEditActivity extends AppCompatActivity {
             try {
                 strTxt = new MyUtil(getApplication()).readExternal(txtFilePath).replaceAll("\n","<br />");
                 mEditor.setHtml(strTxt);
-                if(viewType.equals("4")) {
-                    if(strTxt.length()<2) {
-                        String strCmd = getIntent().getStringExtra("cmd");
-                        mEditor.setHtml(strCmd);
-                    }else{
-                        String txt1 = strTxt.replaceAll("<th>","<th><font size=\"5\">");
-                        String txt2 = txt1.replaceAll("</th>","</th></font>");
-                        mEditor.setHtml(txt2);
+                if(viewType.equals("6")) {
+                    String strCmd = getIntent().getStringExtra("cmd");
+                    mEditor.setHtml(strCmd);
+                }
+                if(viewType.equals("5")){
+                    String strTxt1 = strTxt.replaceAll("</tr>","#");
+                    String strTxt2 = strTxt1.replaceAll("</?[^>]+>", "");
+                    String strTxt3 = strTxt2.replaceAll("#","<br />");
+                    int ti = 0;
+                    int tn = strTxt3.indexOf("剩余天数",ti);
+                    while(tn>=0){
+                        strTxt3 = strTxt3.substring(0,tn)+"<font color=\"red\">"+
+                                strTxt3.substring(tn,tn+10)+"</font>"+
+                                strTxt3.substring(tn+11);
+                        ti=tn+15+"<font color=\"red\"></font>".length();
+                        tn = strTxt3.indexOf("剩余天数",ti);
                     }
+                    mEditor.setHtml(strTxt3);
                 }
               } catch (IOException e) {
                 e.printStackTrace();
@@ -148,7 +157,7 @@ public class RichEditActivity extends AppCompatActivity {
                 }
                 try{
                     String keys1 = mEditor.getHtml();
-                    String keys2 = keys1.replaceAll("</?[^>]+>", "\n"); //剔出<html>的标签
+                    String keys2 = keys1.replaceAll("</?[^>]+>", ""); //剔出<html>的标签
                     String keys3 = keys2.replaceAll("<a>\\s*|\t|\r|\n</a>", "");
                     String keys4 = keys3.replaceAll("^\n", "");
                     String keys5 = keys4.replaceAll("\n+", "\n");
@@ -162,7 +171,7 @@ public class RichEditActivity extends AppCompatActivity {
                 }catch (Exception e) {
                     Toast.makeText(getApplication(), e.toString(), Toast.LENGTH_LONG).show();
                 }
-                if(viewType.equals("4")){
+                if(viewType.equals("4") || viewType.equals("6")){
                     try {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         File file = new File(txtFilePath);

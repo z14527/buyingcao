@@ -222,7 +222,7 @@ public class ViewFragment extends Fragment {
                 }
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","4");
+                intent.putExtra("type","5");
                 startActivity(intent);
             }
         });
