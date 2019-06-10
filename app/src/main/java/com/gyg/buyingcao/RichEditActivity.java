@@ -127,15 +127,16 @@ public class RichEditActivity extends AppCompatActivity {
                     int n2 = strCmd.indexOf(".bat");
                     if(n2>n1 && n1>=0) {
                         if (strTxt.indexOf(strCmd.substring(n1, n2)) < 0) {
-                            strCmd = strCmd.replace("\n","<br/>");
+                            strCmd = strCmd.replace("\n","<br>");
                             mEditor.setHtml(strCmd);
                         }
                     }
                 }
                 if(viewType.equals("5")){
-                    String strTxt1 = strTxt.replaceAll("</tr>","#");
+                    strTxt = strTxt.replaceAll("</?h1>","#");
+                    String strTxt1 = strTxt.replaceAll("</?tr>","#");
                     String strTxt2 = strTxt1.replaceAll("</?[^>]+>", "");
-                    String strTxt3 = strTxt2.replaceAll("#","<br />");
+                    String strTxt3 = strTxt2.replaceAll("#","<br>");
                     int ti = 0;
                     int tn = strTxt3.indexOf("剩余天数",ti);
                     int dtn = "剩余天数：1".length();
@@ -429,7 +430,7 @@ public class RichEditActivity extends AppCompatActivity {
                 break;
             }
          }
-         String content = title + "<br />";
+         String content = title + "<br>";
          if(n2 == 0) {
              n2 = pns.length - 1;
              tvQuit.setEnabled(false);
@@ -441,14 +442,14 @@ public class RichEditActivity extends AppCompatActivity {
             m = p.matcher(pns[j]);
             if (m.find()) {
                 if (pns[j].indexOf(" DW") >= 0)
-                    content += "<br />" + pns[j].replaceAll("  +", " ").replaceAll("\\t", "").replaceAll("。", "。<br />");
+                    content += "<br>" + pns[j].replaceAll("  +", " ").replaceAll("\\t", "").replaceAll("。", "。<br>");
                 else
-                    content += "<br />" + pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br />") + " ";
+                    content += "<br>" + pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br>") + " ";
             } else {
                 if (pns[j].indexOf(" DW") >= 0)
-                    content += pns[j].replaceAll("  +", " ").replaceAll("\\t", "").replaceAll("。", "。<br />");
+                    content += pns[j].replaceAll("  +", " ").replaceAll("\\t", "").replaceAll("。", "。<br>");
                 else
-                    content += pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br />") + " ";
+                    content += pns[j].replaceAll("^  +", "").replaceAll("\\t", "").replaceAll("。", "。<br>") + " ";
             }
         }
         try {
@@ -472,7 +473,7 @@ public class RichEditActivity extends AppCompatActivity {
             content = content.replaceAll(kw1,"<font color=\"" + colors[m1] + "\" size = 30>" + kw1 + "</font>");
         }
         if(!strCaseApd.equals(""))
-            content = "<font color=\"red\"><u>" + strCaseApd + "</u></font><br /><br />" + content;
+            content = "<font color=\"red\"><u>" + strCaseApd + "</u></font><br>" + content;
         mEditor.setHtml(content);
         mEditor.scrollTo(0,0);
     }
