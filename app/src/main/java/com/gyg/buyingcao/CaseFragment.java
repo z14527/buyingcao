@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
+import static java.lang.Math.min;
 
 
 public class CaseFragment extends Fragment {
@@ -110,7 +111,7 @@ public class CaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
-                 String patentTxTPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".txt";
+                 String patentTxTPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".txt";
                 File txtFile =new File(patentTxTPath);
                 if(!txtFile.exists()) {
                     Toast.makeText(getActivity(),"目标文件：\n" + patentTxTPath + "不存在", Toast.LENGTH_LONG).show();
@@ -140,7 +141,7 @@ public class CaseFragment extends Fragment {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                strCaseNum = numEText.getText().toString().replaceAll(" ","");
+                strCaseNum = numEText.getText().toString().replaceAll(" |[^0-9]","");
                 if(strCaseNum.length()<3){
                     Toast.makeText(getActivity(),"申请号格式不对", Toast.LENGTH_LONG).show();
                     return;
@@ -152,6 +153,7 @@ public class CaseFragment extends Fragment {
                 editor.putString("CaseApd",strCaseApd);
                 editor.putString("CaseClass",strCaseClass);
                 editor.commit();
+                numEText.setText(strCaseNum);
             }
         });
         btnClear=(Button)getActivity().findViewById(R.id.case_clear);
@@ -167,7 +169,7 @@ public class CaseFragment extends Fragment {
         btnExec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","4");
@@ -179,7 +181,7 @@ public class CaseFragment extends Fragment {
         btnDZhulu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","6");
@@ -194,7 +196,7 @@ public class CaseFragment extends Fragment {
         btnDSCAJ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","6");
@@ -209,11 +211,14 @@ public class CaseFragment extends Fragment {
         btnDPCT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".c.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","6");
-                String strCmd = "echo \"" + strCaseNum +
+                String PCTN = strCaseNum;
+                if(strCaseNum.length()>=10)
+                    PCTN = "PCT/CN"+strCaseNum.substring(0,4)+"/"+strCaseNum.substring(4,10);
+                String strCmd = "echo \"" + PCTN +
                         "\" > d:\\temp\\sipoe.txt \n" +
                         "d:\\workspace\\sipoe0605\\getSipoePCT.bat d:\\temp\\sipoe.txt";
                 intent.putExtra("cmd",strCmd);
@@ -224,7 +229,7 @@ public class CaseFragment extends Fragment {
         btnGetFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".f.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".f.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","4");

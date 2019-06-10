@@ -21,6 +21,8 @@ import com.zhy.base.fileprovider.FileProvider7;
 import java.io.File;
 import java.io.RandomAccessFile;
 
+import static java.lang.Math.min;
+
 public class KeyFragment extends Fragment {
     private TextView textView;
     private Button btnKeyEdit,btnKeyExpand,btnCNKeyExpandEdit,btnENKeyExpandEdit;
@@ -47,7 +49,9 @@ public class KeyFragment extends Fragment {
         btnKeyEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".2.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".2.txt";
+                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
+                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".2.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","0");
@@ -57,7 +61,7 @@ public class KeyFragment extends Fragment {
         btnKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0,Math.min(strCaseNum.length(),12)) + ".2.txt";
+                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".2.txt";
                 File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
@@ -77,7 +81,9 @@ public class KeyFragment extends Fragment {
         btnCNKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".3.txt";
+                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
+                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","0");
@@ -87,7 +93,9 @@ public class KeyFragment extends Fragment {
         btnENKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".3.e.txt";
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".3.e.txt";
+                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
+                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.e.txt";
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","0");

@@ -65,9 +65,9 @@ public class MainActivity extends PermissionAppCompatActivity {
                     @Override
                     public void onNext(Object o) {
                         if (o.equals(true)){
-                            Toast.makeText(MainActivity.this,"请求权限成功",Toast.LENGTH_SHORT).show();
+               //             Toast.makeText(MainActivity.this,"请求权限成功",Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(MainActivity.this,"请求权限成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"请求权限失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override

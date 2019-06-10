@@ -123,7 +123,12 @@ public class RichEditActivity extends AppCompatActivity {
                 mEditor.setHtml(strTxt);
                 if(viewType.equals("6")) {
                     String strCmd = getIntent().getStringExtra("cmd");
-                    mEditor.setHtml(strCmd);
+                    int n1 = strCmd.indexOf("getSipoe");
+                    int n2 = strCmd.indexOf(".bat");
+                    if(n2>n1 && n1>=0) {
+                        if (strTxt.indexOf(strCmd.substring(n1, n2)) < 0)
+                            mEditor.setHtml(strCmd);
+                    }
                 }
                 if(viewType.equals("5")){
                     String strTxt1 = strTxt.replaceAll("</tr>","#");
@@ -131,11 +136,15 @@ public class RichEditActivity extends AppCompatActivity {
                     String strTxt3 = strTxt2.replaceAll("#","<br />");
                     int ti = 0;
                     int tn = strTxt3.indexOf("剩余天数",ti);
+                    int dtn = "剩余天数：1".length();
                     while(tn>=0){
+                        int dtn1 = dtn;
+                        while(Character.isDigit(strTxt3.charAt(tn+dtn1)))
+                            dtn1++;
                         strTxt3 = strTxt3.substring(0,tn)+"<font color=\"red\">"+
-                                strTxt3.substring(tn,tn+10)+"</font>"+
-                                strTxt3.substring(tn+11);
-                        ti=tn+15+"<font color=\"red\"></font>".length();
+                                strTxt3.substring(tn,tn+dtn1)+"</font>"+
+                                strTxt3.substring(tn+dtn1);
+                        ti=tn+dtn1+"<font color=\"red\"></font>".length();
                         tn = strTxt3.indexOf("剩余天数",ti);
                     }
                     mEditor.setHtml(strTxt3);
@@ -157,15 +166,26 @@ public class RichEditActivity extends AppCompatActivity {
                 }
                 try{
                     String keys1 = mEditor.getHtml();
-                    String keys2 = keys1.replaceAll("</?[^>]+>", ""); //剔出<html>的标签
-                    String keys3 = keys2.replaceAll("<a>\\s*|\t|\r|\n</a>", "");
-                    String keys4 = keys3.replaceAll("^\n", "");
-                    String keys5 = keys4.replaceAll("\n+", "\n");
-                    String keys = keys5.replaceAll("&gt;", ">");
-
-                    if(keys.indexOf("---")>0)
-                        keys = keys.split("---")[0];
-                    new MyUtil(getApplication()).writeTxtToFile(keys,txtFilePath);
+                    List<String> regs = new ArrayList<String>();
+                    List<String> reps = new ArrayList<String>();
+                    regs.add("</?[^>]+>");
+                    reps.add("");
+                    regs.add("<a>\\s*|\t|\r\n</a>");
+                    reps.add("");
+                    regs.add("^\n");
+                    reps.add("\n");
+                    regs.add("&gt;");
+                    reps.add(">");
+                    regs.add("&nbsp;");
+                    reps.add(" ");
+                    for(int k1=0;k1<regs.size();k1++){
+                        keys1 = keys1.replaceAll(regs.get(k1),reps.get(k1));
+                    }
+                    if(keys1.indexOf("---")>0)
+                        keys1 = keys1.split("---")[0];
+                    if(viewType.equals("6"))
+                        keys1  = keys1.replace("sipoe.txt","sipoe.txt\n");
+                    new MyUtil(getApplication()).writeTxtToFile(keys1,txtFilePath);
                     Toast.makeText(getApplication(), "已经保存", Toast.LENGTH_LONG).show();
                     finish();
                 }catch (Exception e) {
