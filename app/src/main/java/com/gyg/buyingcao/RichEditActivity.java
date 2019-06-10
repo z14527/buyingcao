@@ -119,15 +119,17 @@ public class RichEditActivity extends AppCompatActivity {
         }else {
             String strTxt = "";
             try {
-                strTxt = new MyUtil(getApplication()).readExternal(txtFilePath).replaceAll("\n","<br />");
+                strTxt = new MyUtil(getApplication()).readExternal(txtFilePath).replaceAll("\n","<br>");
                 mEditor.setHtml(strTxt);
                 if(viewType.equals("6")) {
                     String strCmd = getIntent().getStringExtra("cmd");
                     int n1 = strCmd.indexOf("getSipoe");
                     int n2 = strCmd.indexOf(".bat");
                     if(n2>n1 && n1>=0) {
-                        if (strTxt.indexOf(strCmd.substring(n1, n2)) < 0)
+                        if (strTxt.indexOf(strCmd.substring(n1, n2)) < 0) {
+                            strCmd = strCmd.replace("\n","<br/>");
                             mEditor.setHtml(strCmd);
+                        }
                     }
                 }
                 if(viewType.equals("5")){
@@ -168,6 +170,8 @@ public class RichEditActivity extends AppCompatActivity {
                     String keys1 = mEditor.getHtml();
                     List<String> regs = new ArrayList<String>();
                     List<String> reps = new ArrayList<String>();
+                    regs.add("<br>");
+                    reps.add("\n");
                     regs.add("</?[^>]+>");
                     reps.add("");
                     regs.add("<a>\\s*|\t|\r\n</a>");
@@ -177,7 +181,7 @@ public class RichEditActivity extends AppCompatActivity {
                     regs.add("&gt;");
                     reps.add(">");
                     regs.add("&nbsp;");
-                    reps.add(" ");
+                    reps.add("\n");
                     for(int k1=0;k1<regs.size();k1++){
                         keys1 = keys1.replaceAll(regs.get(k1),reps.get(k1));
                     }

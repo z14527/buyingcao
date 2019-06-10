@@ -62,6 +62,8 @@ public class KeyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".2.txt";
+                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
+                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".2.txt";
                 File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
