@@ -25,6 +25,7 @@ import com.zhy.base.fileprovider.FileProvider7;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,6 +117,16 @@ public class RichEditActivity extends AppCompatActivity {
             mEditor.setEditorFontColor(Color.BLACK);
             registerClipEvents();
             pns = (new pf()).readfile(txtFilePath,"GBK");
+            boolean fpos = false;
+            for(int k=0;k<pns.length;k++){
+                if(!fpos && pns[k].indexOf("1/")!=0)
+                    pns[k] = "";
+                else if(pns[k].indexOf("1/")==0)
+                    fpos = true;
+                if(fpos && pns[k].indexOf(" >> ")>=0)
+                    pns[k] = pns[k].replaceAll("[0-9]{4}-[0-9]{2}-[0-9]{2}.*?>>.*?\n","");
+            }
+            mEditor.setHtml("加载中......");
             setText(nPagView);
         }
         if(!txtFile.exists()) {
@@ -395,8 +406,8 @@ public class RichEditActivity extends AppCompatActivity {
             tvOK.setEnabled(false);
         else
             tvOK.setEnabled(true);
-        int n1=0;
-        int n2=0 ;
+        int n1 = 0;
+        int n2 = pns.length ;
         boolean en=false;
         Pattern p=null;
         Matcher m=null;
@@ -405,44 +416,38 @@ public class RichEditActivity extends AppCompatActivity {
             m=p.matcher(pns[j]);
             if(m.find()){
                 en=true;
-//	        		System.out.println("n1:"+n1);
                 break;
             }
         }
         String title = "";
         for(int j =0;j<pns.length;j++){
-            p=Pattern.compile("^[0-9]{1,}/[0-9]{1,}");
+            p=Pattern.compile("^"+i+"/[0-9]{1,}");
             m=p.matcher(pns[j]);
             if(m.find()) {
-                i = i - 1;
-                title = m.group();
-            }
-            if(i<=0) {
                 n1 = j;
                 break;
             }
         }
-        if(n1 == 0) {
-            n1 = pns.length - 1;
-            tvQuit.setEnabled(false);
-        }else
-            tvQuit.setEnabled(true);
         for(int j = n1 + 1;j<pns.length;j++){
-            p=Pattern.compile("^[0-9]{1,}/[0-9]{1,}");
+            p=Pattern.compile("^"+(i+1)+"/[0-9]{1,}");
             m=p.matcher(pns[j]);
             if(m.find()){
                 n2 = j;
                 break;
             }
          }
-         String content = title + "<br>";
-         if(n2 == 0) {
-             n2 = pns.length - 1;
-             tvQuit.setEnabled(false);
-         }else
-             tvQuit.setEnabled(true);
-   //     Toast.makeText(this,"index = " + index + ";n1 = " + n1 + ";n2 = " + n2, Toast.LENGTH_LONG).show();
-        for(int j=n1+1;j<n2;j++) {
+        String content = title + "<br>";
+        if(i == 1)
+            tvOK.setEnabled(false);
+        else
+            tvOK.setEnabled(true);
+        if(n2 == pns.length)
+            tvQuit.setEnabled(false);
+        else
+            tvQuit.setEnabled(true);
+     //   Toast.makeText(this,"index = " + index + ";n1 = " + n1 + ";n2 = " + n2, Toast.LENGTH_LONG).show();
+        for(int j=n1;j<n2;j++) {
+            pns[j] = pns[j].replaceAll("[0-9]{4}-[0-9]{2}-[0-9]{2}.*?>>.*?\n","");
             p = Pattern.compile("^[a-zA-Z0-9-]");
             m = p.matcher(pns[j]);
             if (m.find()) {
@@ -537,7 +542,6 @@ public class RichEditActivity extends AppCompatActivity {
                     if (addedText != null) {
                         final String pn = addedText.toString();
                         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
-                            Toast.makeText(getApplication(),"选择文字：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
                             final String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
                             editor = pref.edit();
                             strCaseNum = pref.getString("CaseNum","");
@@ -577,7 +581,7 @@ public class RichEditActivity extends AppCompatActivity {
                                //     finish();
                                 }
                             });
-                            builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
+//                            builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
                             AlertDialog dialog = builder.create();  //创建对话框
                             dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
                             dialog.show();
