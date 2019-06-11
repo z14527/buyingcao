@@ -74,6 +74,11 @@ public class RichEditActivity extends AppCompatActivity {
         File txtFile = null;
         txtFilePath = getIntent().getStringExtra("fname");
         viewType = getIntent().getStringExtra("type");
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        strCaseNum = pref.getString("CaseNum","");
+        String cp = pref.getString(strCaseNum+"-page", "");
+        if(!cp.equals(""))
+            nPagView = Integer.parseInt(cp);
         txtFile = new File(txtFilePath);
         try {
             if(!txtFile.exists())
@@ -476,6 +481,10 @@ public class RichEditActivity extends AppCompatActivity {
             content = "<font color=\"red\"><u>" + strCaseApd + "</u></font><br>" + content;
         mEditor.setHtml(content);
         mEditor.scrollTo(0,0);
+        strCaseNum = pref.getString("CaseNum","");
+        editor = pref.edit();
+        editor.putString(strCaseNum+"-page", ""+index);
+        editor.commit();
     }
     public String[] getKwd(){
         String[]  k1 = (new pf()).readfile(txtFilePath.replace(".log",".2.txt"),"GBK");

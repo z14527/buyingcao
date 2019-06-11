@@ -201,6 +201,13 @@
                 android:textSize="18dip"
                 android:gravity="center">
             </Button>
-        </LinearLayout>
+            <Button
+                android:text="重启远程服务"
+                android:id="@+id/case_reset_ea"
+                android:layout_width="150dip"
+                android:layout_height="50dip"
+                android:textSize="18dip"
+                android:gravity="center">
+            </Button>        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

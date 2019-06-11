@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="开始检索=>"
+            android:text="检索并且获取摘要=>"
             android:id="@+id/case_search_go"
             android:layout_width="160dip"
             android:layout_height="150dip"
