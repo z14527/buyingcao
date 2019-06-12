@@ -33,7 +33,8 @@ import static java.lang.Math.min;
 
 public class ViewFragment extends Fragment {
    // private TextView result;
-    private Button btnCaseTxt,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseAbstractEnglishDown,btnCaseAbstractChineseDown,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView;
+    private Button btnCaseTxt,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView,btnCaseZhulu;
+
     private File file;
     private String path = "";
     private String info = "";
@@ -73,7 +74,19 @@ public class ViewFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        btnCaseZhulu=(Button)getActivity().findViewById(R.id.case_zhulu_view);
+        btnCaseZhulu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+"-著录项目.txt";
+                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
+                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+"-著录项目.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","2");
+                startActivity(intent);
+            }
+        });
         btnCaseKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,60 +162,6 @@ public class ViewFragment extends Fragment {
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","2");
                 startActivity(intent);
-            }
-        });
-        btnCaseAbstractChineseDown=(Button)getActivity().findViewById(R.id.case_abstract_chinese_down);
-        btnCaseAbstractChineseDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".8.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".8.txt";
-                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
-                    return;
-                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
-                File f1 = new File(patentPath);
-                if(!f1.exists()){
-                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                try {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
-                    intent.setType("*/*");   //分享文件
-                    startActivity(Intent.createChooser(intent, "分享"));
-                }catch (Exception e) {
-                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
-                }
-             //   Toast.makeText(getActivity(),"下载中文摘要", Toast.LENGTH_SHORT).show();
-            }
-        });
-        btnCaseAbstractEnglishDown=(Button)getActivity().findViewById(R.id.case_abstract_english_down);
-        btnCaseAbstractEnglishDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".7.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".7.txt";
-                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
-                    return;
-                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".0.txt", Toast.LENGTH_SHORT).show();
-                File f1 = new File(patentPath);
-                if(!f1.exists()){
-                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                try {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
-                    intent.setType("*/*");   //分享文件
-                    startActivity(Intent.createChooser(intent, "分享"));
-                }catch (Exception e) {
-                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
-                }
-                //   Toast.makeText(getActivity(),"下载中文摘要", Toast.LENGTH_SHORT).show();
             }
         });
         btnCaseResultView=(Button)getActivity().findViewById(R.id.case_search_result_view);

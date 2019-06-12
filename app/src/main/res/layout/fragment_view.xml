@@ -17,6 +17,28 @@
             android:gravity="center">
         </Button>
         <Button
+            android:text="著录项目@-@"
+            android:id="@+id/case_zhulu_view"
+            android:layout_width="160dip"
+            android:layout_height="80dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayout14"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="审限文件@-@"
+            android:id="@+id/case_sx_view"
+            android:layout_width="160dip"
+            android:layout_height="80dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
             android:text="关键词@-@"
             android:id="@+id/case_key_view"
             android:layout_width="160dip"
@@ -70,28 +92,6 @@
         </Button>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/LinearLayout11"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:text="下载中文摘要=>"
-            android:id="@+id/case_abstract_chinese_down"
-            android:layout_width="160dip"
-            android:layout_height="80dip"
-            android:textSize="18dip"
-            android:gravity="center">
-        </Button>
-        <Button
-            android:text="下载英文摘要=>"
-            android:id="@+id/case_abstract_english_down"
-            android:layout_width="160dip"
-            android:layout_height="80dip"
-            android:textSize="18dip"
-            android:gravity="center">
-        </Button>
-    </LinearLayout>
-    <LinearLayout
         android:id="@+id/LinearLayout12"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -126,12 +126,6 @@
             android:textSize="18dip"
             android:gravity="center">
         </Button>
-        <Button
-            android:text="审限文件@-@"
-            android:id="@+id/case_sx_view"
-            android:layout_width="160dip"
-            android:layout_height="80dip"
-            android:textSize="18dip"
-            android:gravity="center">
-        </Button>    </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

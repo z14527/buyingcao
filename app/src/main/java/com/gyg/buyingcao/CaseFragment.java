@@ -37,7 +37,7 @@ import static java.lang.Math.min;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx,btnDZhulu,btnDSCAJ,btnDPCT,btnResetEA;
+    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx,btnDSCAJ,btnResetEA;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -179,23 +179,7 @@ public class CaseFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btnDZhulu=(Button)getActivity().findViewById(R.id.case_get_zhulu);
-        btnDZhulu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    return;
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","6");
-                String strCmd = "echo \"" + strCaseNum +
-                        "\" > d:\\temp\\sipoe.txt \n" +
-                        "d:\\workspace\\sipoe0605\\getSipoeZ.bat d:\\temp\\sipoe.txt";
-                intent.putExtra("cmd",strCmd);
-                startActivity(intent);
-            }
-        });
+
         btnDSCAJ=(Button)getActivity().findViewById(R.id.case_get_exam);
         btnDSCAJ.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,26 +202,7 @@ public class CaseFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btnDPCT=(Button)getActivity().findViewById(R.id.case_get_pct);
-        btnDPCT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".c.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","6");
-                String PCTN = strCaseNum;
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    PCTN = "PCT/CN"+strCaseNum.substring(0,4)+"/"+strCaseNum.substring(4,10);
-                String strCmd = "echo \"" + PCTN +
-                        "\" > d:\\temp\\sipoe.txt \n" +
-                        "d:\\workspace\\sipoe0605\\getSipoePCT.bat d:\\temp\\sipoe.txt";
-                intent.putExtra("cmd",strCmd);
-                startActivity(intent);
-            }
-        });
+
         btnGetFile=(Button)getActivity().findViewById(R.id.case_get_file);
         btnGetFile.setOnClickListener(new View.OnClickListener() {
             @Override

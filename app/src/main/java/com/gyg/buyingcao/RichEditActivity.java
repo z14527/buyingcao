@@ -204,8 +204,6 @@ public class RichEditActivity extends AppCompatActivity {
                     }
                     if(keys1.indexOf("---")>0)
                         keys1 = keys1.split("---")[0];
-                    if(viewType.equals("6"))
-                        keys1  = keys1.replace("sipoe.txt","sipoe.txt\n");
                     new MyUtil(getApplication()).writeTxtToFile(keys1,txtFilePath);
                     Toast.makeText(getApplication(), "已经保存", Toast.LENGTH_LONG).show();
                     finish();
