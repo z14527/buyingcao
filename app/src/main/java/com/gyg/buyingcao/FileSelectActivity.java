@@ -207,9 +207,18 @@ public class FileSelectActivity extends AppCompatActivity {
                         Toast.makeText(getApplication(),"文件不存在：\n" + pdfFilePath, Toast.LENGTH_LONG).show();
                         return;
                     }
-                    Intent intent = new Intent(getApplication(),PDFViewActivity.class);
-                    intent.putExtra("fname",pdfFilePath);
-                    startActivity(intent);
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //    Uri uri = FileProvider7.getUriForFile(getApplication(),f1);
+                        FileProvider7.setIntentDataAndType(getApplication(),intent,"application/pdf",f1,true);
+                        startActivity(intent);
+                    }catch (Exception e) {
+                        Toast.makeText(getApplication(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                    }
+//                    Intent intent = new Intent(getApplication(),PDFViewActivity.class);
+//                    intent.putExtra("fname",pdfFilePath);
+//                    startActivity(intent);
                 }
             });
             if(map!=null&&map.containsKey(position)){
