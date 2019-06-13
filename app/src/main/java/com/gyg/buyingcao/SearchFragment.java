@@ -61,29 +61,26 @@ public class SearchFragment extends Fragment {
 
                 String patentPath1 = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".2.txt";
                 String patentPath2 = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".3.txt";
+                String patentPath3 = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".3.e.txt";
                 if(strCaseNum.length()<12 && strCaseNum.length()>=10) {
                     zipFilePath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.zip";
                     patentPath1 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".2.txt";
                     patentPath2 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.txt";
+                    patentPath3 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.e.txt";
                 }
-                if(cbSearchEnglish.isChecked()) {
-                    zipFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".3.e.zip";
-                    patentPath2 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".3.e.txt";
-                    if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                        patentPath2 = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.e.txt";
-                }
-                File[] files = new File[2];
-                File f1 = new File(zipFilePath);
+                if(cbSearchEnglish.isChecked())
+                    zipFilePath = zipFilePath.replace("3.zip",".3.e.zip");
+                File[] files = new File[3];
                 files[0] = new File(patentPath1);
                 files[1] = new File(patentPath2);
-                if(!files[0].exists()){
-                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath1, Toast.LENGTH_SHORT).show();
-                    return;
+                files[2] = new File(patentPath3);
+                for(int i=0;i<files.length;i++) {
+                    if (!files[i].exists()) {
+                        Toast.makeText(getActivity(), "文件不存在：\n" + files[i].getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
-                if(!files[1].exists()){
-                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath2, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                File f1 = new File(zipFilePath);
                 new pf().zipFiles(files,f1);
              //   File f1 = new File(patentPath);
                 if(!f1.exists()){

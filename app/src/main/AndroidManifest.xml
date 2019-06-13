@@ -28,10 +28,15 @@
         </activity>
         <activity android:name=".AviewActivity" />
         <activity android:name=".EditActivity" />
-        <activity android:name=".RichEditActivity"
-            android:screenOrientation="sensor"
-            android:configChanges="keyboardHidden|orientation|screenSize">
-        </activity>
-        <activity android:name=".FileSelectActivity"></activity>
+        <activity
+            android:name=".RichEditActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor" />
+        <activity android:name=".FileSelectActivity" />
+        <activity
+            android:name=".PDFViewActivity"
+            android:label="@string/title_activity_pdfview"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
+
 </manifest>

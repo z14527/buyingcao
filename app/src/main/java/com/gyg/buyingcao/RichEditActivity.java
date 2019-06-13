@@ -40,7 +40,7 @@ public class RichEditActivity extends AppCompatActivity {
     private TextView mPreview;
     private String txtFilePath = "";
     private String viewType = "";
-    private TextView tvOK = null,tvQuit = null;
+    private TextView tvOK = null,tvQuit = null,tvJump = null;
     private int nPagView = 1;
     private String[] pns = null;
     private String[] kws = null;
@@ -56,6 +56,7 @@ public class RichEditActivity extends AppCompatActivity {
         mEditor = (RichEditor) findViewById(R.id.editor);
         tvOK = (TextView)findViewById(R.id.tv_save);
         tvQuit = (TextView)findViewById(R.id.tv_quit);
+        tvJump = (TextView)findViewById(R.id.tv_jump);
         mEditor.setEditorHeight(500);
         mEditor.setEditorFontSize(25);
         mEditor.setEditorFontColor(Color.RED);
@@ -65,7 +66,7 @@ public class RichEditActivity extends AppCompatActivity {
         mEditor.setPadding(10, 10, 10, 10);
         //    mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
         mEditor.setPlaceholder("Insert text here...");
-
+        tvJump.setVisibility(View.GONE);
         mPreview = (TextView) findViewById(R.id.preview);
         mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override public void onTextChange(String text) {
@@ -114,6 +115,7 @@ public class RichEditActivity extends AppCompatActivity {
             horizontalScrollView.setVisibility(View.GONE);
             tvOK.setText("<= 前一页");
             tvQuit.setText("后一页 =>");
+            tvJump.setVisibility(View.VISIBLE);
             mEditor.setEditorFontColor(Color.BLACK);
             registerClipEvents();
             pns = (new pf()).readfile(txtFilePath,"GBK");
@@ -236,6 +238,38 @@ public class RichEditActivity extends AppCompatActivity {
             }
         });
 
+        tvJump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RichEditActivity.this);
+                builder.setTitle("请输入要跳转的页数：");    //设置对话框标题
+                builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
+                final EditText edit = new EditText(RichEditActivity.this);
+                builder.setView(edit);
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String page1 = edit.getText().toString();
+                        try{
+                            int p1 = Integer.parseInt(page1);
+                            setText(p1);
+                        }catch (Exception e1){
+                            Toast.makeText(RichEditActivity.this,e1.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(RichEditActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
+                AlertDialog dialog = builder.create();  //创建对话框
+                dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+                dialog.show();
+            }
+        });
 
         findViewById(R.id.action_undo).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -426,6 +460,8 @@ public class RichEditActivity extends AppCompatActivity {
                 break;
             }
         }
+        if(n1 == 0)
+            return;
         for(int j = n1 + 1;j<pns.length;j++){
             p=Pattern.compile("^"+(i+1)+"/[0-9]{1,}");
             m=p.matcher(pns[j]);
@@ -539,6 +575,11 @@ public class RichEditActivity extends AppCompatActivity {
                     CharSequence addedText = manager.getPrimaryClip().getItemAt(0).getText();
                     if (addedText != null) {
                         final String pn = addedText.toString();
+                        Pattern p1 = Pattern.compile("^[0-9a-zA-Z]+$");
+                        if(!p1.matcher(pn).matches())
+                            return;
+                        if(pn.length()<5 || pn.length()>18)
+                            return;
                         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                             final String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
                             editor = pref.edit();
@@ -553,7 +594,7 @@ public class RichEditActivity extends AppCompatActivity {
                             builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
                             final TextView tv = new TextView(RichEditActivity.this);
                             builder.setView(tv);
-                            tv.setText("选择复制的内容已经保存!\n是否要立即下载全文?");
+                            tv.setText("选择复制的内容已经保存!\n\n是否要立即下载全文?");
                             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
