@@ -17,8 +17,8 @@
             android:gravity="center">
         </Button>
         <Button
-            android:text="著录项目@-@"
-            android:id="@+id/case_zhulu_view"
+            android:text="申请PDF@-@"
+            android:id="@+id/case_pdf_view"
             android:layout_width="160dip"
             android:layout_height="80dip"
             android:textSize="18dip"
@@ -121,6 +121,14 @@
         <Button
             android:text="备选文件@-@"
             android:id="@+id/case_search_files_select_view"
+            android:layout_width="160dip"
+            android:layout_height="80dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+        <Button
+            android:text="著录项目@-@"
+            android:id="@+id/case_zhulu_view"
             android:layout_width="160dip"
             android:layout_height="80dip"
             android:textSize="18dip"

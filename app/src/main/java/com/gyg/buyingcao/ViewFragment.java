@@ -33,7 +33,7 @@ import static java.lang.Math.min;
 
 public class ViewFragment extends Fragment {
    // private TextView result;
-    private Button btnCaseTxt,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView,btnCaseZhulu;
+    private Button btnCaseTxt,btnCasePdf,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView,btnCaseZhulu;
 
     private File file;
     private String path = "";
@@ -65,13 +65,39 @@ public class ViewFragment extends Fragment {
         btnCaseTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                String sdPath = Environment.getExternalStorageDirectory().getPath() + "/download/";
+                String[] filePaths = {sdPath + "CN" + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".txt", sdPath + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".txt", sdPath + "CN" + strCaseNum + ".txt", sdPath + strCaseNum + ".txt", sdPath + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".txt"};
+                for (int i = 0; i < filePaths.length; i++) {
+                    File f1 = new File(filePaths[i]);
+                    if (f1.exists()) {
+                        Intent intent = new Intent(getContext(), RichEditActivity.class);
+                        intent.putExtra("fname", filePaths[i]);
+                        intent.putExtra("type", "2");
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+        btnCasePdf=(Button)getActivity().findViewById(R.id.case_pdf_view);
+        btnCasePdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".pdf",sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+".pdf",sdPath+"CN"+strCaseNum+".pdf",sdPath+strCaseNum+".pdf",sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".pdf"};
+                for(int i=0;i<filePaths.length;i++){
+                    File f1 = new File(filePaths[i]);
+                    if(f1.exists()) {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            FileProvider7.setIntentDataAndType(getContext(), intent, "application/pdf", f1, true);
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                    }
+                }
             }
         });
         btnCaseZhulu=(Button)getActivity().findViewById(R.id.case_zhulu_view);
