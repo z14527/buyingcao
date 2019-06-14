@@ -187,7 +187,7 @@ public class CaseFragment extends Fragment {
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".c.txt";
                 String strCmd = "echo \"" + strCaseNum +
                         "\" > d:\\temp\\sipoe.txt \n" +
-                        "d:\\workspace\\sipoe0605\\getSipoe.bat d:\\temp\\sipoe.txt";
+                        "d:\\workspace\\sipoe0605\\getSipoeWX.bat d:\\temp\\sipoe.txt";
                 if(strCaseNum.length()<12 && strCaseNum.length()>=10) {
                     txtFilePath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".c.txt";
                     String PCTN = "PCT/CN"+strCaseNum.substring(0,4)+"/"+strCaseNum.substring(4,10);
