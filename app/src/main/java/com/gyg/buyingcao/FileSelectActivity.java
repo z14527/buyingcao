@@ -138,20 +138,22 @@ public class FileSelectActivity extends AppCompatActivity {
             return listText;
         }
         public void checkDelete(){
-            if(strPns==null)
-                return;
-            for (int i=listText.size()-1; i>-1; i--) {
-                if (map.containsKey(i)) {
-                    strPns = strPns.replace(listText.get(i).toString(),"");
-                    listText.remove(i);
+            strCaseNum = pref.getString("CaseNum","");
+            if(!strCaseNum.equals("")){
+                strPns = pref.getString(strCaseNum,"");
+                if(!strPns.equals("")) {
+                    for (int i = listText.size() - 1; i > -1; i--) {
+                        if (map.containsKey(i)) {
+                            strPns = strPns.replace(listText.get(i).toString(), "");
+                            listText.remove(i);
+                        }
+                    }
+                    map.clear();
+                    editor = pref.edit();
+                    editor.putString(strCaseNum, strPns);
+                    editor.commit();
                 }
             }
-            if(!strCaseNum.equals("")) {
-                editor = pref.edit();
-                editor.putString(strCaseNum, strPns);
-                editor.commit();
-            }
-            map.clear();
         }
         @Override
         public int getCount() {
@@ -204,7 +206,7 @@ public class FileSelectActivity extends AppCompatActivity {
                    String pdfFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+listText.get(position)+".pdf";
                    File f1 = new File(pdfFilePath);
                     if(!f1.exists()){
-                        Toast.makeText(getApplication(),"文件不存在：\n" + pdfFilePath, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplication(),"文件不存在：\n" + f1.getName(), Toast.LENGTH_LONG).show();
                         return;
                     }
                     try {

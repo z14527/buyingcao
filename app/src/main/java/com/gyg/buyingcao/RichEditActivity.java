@@ -180,6 +180,11 @@ public class RichEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
               //  Toast.makeText(getApplication(), "viewType="+viewType+";txtFilePath="+txtFilePath, Toast.LENGTH_LONG).show();
+                String cp = pref.getString(strCaseNum+"-page", "");
+                if(!cp.equals(""))
+                    nPagView = Integer.parseInt(cp);
+                else
+                    nPagView = 1;
                 if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                     nPagView--;
                     setText(nPagView);
@@ -229,6 +234,11 @@ public class RichEditActivity extends AppCompatActivity {
         tvQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                String cp = pref.getString(strCaseNum+"-page", "");
+                if(!cp.equals(""))
+                    nPagView = Integer.parseInt(cp);
+                else
+                    nPagView = 1;
                 if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                     nPagView++;
                     setText(nPagView);
@@ -434,10 +444,6 @@ public class RichEditActivity extends AppCompatActivity {
     }
     public void setText(int index){
         int i = index;
-        if(i==1)
-            tvOK.setEnabled(false);
-        else
-            tvOK.setEnabled(true);
         int n1 = 0;
         int n2 = pns.length ;
         boolean en=false;
@@ -471,14 +477,6 @@ public class RichEditActivity extends AppCompatActivity {
             }
          }
         String content = title + "<br>";
-        if(i == 1)
-            tvOK.setEnabled(false);
-        else
-            tvOK.setEnabled(true);
-        if(n2 == pns.length)
-            tvQuit.setEnabled(false);
-        else
-            tvQuit.setEnabled(true);
      //   Toast.makeText(this,"index = " + index + ";n1 = " + n1 + ";n2 = " + n2, Toast.LENGTH_LONG).show();
         for(int j=n1;j<n2;j++) {
             pns[j] = pns[j].replaceAll("[0-9]{4}-[0-9]{2}-[0-9]{2}.*?>>.*?\n","");
@@ -567,7 +565,6 @@ public class RichEditActivity extends AppCompatActivity {
     }
     public void registerClipEvents() {
         final ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
         manager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
             @Override
             public void onPrimaryClipChanged() {
@@ -582,11 +579,16 @@ public class RichEditActivity extends AppCompatActivity {
                             return;
                         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                             final String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                            editor = pref.edit();
                             strCaseNum = pref.getString("CaseNum","");
+                            if(strCaseNum.equals(""))
+                                return;
                             strPns = pref.getString(strCaseNum,"");
                             if(strPns.indexOf(pn)<0) {
-                                editor.putString(strCaseNum, strPns + ";" + pn);
+                                editor = pref.edit();
+                                if(strPns.equals(""))
+                                    editor.putString(strCaseNum, pn);
+                                else
+                                    editor.putString(strCaseNum, strPns + ";" + pn);
                                 editor.commit();
                             }
                             AlertDialog.Builder builder = new AlertDialog.Builder(RichEditActivity.this);
@@ -594,13 +596,13 @@ public class RichEditActivity extends AppCompatActivity {
                             builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
                             final TextView tv = new TextView(RichEditActivity.this);
                             builder.setView(tv);
-                            tv.setText("选择复制的内容已经保存!\n\n是否要立即下载全文?");
+                            tv.setText("选择复制的内容已经保存!\n\n是否要立即下载PDF全文?");
                             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(!(new MyUtil(getApplication()).writeTxtToFile(pn,patentPath,"p"+pn + ".0.pdf")))
+                                    if(!(new MyUtil(RichEditActivity.this).writeTxtToFile(pn,patentPath,"p"+pn + ".0.pdf")))
                                         return;
-                                    Toast.makeText(getApplication(),"写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RichEditActivity.this,"写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
                                     try {
                                         Intent intent = new Intent(Intent.ACTION_SEND);
                                         File file = new File(patentPath,"p"+pn + ".0.pdf");
@@ -609,14 +611,14 @@ public class RichEditActivity extends AppCompatActivity {
                                         intent.setType("*/*");   //分享文件
                                         startActivity(Intent.createChooser(intent, "分享"));
                                     }catch (Exception e) {
-                                        Toast.makeText(getApplication(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RichEditActivity.this,"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getApplication(), "你点了取消", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RichEditActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
                                //     finish();
                                 }
                             });
