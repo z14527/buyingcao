@@ -140,8 +140,8 @@ public class SearchFragment extends Fragment {
                 File f4 = new File(txtFilePath);
                 if(f4.exists()) {
                     String[] jss = new pf().readfile(txtFilePath, "GBK");
-                    String caseApd = pref.getString("CaseApd", "");
-                    String caseClass = pref.getString("CaseClass", "");
+                    String caseApd = pref.getString(strCaseNum+"-CaseApd", "");
+                    String caseClass = pref.getString(strCaseNum+"-CaseClass", "");
                     for (int i = 0; i < jss.length; i++) {
                         if (!caseApd.equals("") && jss[i].indexOf("pd<=") >= 0 && caseApd.length()>=8) {
                             String ap1 = caseApd.substring(0, 4) + "-" + caseApd.substring(4, 6) + "-" + caseApd.substring(6, 8);

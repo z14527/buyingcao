@@ -146,7 +146,7 @@ public class MainActivity extends PermissionAppCompatActivity {
     //切换Fragment
     private void switchFragment(int lastfragment,int index)
     {
-         FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
         transaction.hide(fragments[lastfragment]);//隐藏上个Fragment
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         strCaseNum = pref.getString("CaseNum","");
@@ -310,12 +310,12 @@ class MyUtil {
 
 }
 class pf {
-      /**
+    /**
      * @describe 压缩多个文件
      * @author zfc
      * @date 2018年1月11日 下午8:34:00
      */
-      public void zipFiles(File[] srcFiles, File zipFile) {
+    public void zipFiles(File[] srcFiles, File zipFile) {
             // 判断压缩后的文件存在不，不存在则创建
             if (!zipFile.exists()) {
                 try {

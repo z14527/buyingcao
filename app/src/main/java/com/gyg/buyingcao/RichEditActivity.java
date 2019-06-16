@@ -508,7 +508,7 @@ public class RichEditActivity extends AppCompatActivity {
         }
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         if(strCaseApd == null)
-            strCaseApd = pref.getString("CaseApd","");
+            strCaseApd = pref.getString(strCaseNum+"-CaseApd","");
         int m1 = 0;
         for(String kw1:kws){
             m1=(m1+1)%colors.length;

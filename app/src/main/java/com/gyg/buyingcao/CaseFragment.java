@@ -1,6 +1,8 @@
 package com.gyg.buyingcao;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -37,7 +39,7 @@ import static java.lang.Math.min;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx,btnDSCAJ,btnResetEA;
+    private Button btnImport,btnOK,btnDTxt,btnDPdf,btnClear,btnExec,btnGetFile,btnGetSx,btnDSCAJ,btnResetEA,btnHistory;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -55,8 +57,20 @@ public class CaseFragment extends Fragment {
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
       //  textView=(TextView)getActivity().findViewById(R.id.case_textView1);
         strCaseNum = pref.getString("CaseNum","");
-        strCaseApd = pref.getString("CaseApd","");
-        strCaseClass = pref.getString("CaseClass","");
+        if(strCaseNum.equals("")) {
+            String strCaseNumInfo = pref.getString("CaseNumInfo", "");
+            if (!strCaseNumInfo.equals("")) {
+                int i1 = strCaseNumInfo.indexOf(";");
+                if (i1 >= 0)
+                    strCaseNum = strCaseNumInfo.substring(0, i1);
+                else
+                    strCaseNum = strCaseNumInfo;
+            }
+        }
+        if(!strCaseNum.equals("")) {
+            strCaseApd = pref.getString(strCaseNum+"-CaseApd","");
+            strCaseClass = pref.getString(strCaseNum+"-CaseClass","");
+        }
         numEText=(EditText)getActivity().findViewById(R.id.case_number);
         apdEText=(EditText)getActivity().findViewById(R.id.case_date);
         classEText=(EditText)getActivity().findViewById(R.id.case_class);
@@ -149,9 +163,17 @@ public class CaseFragment extends Fragment {
                 editor = pref.edit();
                 strCaseApd = apdEText.getText().toString();
                 strCaseClass = classEText.getText().toString();
+                String strCaseNumInfo = pref.getString("CaseNumInfo","");
+                if(strCaseNumInfo.indexOf(strCaseNum)<0) {
+                    if (strCaseNumInfo.equals(""))
+                        strCaseNumInfo = strCaseNum;
+                    else
+                        strCaseNumInfo = strCaseNum + ";" + strCaseNumInfo;
+                }
+                editor.putString("CaseNumInfo",strCaseNumInfo);
                 editor.putString("CaseNum",strCaseNum);
-                editor.putString("CaseApd",strCaseApd);
-                editor.putString("CaseClass",strCaseClass);
+                editor.putString(strCaseNum+"-CaseApd",strCaseApd);
+                editor.putString(strCaseNum+"-CaseClass",strCaseClass);
                 editor.commit();
                 numEText.setText(strCaseNum);
             }
@@ -164,6 +186,41 @@ public class CaseFragment extends Fragment {
                 apdEText.setText("");
                 classEText.setText("");
              }
+        });
+        btnHistory=(Button)getActivity().findViewById(R.id.case_history);
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String strCaseNumInfo = pref.getString("CaseNumInfo", "");
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                //builder.setIcon(R.drawable.ic_launcher);
+                builder.setIcon(android.R.drawable.btn_star);
+                if (!strCaseNumInfo.equals(""))
+                {
+                    final String[] nStrCaseNum= strCaseNumInfo.split(";");
+                     //设置对话框标题前的图标
+                    builder.setTitle("选择一个历史案例");
+                    builder.setItems(nStrCaseNum, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                strCaseNum = nStrCaseNum[which];
+                                Toast.makeText(getContext(), "选择的历史案例为：" + strCaseNum, Toast.LENGTH_SHORT).show();
+                                if(!strCaseNum.equals("")) {
+                                    strCaseApd = pref.getString(strCaseNum+"-CaseApd","");
+                                    strCaseClass = pref.getString(strCaseNum+"-CaseClass","");
+                                }
+                                numEText.setText(strCaseNum);
+                                apdEText.setText(strCaseApd);
+                                classEText.setText(strCaseClass);
+                            }
+                        });
+                } else {
+                    builder.setMessage("无可下载的历史数据库");
+                }
+                AlertDialog dialog = builder.create();  //创建对话框
+                dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+                dialog.show();
+            }
         });
         btnExec=(Button)getActivity().findViewById(R.id.case_exec);
         btnExec.setOnClickListener(new View.OnClickListener() {
