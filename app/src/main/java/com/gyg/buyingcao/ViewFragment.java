@@ -65,69 +65,69 @@ public class ViewFragment extends Fragment {
         btnCaseTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".txt","2");
             }
         });
         btnCasePdf=(Button)getActivity().findViewById(R.id.case_pdf_view);
         btnCasePdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".pdf","0");
+                new pf().viewFileByType(getContext(),strCaseNum,".pdf","0");
             }
         });
         btnCaseZhulu=(Button)getActivity().findViewById(R.id.case_zhulu_view);
         btnCaseZhulu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType("-著录项目.txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,"-著录项目.txt","2");
             }
         });
         btnCaseKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".2.txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".2.txt","2");
             }
         });
         btnCaseCNKeyExpand=(Button)getActivity().findViewById(R.id.case_cn_key_expand_view);
         btnCaseCNKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".3.txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".3.txt","2");
             }
         });
         btnCaseENKeyExpand=(Button)getActivity().findViewById(R.id.case_en_key_expand_view);
         btnCaseENKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".3.e.txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".3.e.txt","2");
             }
         });
         btnCaseCNSearch=(Button)getActivity().findViewById(R.id.case_cn_search_view);
         btnCaseCNSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".4.txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".4.txt","2");
             }
          });
         btnCaseENSearch=(Button)getActivity().findViewById(R.id.case_en_search_view);
         btnCaseENSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".4.e.txt","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".4.e.txt","2");
             }
         });
         btnCaseSearchRunHistory=(Button)getActivity().findViewById(R.id.case_search_run_history_view);
         btnCaseSearchRunHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".log","2");
+                new pf().viewFileByType(getContext(),strCaseNum,".log","2");
             }
         });
         btnCaseResultView=(Button)getActivity().findViewById(R.id.case_search_result_view);
         btnCaseResultView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewFileByType(".log","3");
+                new pf().viewFileByType(getContext(),strCaseNum,".log","3");
             }
         });
         btnCaseSearchFileSelectView=(Button)getActivity().findViewById(R.id.case_search_files_select_view);
@@ -156,32 +156,7 @@ public class ViewFragment extends Fragment {
             }
         });
     }
-    public void viewFileByType(String type1,String type2){
-        String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-        String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
-        for(int i=0;i<filePaths.length;i++) {
-            File f1 = new File(filePaths[i]);
-            if (f1.exists()) {
-                if(type1.indexOf(".txt")>=0 && !type1.equals("0")) {
-                    Intent intent = new Intent(getContext(), RichEditActivity.class);
-                    intent.putExtra("fname", f1.getAbsolutePath());
-                    intent.putExtra("type", type2);
-                    startActivity(intent);
-                }
-                if(type1.indexOf(".pdf")>=0 && type1.equals("0")) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        FileProvider7.setIntentDataAndType(getContext(), intent, "application/pdf", f1, true);
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
-                    }
-                }
-                break;
-            }
-        }
-    }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {

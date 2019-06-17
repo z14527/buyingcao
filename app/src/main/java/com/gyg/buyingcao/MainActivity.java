@@ -2,8 +2,10 @@ package com.gyg.buyingcao;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rxpermisson.PermissionAppCompatActivity;
+import com.zhy.base.fileprovider.FileProvider7;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -39,6 +42,7 @@ import java.util.zip.ZipOutputStream;
 
 import rx.Subscriber;
 
+import static java.lang.Math.min;
 import static java.security.AccessController.getContext;
 
 public class MainActivity extends PermissionAppCompatActivity {
@@ -310,6 +314,42 @@ class MyUtil {
 
 }
 class pf {
+    public void viewFileByType(Context contex,String strCaseNum,String type1,String type2){
+        String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+        String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
+        for(int i=0;i<filePaths.length;i++) {
+            File f1 = new File(filePaths[i]);
+            if (f1.exists()) {
+                if((type1.indexOf(".txt")>=0 || type1.indexOf(".log")>=0) && !type2.equals("0")) {
+                    Intent intent = new Intent(contex, RichEditActivity.class);
+                    intent.putExtra("fname", f1.getAbsolutePath());
+                    intent.putExtra("type", type2);
+                    contex.startActivity(intent);
+                }
+                if(type1.indexOf(".pdf")>=0 && type2.equals("0")) {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        FileProvider7.setIntentDataAndType(contex, intent, "application/pdf", f1, true);
+                        contex.startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(contex, "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+            }
+        }
+    }
+    public String getFilePathByType(Context contex,String strCaseNum,String type1,String type2){
+        String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+        String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
+        for(int i=0;i<filePaths.length;i++) {
+            File f1 = new File(filePaths[i]);
+            if (f1.exists())
+                return f1.getAbsolutePath();
+        }
+        return "";
+    }
     /**
      * @describe 压缩多个文件
      * @author zfc

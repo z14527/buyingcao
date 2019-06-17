@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment {
                     patentPath3 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.e.txt";
                 }
                 if(cbSearchEnglish.isChecked())
-                    zipFilePath = zipFilePath.replace("3.zip",".3.e.zip");
+                    zipFilePath = zipFilePath.replace(".3.zip",".3.e.zip");
                 File[] files = new File[3];
                 files[0] = new File(patentPath1);
                 files[1] = new File(patentPath2);
@@ -129,14 +129,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = pref.getString("CaseNum","");
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".4.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".4.txt";
-                if(cbSearchEnglish.isChecked()) {
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".4.e.txt";
-                    if (strCaseNum.length() < 12 && strCaseNum.length() >= 8)
-                        txtFilePath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 8) + ".4.e.txt";
-                }
+                String txtFilePath = new pf().getFilePathByType(getContext(),strCaseNum,".4.txt","2");
+                if(cbSearchEnglish.isChecked())
+                    txtFilePath = new pf().getFilePathByType(getContext(),strCaseNum,".4.e.txt","2");
                 File f4 = new File(txtFilePath);
                 if(f4.exists()) {
                     String[] jss = new pf().readfile(txtFilePath, "GBK");
@@ -180,14 +175,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = pref.getString("CaseNum","");
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".4.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".4.txt";
-                if(cbSearchEnglish.isChecked()) {
-                    patentPath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".4.e.txt";
-                    if (strCaseNum.length() < 12 && strCaseNum.length() >= 8)
-                        patentPath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 8) + ".4.e.txt";
-                }
+                String patentPath = new pf().getFilePathByType(getContext(),strCaseNum,".4.txt","2");
+                if(cbSearchEnglish.isChecked())
+                    patentPath = new pf().getFilePathByType(getContext(),strCaseNum,".4.e.txt","2");
                 File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
