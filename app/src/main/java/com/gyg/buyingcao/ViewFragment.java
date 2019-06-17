@@ -65,164 +65,84 @@ public class ViewFragment extends Fragment {
         btnCaseTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String sdPath = Environment.getExternalStorageDirectory().getPath() + "/download/";
-                String[] filePaths = {sdPath + "CN" + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".txt", sdPath + strCaseNum.substring(0, min(strCaseNum.length(), 12)) + ".txt", sdPath + "CN" + strCaseNum + ".txt", sdPath + strCaseNum + ".txt", sdPath + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".txt"};
-                for (int i = 0; i < filePaths.length; i++) {
-                    File f1 = new File(filePaths[i]);
-                    if (f1.exists()) {
-                        Intent intent = new Intent(getContext(), RichEditActivity.class);
-                        intent.putExtra("fname", filePaths[i]);
-                        intent.putExtra("type", "2");
-                        startActivity(intent);
-                    }
-                }
+                viewFileByType(".txt","2");
             }
         });
         btnCasePdf=(Button)getActivity().findViewById(R.id.case_pdf_view);
         btnCasePdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".pdf",sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+".pdf",sdPath+"CN"+strCaseNum+".pdf",sdPath+strCaseNum+".pdf",sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".pdf"};
-                for(int i=0;i<filePaths.length;i++){
-                    File f1 = new File(filePaths[i]);
-                    if(f1.exists()) {
-                        try {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            FileProvider7.setIntentDataAndType(getContext(), intent, "application/pdf", f1, true);
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            Toast.makeText(getContext(), "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
-                        }
-                        break;
-                    }
-                }
+                viewFileByType(".pdf","0");
             }
         });
         btnCaseZhulu=(Button)getActivity().findViewById(R.id.case_zhulu_view);
         btnCaseZhulu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+"-著录项目.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+"-著录项目.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType("-著录项目.txt","2");
             }
         });
         btnCaseKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".2.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".2.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType(".2.txt","2");
             }
         });
         btnCaseCNKeyExpand=(Button)getActivity().findViewById(R.id.case_cn_key_expand_view);
         btnCaseCNKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".3.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType(".3.txt","2");
             }
         });
         btnCaseENKeyExpand=(Button)getActivity().findViewById(R.id.case_en_key_expand_view);
         btnCaseENKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".3.e.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.e.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType(".3.e.txt","2");
             }
         });
         btnCaseCNSearch=(Button)getActivity().findViewById(R.id.case_cn_search_view);
         btnCaseCNSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".4.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".4.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType(".4.txt","2");
             }
          });
         btnCaseENSearch=(Button)getActivity().findViewById(R.id.case_en_search_view);
         btnCaseENSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".4.e.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".4.e.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType(".4.e.txt","2");
             }
         });
         btnCaseSearchRunHistory=(Button)getActivity().findViewById(R.id.case_search_run_history_view);
         btnCaseSearchRunHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".log";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".log";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","2");
-                startActivity(intent);
+                viewFileByType(".log","2");
             }
         });
         btnCaseResultView=(Button)getActivity().findViewById(R.id.case_search_result_view);
         btnCaseResultView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".log";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".log";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","3");
-                startActivity(intent);
-            //    Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
+                viewFileByType(".log","3");
             }
         });
         btnCaseSearchFileSelectView=(Button)getActivity().findViewById(R.id.case_search_files_select_view);
         btnCaseSearchFileSelectView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,12)+".log";
                 Intent intent = new Intent(getContext(),FileSelectActivity.class);
-                //intent.putExtra("fname",txtFilePath);
-                //intent.putExtra("type","3");
                 startActivity(intent);
-                //    Toast.makeText(getActivity(),"概览", Toast.LENGTH_SHORT).show();
             }
         });
         btnSxFileView=(Button)getActivity().findViewById(R.id.case_sx_view);
         btnSxFileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".s.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".s.txt";
+                String txtFilePath = "";
                 String txtFilePath1 = Environment.getExternalStorageDirectory().getPath()+"/download/";
                 List<File> fileList = new pf().listFileSortByModifyTime(txtFilePath1);
                 for(File file1: fileList){
@@ -235,6 +155,32 @@ public class ViewFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+    public void viewFileByType(String type1,String type2){
+        String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+        String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
+        for(int i=0;i<filePaths.length;i++) {
+            File f1 = new File(filePaths[i]);
+            if (f1.exists()) {
+                if(type1.indexOf(".txt")>=0 && !type1.equals("0")) {
+                    Intent intent = new Intent(getContext(), RichEditActivity.class);
+                    intent.putExtra("fname", f1.getAbsolutePath());
+                    intent.putExtra("type", type2);
+                    startActivity(intent);
+                }
+                if(type1.indexOf(".pdf")>=0 && type1.equals("0")) {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        FileProvider7.setIntentDataAndType(getContext(), intent, "application/pdf", f1, true);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+            }
+        }
     }
 
     @Override
