@@ -90,8 +90,15 @@ public class FileSelectActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 List<String> list = adapter.getSelectText();
                 String[] fs = new String[list.size()];
-                for(int i=0;i<list.size();i++)
+                for(int i=0;i<list.size();i++) {
                     fs[i] = list.get(i).toString();
+                    int k1 = fs[i].lastIndexOf("A");
+                    int k2 = fs[i].lastIndexOf("B");
+                    if(k1>3)
+                        fs[i] =  fs[i].substring(0,k1);
+                    if(k2>3)
+                        fs[i] =  fs[i].substring(0,k2);
+                }
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum + ".n.pdf";
                 new pf().writefile(txtFilePath,"GBK",fs);
                 File f1 = new File(txtFilePath);
@@ -221,6 +228,28 @@ public class FileSelectActivity extends AppCompatActivity {
 //                    Intent intent = new Intent(getApplication(),PDFViewActivity.class);
 //                    intent.putExtra("fname",pdfFilePath);
 //                    startActivity(intent);
+                }
+            });
+            final TextView fyView = (TextView)view.findViewById(R.id.tv_select_fanyi);
+            fyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String fn= listText.get(position);
+                    String pn1 = fn.substring(0,2);
+                    String pn2 = fn.substring(2);
+                    String pn3 = "A1";
+                    if(pn2.contains("A")) {
+                        pn3 = pn2.substring(pn2.indexOf("A"));
+                        pn2 = pn2.substring(0, pn2.indexOf("A"));
+                    }
+                    if(pn2.contains("B")) {
+                        pn3 = pn2.substring(pn2.indexOf("B"));
+                        pn2 = pn2.substring(0, pn2.indexOf("B"));
+                    }
+                    String url = "http://translationportal.epo.org/emtp/translate/?ACTION=description-retrieval&COUNTRY=" + pn1 + "&ENGINE=google&FORMAT=docdb&KIND=" + pn3 + "&LOCALE=en_EP&NUMBER=" + pn2 + "&OPS=ops.epo.org/3.2&SRCLANG=en&TRGLANG=zh";
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    getApplicationContext().startActivity(intent);
                 }
             });
             if(map!=null&&map.containsKey(position)){
