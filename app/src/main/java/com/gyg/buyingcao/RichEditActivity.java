@@ -579,6 +579,7 @@ public class RichEditActivity extends AppCompatActivity {
                             return;
                         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
                             final String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
+                            pref = PreferenceManager.getDefaultSharedPreferences(getApplication());
                             strCaseNum = pref.getString("CaseNum","");
                             if(strCaseNum.equals(""))
                                 return;
@@ -590,6 +591,9 @@ public class RichEditActivity extends AppCompatActivity {
                                 else
                                     editor.putString(strCaseNum, strPns + ";" + pn);
                                 editor.commit();
+                            }else{
+                                Toast.makeText(RichEditActivity.this,pn+" 已经是备选文件", Toast.LENGTH_LONG).show();
+                                return;
                             }
                             AlertDialog.Builder builder = new AlertDialog.Builder(RichEditActivity.this);
                             builder.setTitle("提示");    //设置对话框标题
