@@ -2,210 +2,208 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+    android:layout_height="fill_parent">
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#ffcc66"
+        android:orientation="vertical"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
         android:paddingTop="5dip">
         <LinearLayout
             android:id="@+id/LinearLayout01"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:background="#ffcc66"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
             <TextView
-                android:text="申请号："
                 android:id="@+id/case_number_text"
-                android:textColor="#222222"
                 android:layout_width="wrap_content"
                 android:layout_height="50dip"
                 android:layout_marginLeft="5dip"
-                android:textSize="18dip"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:text="申请号："
+                android:textColor="#222222"
+                android:textSize="18dip">
             </TextView>
             <EditText
                 android:id="@+id/case_number"
-                android:singleLine="true"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dip"
                 android:hint="请输入专利申请号"
+                android:singleLine="true"
                 android:text="">
             </EditText>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/LinearLayout02"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#ffcc66"
+            android:orientation="horizontal">
             <TextView
-                android:text="申请日："
                 android:id="@+id/case_date_text"
-                android:textColor="#222222"
                 android:layout_width="wrap_content"
                 android:layout_height="40dip"
                 android:layout_marginLeft="5dip"
-                android:textSize="18dip"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:text="申请日："
+                android:textColor="#222222"
+                android:textSize="18dip">
             </TextView>
             <EditText
                 android:id="@+id/case_date"
-                android:singleLine="true"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="请输入专利申请日期（xxxx-x-xx)"
+                android:singleLine="true"
                 android:text="">
             </EditText>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/LinearLayout03"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#ffcc66"
+            android:orientation="horizontal">
             <TextView
-                android:text="分类号："
                 android:id="@+id/case_class_text"
-                android:textColor="#222222"
                 android:layout_width="wrap_content"
                 android:layout_height="50dip"
                 android:layout_marginLeft="5dip"
-                android:textSize="18dip"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:text="分类号："
+                android:textColor="#222222"
+                android:textSize="18dip">
             </TextView>
             <EditText
                 android:id="@+id/case_class"
-                android:singleLine="true"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="请输入专利分类号（多个用英文逗号,分开)"
+                android:singleLine="true"
                 android:text="">
             </EditText>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/LinearLayout04"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Button
-                android:text="历史"
                 android:id="@+id/case_history"
-                android:layout_width="120dip"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text="历史"
+                android:textSize="18dip">
             </Button>
             <Button
-                android:text="导入"
                 android:id="@+id/case_import"
-                android:layout_width="120dip"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
-            </Button>
-            <Button
-                android:text="确定"
-                android:id="@+id/case_ok"
-                android:layout_width="120dip"
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
-            </Button>
-            <Button
-                android:text=" 清空 "
-                android:id="@+id/case_clear"
-                android:layout_width="120dip"
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text="导入"
+                android:textSize="18dip">
             </Button>
         </LinearLayout>
         <LinearLayout
-                android:id="@+id/LinearLayout05"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:id="@+id/LinearLayout07"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Button
-                android:text=" pdf下载 "
-                android:id="@+id/case_pdf_down"
-                android:layout_width="120dip"
+                android:id="@+id/case_ok"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text="保存"
+                android:textSize="18dip">
             </Button>
             <Button
-                android:text="文本下载"
-                android:id="@+id/case_txt_down"
-                android:layout_width="120dip"
+                android:id="@+id/case_clear"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text=" 清空 "
+                android:textSize="18dip">
             </Button>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LinearLayout09"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Button
-                android:text=" 执行命令 "
                 android:id="@+id/case_exec"
-                android:layout_width="120dip"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text=" 执行命令 "
+                android:textSize="18dip">
+            </Button>
+            <Button
+                android:id="@+id/case_get_file"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="下载指定文件"
+                android:textSize="18dip">
             </Button>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/LinearLayout06"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Button
-                android:text="下载指定文件"
-                android:id="@+id/case_get_file"
+                android:id="@+id/case_set_account_sx"
                 android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
-            </Button>
-            <Button
-                android:text="下载审限数据"
-                android:id="@+id/case_get_sx"
+                android:gravity="center"
+                android:text="设置审限账号"
+                android:textSize="18dip">
+            </Button>           <Button
+                android:id="@+id/case_get_real_sx"
                 android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text="下载实时审限"
+                android:textSize="18dip">
             </Button>
-        </LinearLayout>
+
+         </LinearLayout>
         <LinearLayout
-            android:id="@+id/LinearLayout08"
-            android:orientation="horizontal"
+            android:id="@+id/LinearLayout010"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Button
-                android:text="下载审查案卷"
                 android:id="@+id/case_get_exam"
                 android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text="下载审查案卷"
+                android:textSize="18dip">
             </Button>
             <Button
-                android:text="重启远程服务"
                 android:id="@+id/case_reset_ea"
                 android:layout_width="150dip"
+                android:layout_height="60dip"
                 android:layout_weight="1"
-                android:layout_height="50dip"
-                android:textSize="18dip"
-                android:gravity="center">
+                android:gravity="center"
+                android:text="重启远程服务"
+                android:textSize="18dip">
             </Button>
         </LinearLayout>
     </LinearLayout>
