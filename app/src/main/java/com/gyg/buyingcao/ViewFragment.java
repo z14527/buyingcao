@@ -33,7 +33,7 @@ import static java.lang.Math.min;
 
 public class ViewFragment extends Fragment {
    // private TextView result;
-    private Button btnCaseTxt,btnCasePdf,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView,btnCaseZhulu;
+    private Button btnCaseTxt,btnCasePdf,btnCaseKey,btnCaseCNKeyExpand,btnCaseENKeyExpand,btnCaseCNSearch,btnCaseENSearch,btnCaseSearchRunHistory,btnCaseResultView,btnCaseSearchFileSelectView,btnSxFileView,btnCaseZhulu,btnCaseSearchReport;
 
     private File file;
     private String path = "";
@@ -80,6 +80,13 @@ public class ViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 new pf().viewFileByType(getContext(),strCaseNum,"-著录项目.txt","2");
+            }
+        });
+        btnCaseSearchReport=(Button)getActivity().findViewById(R.id.case_search_report_view);
+        btnCaseSearchReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new pf().viewFileByType(getContext(),strCaseNum,"-检索报告.txt","2");
             }
         });
         btnCaseKey.setOnClickListener(new View.OnClickListener() {

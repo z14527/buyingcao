@@ -340,7 +340,7 @@ class pf {
             }
         }
     }
-    public String getFilePathByType(Context contex,String strCaseNum,String type1,String type2){
+    public String getFilePathByType(String strCaseNum,String type1){
         String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
         String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
         for(int i=0;i<filePaths.length;i++) {

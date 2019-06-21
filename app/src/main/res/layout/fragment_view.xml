@@ -12,7 +12,7 @@
             android:text="申请文本@-@"
             android:id="@+id/case_txt_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -20,7 +20,7 @@
             android:text="申请PDF@-@"
             android:id="@+id/case_pdf_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -34,7 +34,7 @@
             android:text="审限文件@-@"
             android:id="@+id/case_sx_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -42,7 +42,7 @@
             android:text="关键词@-@"
             android:id="@+id/case_key_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -53,18 +53,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <Button
-            android:text="中文关键词扩展@-@"
+            android:text="中文扩展@-@"
             android:id="@+id/case_cn_key_expand_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
         <Button
-            android:text="英文关键词扩展@-@"
+            android:text="英文扩展@-@"
             android:id="@+id/case_en_key_expand_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -78,7 +78,7 @@
             android:text="中文检索式@-@"
             android:id="@+id/case_cn_search_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -86,7 +86,7 @@
             android:text="英文检索式@-@"
             android:id="@+id/case_en_search_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -100,7 +100,7 @@
             android:text="检索结果@-@"
             android:id="@+id/case_search_run_history_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -108,7 +108,7 @@
             android:text="逐篇概览@-@"
             android:id="@+id/case_search_result_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -122,7 +122,7 @@
             android:text="备选文件@-@"
             android:id="@+id/case_search_files_select_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
@@ -130,10 +130,23 @@
             android:text="著录项目@-@"
             android:id="@+id/case_zhulu_view"
             android:layout_width="160dip"
-            android:layout_height="80dip"
+            android:layout_height="60dip"
             android:textSize="18dip"
             android:gravity="center">
         </Button>
     </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/LinearLayout15"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="检索报告@-@"
+            android:id="@+id/case_search_report_view"
+            android:layout_width="160dip"
+            android:layout_height="60dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
+    </LinearLayout>
 </LinearLayout>

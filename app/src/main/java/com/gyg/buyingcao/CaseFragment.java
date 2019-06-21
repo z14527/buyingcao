@@ -84,29 +84,29 @@ public class CaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
-                 String patentTxTPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".txt";
-                File txtFile =new File(patentTxTPath);
-                if(!txtFile.exists()) {
-                    Toast.makeText(getActivity(),"目标文件：\n" + patentTxTPath + "不存在", Toast.LENGTH_LONG).show();
+                String patentTxTPath = new pf().getFilePathByType(strCaseNum,"-著录项目.txt");
+                File txtFile = new File(patentTxTPath);
+                if (!txtFile.exists()) {
+                    Toast.makeText(getActivity(), "目标文件：\n" + patentTxTPath + "不存在", Toast.LENGTH_LONG).show();
                     return;
                 }
-          //      Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
+                //      Toast.makeText(getActivity(),"找到目标文件：\n" + patentTxTPath , Toast.LENGTH_LONG).show();
+                String strApd = "";
+                String strIc = "";
                 try {
-                    String pTxt = new MyUtil(getActivity()).readFileData(patentTxTPath);
-                    String[] ptn = pTxt.split("\n");
-                    if (ptn.length > 3) {
-                        String strIC = ptn[1];
-                        String strAP = ptn[0];
-                        String ic = "";
-                        if(strIC.indexOf("/")>0) {
-                            ic = strIC.substring(strIC.indexOf("-") + 1, strIC.indexOf("/"));
-                        }
-                        String ap = strAP.substring(strAP.lastIndexOf(" ") + 1);
-                        apdEText.setText(ap);
-                        classEText.setText(ic);
+                    String[] zlxm = new pf().readfile(patentTxTPath, "GBK");
+                    if (zlxm.length >= 2) {
+                        String[] pTxt1 = zlxm[0].split("=");
+                        if (pTxt1.length > 1)
+                            strApd = pTxt1[1];
+                        String[] pTxt2 = zlxm[1].split("=");
+                        if (pTxt2.length > 1)
+                            strIc = pTxt2[1];
+                        apdEText.setText(strApd);
+                        classEText.setText(strIc);
                     }
-                }catch(Exception e1){
-                    Toast.makeText(getActivity(),e1.toString(), Toast.LENGTH_LONG).show();
+                } catch (Exception e1) {
+                    Toast.makeText(getActivity(), e1.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });

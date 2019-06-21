@@ -106,7 +106,7 @@
                 android:layout_height="60dip"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="导入"
+                android:text="著录项目导入"
                 android:textSize="18dip">
             </Button>
         </LinearLayout>

@@ -129,9 +129,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = pref.getString("CaseNum","");
-                String txtFilePath = new pf().getFilePathByType(getContext(),strCaseNum,".4.txt","2");
+                String txtFilePath = new pf().getFilePathByType(strCaseNum,".4.txt");
                 if(cbSearchEnglish.isChecked())
-                    txtFilePath = new pf().getFilePathByType(getContext(),strCaseNum,".4.e.txt","2");
+                    txtFilePath = new pf().getFilePathByType(strCaseNum,".4.e.txt");
                 File f4 = new File(txtFilePath);
                 if(f4.exists()) {
                     String[] jss = new pf().readfile(txtFilePath, "GBK");
@@ -175,9 +175,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = pref.getString("CaseNum","");
-                String patentPath = new pf().getFilePathByType(getContext(),strCaseNum,".4.txt","2");
+                String patentPath = new pf().getFilePathByType(strCaseNum,".4.txt");
                 if(cbSearchEnglish.isChecked())
-                    patentPath = new pf().getFilePathByType(getContext(),strCaseNum,".4.e.txt","2");
+                    patentPath = new pf().getFilePathByType(strCaseNum,".4.e.txt");
                 File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
