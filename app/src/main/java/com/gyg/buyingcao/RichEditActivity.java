@@ -73,6 +73,7 @@ public class RichEditActivity extends AppCompatActivity {
                 mPreview.setText(text);
             }
         });
+        registerClipEvents();
         File txtFile = null;
         txtFilePath = getIntent().getStringExtra("fname");
         viewType = getIntent().getStringExtra("type");
@@ -117,7 +118,6 @@ public class RichEditActivity extends AppCompatActivity {
             tvQuit.setText("后一页 =>");
             tvJump.setVisibility(View.VISIBLE);
             mEditor.setEditorFontColor(Color.BLACK);
-            registerClipEvents();
             pns = (new pf()).readfile(txtFilePath,"GBK");
             boolean fpos = false;
             for(int k=0;k<pns.length;k++){
@@ -577,24 +577,25 @@ public class RichEditActivity extends AppCompatActivity {
                             return;
                         if(pn.length()<5 || pn.length()>18)
                             return;
-                        if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
-                            final String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                            pref = PreferenceManager.getDefaultSharedPreferences(getApplication());
-                            strCaseNum = pref.getString("CaseNum","");
-                            if(strCaseNum.equals(""))
-                                return;
-                            strPns = pref.getString(strCaseNum,"");
-                            if(strPns.indexOf(pn)<0) {
-                                editor = pref.edit();
-                                if(strPns.equals(""))
-                                    editor.putString(strCaseNum, pn);
-                                else
-                                    editor.putString(strCaseNum, strPns + ";" + pn);
-                                editor.commit();
-                            }else{
-                                Toast.makeText(RichEditActivity.this,pn+" 已经是备选文件", Toast.LENGTH_LONG).show();
-                                return;
-                            }
+
+                        final String patentPath = Environment.getExternalStorageDirectory().getPath() + "/download/";
+                        pref = PreferenceManager.getDefaultSharedPreferences(getApplication());
+                        strCaseNum = pref.getString("CaseNum", "");
+                        if (strCaseNum.equals(""))
+                            return;
+                        strPns = pref.getString(strCaseNum, "");
+                        if (strPns.indexOf(pn) < 0) {
+                            editor = pref.edit();
+                            if (strPns.equals(""))
+                                editor.putString(strCaseNum, pn);
+                            else
+                                editor.putString(strCaseNum, strPns + ";" + pn);
+                            editor.commit();
+                        } else {
+                            Toast.makeText(RichEditActivity.this, pn + " 已经是备选文件", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        if (viewType.equals("3") && txtFilePath.indexOf(".log") > 0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(RichEditActivity.this);
                             builder.setTitle("提示");    //设置对话框标题
                             builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
@@ -604,18 +605,18 @@ public class RichEditActivity extends AppCompatActivity {
                             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(!(new MyUtil(RichEditActivity.this).writeTxtToFile(pn,patentPath,"p"+pn + ".0.pdf")))
+                                    if (!(new MyUtil(RichEditActivity.this).writeTxtToFile(pn, patentPath, "p" + pn + ".0.pdf")))
                                         return;
-                                    Toast.makeText(RichEditActivity.this,"写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RichEditActivity.this, "写文件成功：\n" + pn + ".0.pdf", Toast.LENGTH_SHORT).show();
                                     try {
                                         Intent intent = new Intent(Intent.ACTION_SEND);
-                                        File file = new File(patentPath,"p"+pn + ".0.pdf");
-                                        Uri uri = FileProvider7.getUriForFile(getApplication(),file);
+                                        File file = new File(patentPath, "p" + pn + ".0.pdf");
+                                        Uri uri = FileProvider7.getUriForFile(getApplication(), file);
                                         intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
                                         intent.setType("*/*");   //分享文件
                                         startActivity(Intent.createChooser(intent, "分享"));
-                                    }catch (Exception e) {
-                                        Toast.makeText(RichEditActivity.this,"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                                    } catch (Exception e) {
+                                        Toast.makeText(RichEditActivity.this, "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -623,7 +624,7 @@ public class RichEditActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(RichEditActivity.this, "你点了取消", Toast.LENGTH_SHORT).show();
-                               //     finish();
+                                    //     finish();
                                 }
                             });
 //                            builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
