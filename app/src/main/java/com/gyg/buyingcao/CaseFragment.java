@@ -295,13 +295,13 @@ public class CaseFragment extends Fragment {
                                 if (!strSXAccount.equals("")) {
                                     String[] nStrSXAccount1 = strSXAccount.split(";");
                                     for (int k = 0; k < nStrSXAccount1.length && k < nStrSXAccount.length; k++)
-                                        nStrSXAccount1[k] = nStrSXAccount[k];
-                                    String en = nStrSXAccount1[0];
-                                    String ep = nStrSXAccount1[1];
-                                    String pn = nStrSXAccount1[2];
-                                    String pp = nStrSXAccount1[3];
-                                    String fn = nStrSXAccount1[4];
-                                    String fp = nStrSXAccount1[5];
+                                        nStrSXAccount[k] = nStrSXAccount1[k];
+                                    String en = nStrSXAccount[0];
+                                    String ep = nStrSXAccount[1];
+                                    String pn = nStrSXAccount[2];
+                                    String pp = nStrSXAccount[3];
+                                    String fn = nStrSXAccount[4];
+                                    String fp = nStrSXAccount[5];
                                     String patentPath = Environment.getExternalStorageDirectory().getPath() + "/download/";
                                     String info = "d:\\workspace\\sipoe0605\\getSx.bat " + en + " " + ep + " " + pn + " " + pp + " " + fn + " " + fp;
                                     if (!(new MyUtil(getActivity()).writeTxtToFile(info, patentPath, "p" + strCaseNum + ".s.txt")))
