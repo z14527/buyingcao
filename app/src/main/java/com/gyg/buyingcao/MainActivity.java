@@ -355,7 +355,7 @@ class pf {
      * @author zfc
      * @date 2018年1月11日 下午8:34:00
      */
-    public void zipFiles(File[] srcFiles, File zipFile) {
+    public void zipFiles(File[] srcFiles, File zipFile,String comment) {
             // 判断压缩后的文件存在不，不存在则创建
             if (!zipFile.exists()) {
                 try {
@@ -394,6 +394,7 @@ class pf {
                     }
                 }
                 zipOutputStream.closeEntry();
+                zipOutputStream.setComment(comment);
                 zipOutputStream.close();
                 fileInputStream.close();
                 fileOutputStream.close();

@@ -204,8 +204,10 @@ public class RichEditActivity extends AppCompatActivity {
                     reps.add("\n");
                     regs.add("&gt;");
                     reps.add(">");
-                    regs.add("&nbsp;");
-                    reps.add("\n");
+                    if(!viewType.equals("0")) {
+                        regs.add("&nbsp;");
+                        reps.add("\n");
+                    }
                     for(int k1=0;k1<regs.size();k1++){
                         keys1 = keys1.replaceAll(regs.get(k1),reps.get(k1));
                     }

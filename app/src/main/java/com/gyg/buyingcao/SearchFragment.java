@@ -27,7 +27,7 @@ import static java.lang.Math.min;
 
 public class SearchFragment extends Fragment {
     private TextView textView;
-    private Button btnSearchGet,btnSearchModify,btnSearchDo,btnSearchHistoryGet;
+    private Button btnSearchGet,btnSearchModify,btnSearchDo,btnSearchOne,btnSearchHistoryGet;
     private CheckBox cbSearchEnglish,cbSearchFulltext;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -57,17 +57,10 @@ public class SearchFragment extends Fragment {
                     Toast.makeText(getActivity(),"可以生成检索式", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getActivity(),"无法生成检索式\n"+info, Toast.LENGTH_SHORT).show();
-                String zipFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".3.zip";
-
-                String patentPath1 = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".2.txt";
-                String patentPath2 = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".3.txt";
-                String patentPath3 = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".3.e.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10) {
-                    zipFilePath = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.zip";
-                    patentPath1 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".2.txt";
-                    patentPath2 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.txt";
-                    patentPath3 = Environment.getExternalStorageDirectory().getPath() + "/download/" + "PCT-CN" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".3.e.txt";
-                }
+                String zipFilePath = new pf().getFilePathByType(strCaseNum,".3.zip");
+                String patentPath1 = new pf().getFilePathByType(strCaseNum,".2.txt");
+                String patentPath2 = new pf().getFilePathByType(strCaseNum,".3.txt");
+                String patentPath3 = new pf().getFilePathByType(strCaseNum,".3.e.txt");
                 if(cbSearchEnglish.isChecked())
                     zipFilePath = zipFilePath.replace(".3.zip",".3.e.zip");
                 File[] files = new File[3];
@@ -81,8 +74,54 @@ public class SearchFragment extends Fragment {
                     }
                 }
                 File f1 = new File(zipFilePath);
-                new pf().zipFiles(files,f1);
+                new pf().zipFiles(files,f1,"none");
              //   File f1 = new File(patentPath);
+                if(!f1.exists()){
+                    Toast.makeText(getActivity(),"文件不存在：\n" + zipFilePath, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        btnSearchOne=(Button)getActivity().findViewById(R.id.case_search_one);
+        btnSearchOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                strCaseNum = pref.getString("CaseNum","");
+                String info = checkKwd();
+                if(info.equals(""))
+                    Toast.makeText(getActivity(),"可以生成检索式", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getActivity(),"无法生成检索式\n"+info, Toast.LENGTH_SHORT).show();
+                String zipFilePath = new pf().getFilePathByType(strCaseNum,".3.zip");
+                String patentPath1 = new pf().getFilePathByType(strCaseNum,".2.txt");
+                String patentPath2 = new pf().getFilePathByType(strCaseNum,".3.txt");
+                String patentPath3 = new pf().getFilePathByType(strCaseNum,".3.e.txt");
+                if(cbSearchEnglish.isChecked())
+                    zipFilePath = zipFilePath.replace(".3.zip",".3.e.zip");
+                File[] files = new File[3];
+                files[0] = new File(patentPath1);
+                files[1] = new File(patentPath2);
+                files[2] = new File(patentPath3);
+                for(int i=0;i<files.length;i++) {
+                    if (!files[i].exists()) {
+                        Toast.makeText(getActivity(), "文件不存在：\n" + files[i].getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                File f1 = new File(zipFilePath);
+                String caseApd = pref.getString(strCaseNum+"-CaseApd", "");
+                String caseClass = pref.getString(strCaseNum+"-CaseClass", "");
+                new pf().zipFiles(files,f1,"apd="+caseApd+";ic="+caseClass);
+                //   File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + zipFilePath, Toast.LENGTH_SHORT).show();
                     return;
@@ -103,9 +142,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = pref.getString("CaseNum","");
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".9.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".9.txt";
+                String patentPath = new pf().getFilePathByType(strCaseNum,".9.txt");
                 File f1 = new File(patentPath);
                 if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
                     return;

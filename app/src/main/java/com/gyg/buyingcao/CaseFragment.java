@@ -171,10 +171,11 @@ public class CaseFragment extends Fragment {
                                 numEText.setText(strCaseNum);
                                 apdEText.setText(strCaseApd);
                                 classEText.setText(strCaseClass);
+                                btnOK.callOnClick();
                             }
                         });
                 } else {
-                    builder.setMessage("无可下载的历史数据库");
+                    builder.setMessage("无历史数据案例选择");
                 }
                 AlertDialog dialog = builder.create();  //创建对话框
                 dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
@@ -224,117 +225,43 @@ public class CaseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-                //  textView=(TextView)getActivity().findViewById(R.id.case_textView1);
-                String en = pref.getString("en","");
-                String ep = pref.getString("ep","");
-                String pn = pref.getString("pn","");
-                String pp = pref.getString("pp","");
-                String fn = pref.getString("fn","");
-                String fp = pref.getString("fp","");
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("提示");    //设置对话框标题
-                builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
-                final EditText enEdit = new EditText(getContext());
-                final EditText epEdit = new EditText(getContext());
-                final EditText pnEdit = new EditText(getContext());
-                final EditText ppEdit = new EditText(getContext());
-                final EditText fnEdit = new EditText(getContext());
-                final EditText fpEdit = new EditText(getContext());
-                final TextView enTv = new TextView(getContext());
-                final TextView epTv = new TextView(getContext());
-                final TextView pnTv = new TextView(getContext());
-                final TextView ppTv = new TextView(getContext());
-                final TextView fnTv = new TextView(getContext());
-                final TextView fpTv = new TextView(getContext());
-                enTv.setText("   E系统用户名：");
-                epTv.setText("   E系统密码：");
-                pnTv.setText("   PCT系统用户名：");
-                ppTv.setText("   PCT系统密码：");
-                fnTv.setText("   复审系统用户名：");
-                fpTv.setText("   复审系统密码：");
-                enTv.setWidth(400);
-                epTv.setWidth(400);
-                pnTv.setWidth(400);
-                ppTv.setWidth(400);
-                fnTv.setWidth(400);
-                fpTv.setWidth(400);
-                enEdit.setWidth(500);
-                epEdit.setWidth(500);
-                pnEdit.setWidth(500);
-                ppEdit.setWidth(500);
-                fnEdit.setWidth(500);
-                fpEdit.setWidth(500);
-                LinearLayout layout=new LinearLayout(getContext());
-                layout.setOrientation(LinearLayout.VERTICAL);
-                LinearLayout layout1=new LinearLayout(getContext());
-                layout1.setOrientation(LinearLayout.HORIZONTAL);
-                layout1.addView(enTv);
-                layout1.addView(enEdit);
-                LinearLayout layout2=new LinearLayout(getContext());
-                layout2.setOrientation(LinearLayout.HORIZONTAL);
-                layout2.addView(epTv);
-                layout2.addView(epEdit);
-                LinearLayout layout3=new LinearLayout(getContext());
-                layout3.setOrientation(LinearLayout.HORIZONTAL);
-                layout3.addView(pnTv);
-                layout3.addView(pnEdit);
-                LinearLayout layout4=new LinearLayout(getContext());
-                layout4.setOrientation(LinearLayout.HORIZONTAL);
-                layout4.addView(ppTv);
-                layout4.addView(ppEdit);
-                LinearLayout layout5=new LinearLayout(getContext());
-                layout5.setOrientation(LinearLayout.HORIZONTAL);
-                layout5.addView(fnTv);
-                layout5.addView(fnEdit);
-                LinearLayout layout6=new LinearLayout(getContext());
-                layout6.setOrientation(LinearLayout.HORIZONTAL);
-                layout6.addView(fpTv);
-                layout6.addView(fpEdit);
-                layout.addView(layout1);
-                layout.addView(layout2);
-                layout.addView(layout3);
-                layout.addView(layout4);
-                layout.addView(layout5);
-                layout.addView(layout6);
-                builder.setView(layout);
-                enEdit.setText(en);
-                epEdit.setText(ep);
-                pnEdit.setText(pn);
-                ppEdit.setText(pp);
-                fnEdit.setText(fn);
-                fpEdit.setText(fp);
-                epEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                ppEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                fpEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String en = enEdit.getText().toString();
-                        String ep = epEdit.getText().toString();
-                        String pn = pnEdit.getText().toString();
-                        String pp = ppEdit.getText().toString();
-                        String fn = fnEdit.getText().toString();
-                        String fp = fpEdit.getText().toString();
-                        editor = pref.edit();
-                        editor.putString("en",en);
-                        editor.putString("ep",ep);
-                        editor.putString("pn",pn);
-                        editor.putString("pp",pp);
-                        editor.putString("fn",fn);
-                        editor.putString("fp",fp);
-                        editor.commit();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(), "你点了取消", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
-                AlertDialog dialog = builder.create();  //创建对话框
-                dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
-                dialog.show();
+                final String[] nStrSXAccount = new String[6];
+                for(int i=0;i<nStrSXAccount.length;i++)
+                    nStrSXAccount[i]="";
+                String str1 = pref.getString("SXs", "").replaceAll(" ","").replaceAll(";;",";");
+                if(str1.indexOf(";")==0 && str1.length()>1)
+                    str1 = str1.substring(1);
+                final String strSxs = str1;
+                if (!strSxs.equals(""))
+                {
+                    final String[] nStrSX= (strSxs+";"+"新增").split(";");
+                    //设置对话框标题前的图标
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    //builder.setIcon(R.drawable.ic_launcher);
+                    builder.setIcon(android.R.drawable.btn_star);                    builder.setTitle("选择一个实审账号");
+                    builder.setItems(nStrSX, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String strSX = nStrSX[which];
+                            Toast.makeText(getContext(), "选择的账号为：" + strSX, Toast.LENGTH_SHORT).show();
+                            if(!strSX.equals("新增")) {
+                                String strSXAccount = pref.getString(strSX,"");
+                                if(!strSXAccount.equals("")){
+                                    String[] nStrSXAccount1 = strSXAccount.split(";");
+                                    for(int k=0;k<nStrSXAccount1.length && k<nStrSXAccount.length;k++)
+                                        nStrSXAccount[k] = nStrSXAccount1[k];
+                                    setSXAccount(nStrSXAccount,strSxs);
+                                }
+                            }else
+                                setSXAccount(nStrSXAccount,strSxs);
+                        }
+                    });
+                    AlertDialog dialog = builder.create();  //创建对话框
+                    dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+                    dialog.show();
+                } else {
+                    setSXAccount(nStrSXAccount,strSxs);
+                }
             }
         });
 
@@ -344,54 +271,59 @@ public class CaseFragment extends Fragment {
             public void onClick(View view) {
                 strCaseNum = numEText.getText().toString();
                 pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-                //  textView=(TextView)getActivity().findViewById(R.id.case_textView1);
-                String en = pref.getString("en","");
-                String ep = pref.getString("ep","");
-                String pn = pref.getString("pn","000000");
-                String pp = pref.getString("pp","000000");
-                String fn = pref.getString("fn","000000");
-                String fp = pref.getString("fp","000000");
-                if(en.equals("") || ep.equals("")) {
-                    Toast.makeText(getContext(), "没有设置相关账号", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                String info = "d:\\workspace\\sipoe0605\\getSx.bat "+en+" "+ep+" "+pn+" "+pp+" "+fn+" "+fp;
-                if(!(new MyUtil(getActivity()).writeTxtToFile(info,patentPath,"p"+strCaseNum + ".s.txt")))
-                    return;
-                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".s.txt", Toast.LENGTH_SHORT).show();
-                try {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    File file = new File(patentPath,"p"+strCaseNum + ".s.txt");
-                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
-                    intent.setType("*/*");   //分享文件
-                    startActivity(Intent.createChooser(intent, "分享"));
-                }catch (Exception e) {
-                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        btnGetRealSx=(Button)getActivity().findViewById(R.id.case_get_real_sx);
-        btnGetRealSx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                strCaseNum = numEText.getText().toString();
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-                String info = "d:\\workspace\\sipoe0605\\getSx.bat 161126 197608 161126 760830 154041 760830";
-                if(!(new MyUtil(getActivity()).writeTxtToFile(info,patentPath,"p"+strCaseNum + ".s.txt")))
-                    return;
-                Toast.makeText(getActivity(),"写文件成功：\n" + strCaseNum + ".s.txt", Toast.LENGTH_SHORT).show();
-                try {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    File file = new File(patentPath,"p"+strCaseNum + ".s.txt");
-                    Uri uri = FileProvider7.getUriForFile(getContext(),file);
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
-                    intent.setType("*/*");   //分享文件
-                    startActivity(Intent.createChooser(intent, "分享"));
-                }catch (Exception e) {
-                    Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                final String[] nStrSXAccount = new String[6];
+                for (int i = 0; i < nStrSXAccount.length; i++)
+                    nStrSXAccount[i] = "000000";
+                String str1 = pref.getString("SXs", "").replaceAll(" ","").replaceAll(";;",";");
+                if(str1.indexOf(";")==0 && str1.length()>1)
+                    str1 = str1.substring(1);
+                final String strSxs = str1;
+                if (!strSxs.equals("")) {
+                    final String[] nStrSX = strSxs.split(";");
+                    //设置对话框标题前的图标
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    //builder.setIcon(R.drawable.ic_launcher);
+                    builder.setIcon(android.R.drawable.btn_star);
+                    builder.setTitle("选择一个实审账号");
+                    builder.setItems(nStrSX, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String strSX = nStrSX[which];
+                            Toast.makeText(getContext(), "选择的账号为：" + strSX, Toast.LENGTH_SHORT).show();
+                            if (!strSX.equals("")) {
+                                String strSXAccount = pref.getString(strSX, "");
+                                if (!strSXAccount.equals("")) {
+                                    String[] nStrSXAccount1 = strSXAccount.split(";");
+                                    for (int k = 0; k < nStrSXAccount1.length && k < nStrSXAccount.length; k++)
+                                        nStrSXAccount1[k] = nStrSXAccount[k];
+                                    String en = nStrSXAccount1[0];
+                                    String ep = nStrSXAccount1[1];
+                                    String pn = nStrSXAccount1[2];
+                                    String pp = nStrSXAccount1[3];
+                                    String fn = nStrSXAccount1[4];
+                                    String fp = nStrSXAccount1[5];
+                                    String patentPath = Environment.getExternalStorageDirectory().getPath() + "/download/";
+                                    String info = "d:\\workspace\\sipoe0605\\getSx.bat " + en + " " + ep + " " + pn + " " + pp + " " + fn + " " + fp;
+                                    if (!(new MyUtil(getActivity()).writeTxtToFile(info, patentPath, "p" + strCaseNum + ".s.txt")))
+                                        return;
+                                    Toast.makeText(getActivity(), "写文件成功：\n" + strCaseNum + ".s.txt", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        File file = new File(patentPath, "p" + strCaseNum + ".s.txt");
+                                        Uri uri = FileProvider7.getUriForFile(getContext(), file);
+                                        intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                                        intent.setType("*/*");   //分享文件
+                                        startActivity(Intent.createChooser(intent, "分享"));
+                                    } catch (Exception e) {
+                                        Toast.makeText(getActivity(), "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();  //创建对话框
+                    dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+                    dialog.show();
                 }
             }
         });
@@ -416,6 +348,139 @@ public class CaseFragment extends Fragment {
                 }
             }
         });
+    }
+    public void setSXAccount(String[] nStrSXAcount,final String strSxs){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("提示");    //设置对话框标题
+        builder.setIcon(android.R.drawable.btn_star);   //设置对话框标题前的图标
+        final EditText enEdit = new EditText(getContext());
+        final EditText epEdit = new EditText(getContext());
+        final EditText pnEdit = new EditText(getContext());
+        final EditText ppEdit = new EditText(getContext());
+        final EditText fnEdit = new EditText(getContext());
+        final EditText fpEdit = new EditText(getContext());
+        final TextView enTv = new TextView(getContext());
+        final TextView epTv = new TextView(getContext());
+        final TextView pnTv = new TextView(getContext());
+        final TextView ppTv = new TextView(getContext());
+        final TextView fnTv = new TextView(getContext());
+        final TextView fpTv = new TextView(getContext());
+        enTv.setText("   E系统用户名：");
+        epTv.setText("   E系统密码：");
+        pnTv.setText("   PCT系统用户名：");
+        ppTv.setText("   PCT系统密码：");
+        fnTv.setText("   复审系统用户名：");
+        fpTv.setText("   复审系统密码：");
+        enTv.setWidth(400);
+        epTv.setWidth(400);
+        pnTv.setWidth(400);
+        ppTv.setWidth(400);
+        fnTv.setWidth(400);
+        fpTv.setWidth(400);
+        enEdit.setWidth(500);
+        epEdit.setWidth(500);
+        pnEdit.setWidth(500);
+        ppEdit.setWidth(500);
+        fnEdit.setWidth(500);
+        fpEdit.setWidth(500);
+        LinearLayout layout=new LinearLayout(getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout layout1=new LinearLayout(getContext());
+        layout1.setOrientation(LinearLayout.HORIZONTAL);
+        layout1.addView(enTv);
+        layout1.addView(enEdit);
+        LinearLayout layout2=new LinearLayout(getContext());
+        layout2.setOrientation(LinearLayout.HORIZONTAL);
+        layout2.addView(epTv);
+        layout2.addView(epEdit);
+        LinearLayout layout3=new LinearLayout(getContext());
+        layout3.setOrientation(LinearLayout.HORIZONTAL);
+        layout3.addView(pnTv);
+        layout3.addView(pnEdit);
+        LinearLayout layout4=new LinearLayout(getContext());
+        layout4.setOrientation(LinearLayout.HORIZONTAL);
+        layout4.addView(ppTv);
+        layout4.addView(ppEdit);
+        LinearLayout layout5=new LinearLayout(getContext());
+        layout5.setOrientation(LinearLayout.HORIZONTAL);
+        layout5.addView(fnTv);
+        layout5.addView(fnEdit);
+        LinearLayout layout6=new LinearLayout(getContext());
+        layout6.setOrientation(LinearLayout.HORIZONTAL);
+        layout6.addView(fpTv);
+        layout6.addView(fpEdit);
+        layout.addView(layout1);
+        layout.addView(layout2);
+        layout.addView(layout3);
+        layout.addView(layout4);
+        layout.addView(layout5);
+        layout.addView(layout6);
+        builder.setView(layout);
+        enEdit.setText(nStrSXAcount[0]);
+        epEdit.setText(nStrSXAcount[1]);
+        pnEdit.setText(nStrSXAcount[2]);
+        ppEdit.setText(nStrSXAcount[3]);
+        fnEdit.setText(nStrSXAcount[4]);
+        fpEdit.setText(nStrSXAcount[5]);
+        epEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        ppEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        fpEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String en = enEdit.getText().toString();
+                String ep = epEdit.getText().toString();
+                String pn = pnEdit.getText().toString();
+                String pp = ppEdit.getText().toString();
+                String fn = fnEdit.getText().toString();
+                String fp = fpEdit.getText().toString();
+                editor = pref.edit();
+                String strSxs1 =  strSxs;
+                if(!strSxs.contains(en)){
+                    if(strSxs.equals(""))
+                        strSxs1 = en;
+                    else
+                        strSxs1 = strSxs1+";"+en;
+                }
+                editor.putString("SXs",strSxs1);
+                String strSXAccount = en+";"+ep+";"+pn+";"+pp+";"+fn+";"+fp;
+                editor.putString(en,strSXAccount);
+                editor.commit();
+            }
+        });
+        builder.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String en = enEdit.getText().toString();
+                String ep = epEdit.getText().toString();
+                String pn = pnEdit.getText().toString();
+                String pp = ppEdit.getText().toString();
+                String fn = fnEdit.getText().toString();
+                String fp = fpEdit.getText().toString();
+                if(!en.equals("")) {
+                    String strSxs = pref.getString("SXs", "");
+                    if (strSxs.contains(en)) {
+                        strSxs = strSxs.replace(en + ";", "");
+                        strSxs = strSxs.replace(";" + en, ";");
+                        strSxs = strSxs.replace(en, ";");
+                        editor = pref.edit();
+                        editor.putString("SXs", strSxs);
+                        editor.remove(en);
+                        editor.commit();
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(), "你点了取消", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
+        AlertDialog dialog = builder.create();  //创建对话框
+        dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+        dialog.show();
     }
 
 }
