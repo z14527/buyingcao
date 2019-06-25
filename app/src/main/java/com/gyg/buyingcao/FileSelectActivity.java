@@ -88,16 +88,20 @@ public class FileSelectActivity extends AppCompatActivity {
         tvSelectDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                List<String> list = adapter.getSelectText();
-                String[] fs = new String[list.size()];
-                for(int i=0;i<list.size();i++) {
-                    fs[i] = list.get(i).toString();
-                    int k1 = fs[i].lastIndexOf("A");
-                    int k2 = fs[i].lastIndexOf("B");
-                    if(k1>3)
-                        fs[i] =  fs[i].substring(0,k1);
-                    if(k2>3)
-                        fs[i] =  fs[i].substring(0,k2);
+                int ns = adapter.map.size();
+                String[] fs = new String[ns];
+                int i=0;
+                for(int k=0;k<adapter.getCount() && i<ns;k++){
+                    if(adapter.map.containsKey(k)) {
+                        fs[i] = adapter.listText.get(k).toString();
+                        int k1 = fs[i].lastIndexOf("A");
+                        int k2 = fs[i].lastIndexOf("B");
+                        if (k1 > 3)
+                            fs[i] = fs[i].substring(0, k1);
+                        if (k2 > 3)
+                            fs[i] = fs[i].substring(0, k2);
+                        i++;
+                    }
                 }
                 String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum + ".n.pdf";
                 new pf().writefile(txtFilePath,"GBK",fs);

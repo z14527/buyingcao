@@ -120,7 +120,12 @@ public class SearchFragment extends Fragment {
                 File f1 = new File(zipFilePath);
                 String caseApd = pref.getString(strCaseNum+"-CaseApd", "");
                 String caseClass = pref.getString(strCaseNum+"-CaseClass", "");
-                new pf().zipFiles(files,f1,"apd="+caseApd+";ic="+caseClass);
+                String comment = "apd="+caseApd+";ic="+caseClass;
+                if(cbSearchFulltext.isChecked())
+                    comment = comment +";full=1";
+                else
+                    comment = comment +";full=0";
+                new pf().zipFiles(files,f1,comment);
                 //   File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + zipFilePath, Toast.LENGTH_SHORT).show();
