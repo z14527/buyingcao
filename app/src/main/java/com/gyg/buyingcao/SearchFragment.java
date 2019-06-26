@@ -27,7 +27,7 @@ import static java.lang.Math.min;
 
 public class SearchFragment extends Fragment {
     private TextView textView;
-    private Button btnSearchGet,btnSearchModify,btnSearchDo,btnSearchOne,btnSearchHistoryGet;
+    private Button btnSearchGet,btnSearchModify,btnSearchDo,btnSearchOne,btnSearchHistoryGet,btnAbstractGet;
     private CheckBox cbSearchEnglish,cbSearchFulltext;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -101,10 +101,10 @@ public class SearchFragment extends Fragment {
                     Toast.makeText(getActivity(),"可以生成检索式", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getActivity(),"无法生成检索式\n"+info, Toast.LENGTH_SHORT).show();
-                String zipFilePath = new pf().getFilePathByType(strCaseNum,".3.zip");
                 String patentPath1 = new pf().getFilePathByType(strCaseNum,".2.txt");
                 String patentPath2 = new pf().getFilePathByType(strCaseNum,".3.txt");
                 String patentPath3 = new pf().getFilePathByType(strCaseNum,".3.e.txt");
+                String zipFilePath = patentPath1.replace(".2.txt",".3.zip");
                 if(cbSearchEnglish.isChecked())
                     zipFilePath = zipFilePath.replace(".3.zip",".3.e.zip");
                 File[] files = new File[3];
@@ -235,6 +235,34 @@ public class SearchFragment extends Fragment {
                     Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                 }
                 Toast.makeText(getActivity(),"开始检索", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnAbstractGet=(Button)getActivity().findViewById(R.id.case_abstract_get);
+        btnAbstractGet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                strCaseNum = pref.getString("CaseNum","");
+                String patentPath = new pf().getFilePathByType(strCaseNum,".txt");
+                if(cbSearchEnglish.isChecked())
+                    patentPath = patentPath.replace(".txt",".7.txt");
+                else
+                    patentPath = patentPath.replace(".txt",".8.txt");
+                File f1 = new File(patentPath);
+                if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
+                    return;
+                if(!f1.exists()){
+                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    Uri uri = FileProvider7.getUriForFile(getContext(),f1);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);  //传输图片或者文件 采用流的方式
+                    intent.setType("*/*");   //分享文件
+                    startActivity(Intent.createChooser(intent, "分享"));
+                }catch (Exception e) {
+                    Toast.makeText(getActivity(),"Error on action send:\n" + e +"\n"+f1.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -49,21 +49,13 @@ public class KeyFragment extends Fragment {
         btnKeyEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".2.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".2.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","0");
-                startActivity(intent);
+                new pf().viewFileByType(getContext(),strCaseNum,".2.txt","1");
             }
         });
         btnKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/" + "CN" + strCaseNum.substring(0, min(strCaseNum.length(),12)) + ".2.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".2.txt";
+                String patentPath = new pf().getFilePathByType(strCaseNum,".2.txt");
                 File f1 = new File(patentPath);
                 if(!f1.exists()){
                     Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
@@ -83,26 +75,14 @@ public class KeyFragment extends Fragment {
         btnCNKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".3.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","0");
-                startActivity(intent);
+                new pf().viewFileByType(getContext(),strCaseNum,".3.txt","1");
             }
         });
         btnENKeyExpandEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".3.e.txt";
-                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
-                    txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+".3.e.txt";
-                Intent intent = new Intent(getContext(),RichEditActivity.class);
-                intent.putExtra("fname",txtFilePath);
-                intent.putExtra("type","0");
-                startActivity(intent);
-            }
+                new pf().viewFileByType(getContext(),strCaseNum,".3.e.txt","1");
+              }
         });
     }
     private boolean writeTxtToFile(String strcontent, String filePath, String fileName) {

@@ -72,10 +72,18 @@
         </Button>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/LinearLayout11"
+        android:id="@+id/LinearLayout12"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <Button
+            android:text="下载摘要=>"
+            android:id="@+id/case_abstract_get"
+            android:layout_width="170dip"
+            android:layout_height="150dip"
+            android:textSize="18dip"
+            android:gravity="center">
+        </Button>
         <Button
             android:text="获取最近检索结果=>"
             android:id="@+id/case_search_history_get"

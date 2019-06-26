@@ -204,7 +204,7 @@ public class RichEditActivity extends AppCompatActivity {
                     reps.add("\n");
                     regs.add("&gt;");
                     reps.add(">");
-                    if(!viewType.equals("0")) {
+                    if(!viewType.equals("1")) {
                         regs.add("&nbsp;");
                         reps.add("\n");
                     }
@@ -593,8 +593,9 @@ public class RichEditActivity extends AppCompatActivity {
                             else
                                 editor.putString(strCaseNum, strPns + ";" + pn);
                             editor.commit();
+                            Toast.makeText(RichEditActivity.this, pn + " 已经增加该备选文件", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(RichEditActivity.this, pn + " 已经是备选文件", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RichEditActivity.this, pn + " 备选文件已经存在！", Toast.LENGTH_LONG).show();
                             return;
                         }
                         if (viewType.equals("3") && txtFilePath.indexOf(".log") > 0) {

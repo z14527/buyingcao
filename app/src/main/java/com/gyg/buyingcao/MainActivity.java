@@ -243,7 +243,9 @@ class MyUtil {
         //生成文件夹之后，再生成文件，不然会出错
         // 每次写入时，都换行写
         String strContent = strcontent + "\r\n";
+      //  Toast.makeText(context,"writeTxtToFile\n"+strFilePath, Toast.LENGTH_LONG).show();
         try {
+       //     Thread.sleep(1000);
             File file = new File(strFilePath);
             if(file.exists())
                 file.delete();
@@ -253,7 +255,7 @@ class MyUtil {
             raf.write(strContent.getBytes("GBK"));
             raf.close();
         } catch (Exception e) {
-            Toast.makeText(context,"Error on write File:\n" + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Error on write File:\n" + e +"\n"+strFilePath, Toast.LENGTH_LONG).show();
             return false;
             //   Log.e("TestFile", "Error on write File:" + e);
         }
@@ -317,6 +319,7 @@ class pf {
     public void viewFileByType(Context contex,String strCaseNum,String type1,String type2){
         String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
         String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
+        File f0 = null;
         for(int i=0;i<filePaths.length;i++) {
             File f1 = new File(filePaths[i]);
             if (f1.exists()) {
@@ -336,8 +339,12 @@ class pf {
                         Toast.makeText(contex, "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                     }
                 }
+                f0 = f1;
                 break;
             }
+        }
+        if(f0.equals(null)){
+            Toast.makeText(contex, "没有找到文件", Toast.LENGTH_LONG).show();
         }
     }
     public String getFilePathByType(String strCaseNum,String type1){
