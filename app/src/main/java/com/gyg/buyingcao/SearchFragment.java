@@ -147,7 +147,11 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 strCaseNum = pref.getString("CaseNum","");
-                String patentPath = new pf().getFilePathByType(strCaseNum,".9.txt");
+                String patentPath = new pf().getFilePathByType(strCaseNum,".txt");
+                if(patentPath.equals(""))
+                    patentPath = Environment.getExternalStorageDirectory().getPath()+"/download/getlog.9.txt";
+                else
+                    patentPath = patentPath.replace(".txt",".9.txt");
                 File f1 = new File(patentPath);
                 if(!(new MyUtil(getActivity()).writeTxtToFile(strCaseNum,patentPath)))
                     return;

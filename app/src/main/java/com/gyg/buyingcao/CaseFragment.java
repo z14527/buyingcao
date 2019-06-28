@@ -156,7 +156,23 @@ public class CaseFragment extends Fragment {
                 builder.setIcon(android.R.drawable.btn_star);
                 if (!strCaseNumInfo.equals(""))
                 {
-                    final String[] nStrCaseNum= strCaseNumInfo.split(";");
+                    String[] nStr1 = strCaseNumInfo.split(";");
+                    if(nStr1.length>12) {
+                        String str1 = "";
+                        for (int k = 0; k < 12; k++) {
+                            if (!nStr1[k].equals("")) {
+                                if (str1.equals(""))
+                                    str1 = nStr1[k];
+                                else
+                                    str1 = str1 + ";" + nStr1[k];
+                            }
+                        }
+                        editor = pref.edit();
+                        editor.putString("CaseNumInfo", str1);
+                        editor.commit();
+                    }
+                    strCaseNumInfo = pref.getString("CaseNumInfo", "");
+                    final String[] nStrCaseNum = strCaseNumInfo.split(";");
                      //设置对话框标题前的图标
                     builder.setTitle("选择一个历史案例");
                     builder.setItems(nStrCaseNum, new DialogInterface.OnClickListener() {
