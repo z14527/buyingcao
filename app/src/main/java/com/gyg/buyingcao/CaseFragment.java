@@ -305,7 +305,7 @@ public class CaseFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String strSX = nStrSX[which];
-                            Toast.makeText(getContext(), "选择的账号为：" + strSX, Toast.LENGTH_SHORT).show();
+                      //      Toast.makeText(getContext(), "选择的账号为：" + strSX, Toast.LENGTH_SHORT).show();
                             if (!strSX.equals("")) {
                                 String strSXAccount = pref.getString(strSX, "");
                                 if (!strSXAccount.equals("")) {

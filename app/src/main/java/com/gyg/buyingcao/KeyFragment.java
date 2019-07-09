@@ -55,10 +55,31 @@ public class KeyFragment extends Fragment {
         btnKeyExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String patentPath = new pf().getFilePathByType(strCaseNum,".2.txt");
-                File f1 = new File(patentPath);
+                strCaseNum = pref.getString("CaseNum","");
+                String patentPath1 = new pf().getFilePathByType(strCaseNum,".2.txt");
+                String patentPath2 = new pf().getFilePathByType(strCaseNum,".3.txt");
+                String patentPath3 = new pf().getFilePathByType(strCaseNum,".3.e.txt");
+                String zipFilePath = patentPath1.replace(".2.txt",".2.zip");
+                File[] files = new File[3];
+                files[0] = new File(patentPath1);
+                files[1] = new File(patentPath2);
+                files[2] = new File(patentPath3);
+
+                if (!files[0].exists()) {
+                    Toast.makeText(getActivity(), "文件不存在：\n" + files[0].getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!files[1].exists() || !files[2].exists()) {
+                    files = new File[1];
+                    files[0] = new File(patentPath1);
+                }
+
+                File f1 = new File(zipFilePath);
+                new pf().zipFiles(files,f1,"");
+                //   File f1 = new File(patentPath);
                 if(!f1.exists()){
-                    Toast.makeText(getActivity(),"文件不存在：\n" + patentPath, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"文件不存在：\n" + zipFilePath, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {

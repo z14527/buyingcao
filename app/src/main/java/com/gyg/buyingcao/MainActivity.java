@@ -33,9 +33,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -221,8 +225,23 @@ class MyUtil {
             return false;
         }
         String strFilePath = filePath + fileName;
+        byte[] secretBytes = null;
+        String md5code = "";
         // 每次写入时，都换行写
-        String strContent = strcontent + "\r\n";
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            //对字符串进行加密
+            Date date = new Date();
+            md.update(date.toString().getBytes());
+            //获得加密后的数据
+            secretBytes = md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("没有md5这个算法！");
+        }
+    //将加密后的数据转换为16进制数字
+        if(!secretBytes.equals(null))
+            md5code = new BigInteger(1, secretBytes).toString(16);// 16进制数字
+        String strContent = "echo " + md5code + "\r\n" + strcontent + "\r\n";
         try {
             File file = new File(strFilePath);
             if(file.exists())
