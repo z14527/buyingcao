@@ -37,7 +37,8 @@ public class FileSelectActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private String strCaseNum=null,strCaseClass=null,strPns=null;
-    private TextView tvSelectAll = null,tvSelectReverse = null,tvSelectDelete = null,tvSelectDown = null;
+    private TextView tvSelectAll = null,tvSelectReverse = null,tvSelectDelete = null,
+            tvSelectDown = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -256,6 +257,15 @@ public class FileSelectActivity extends AppCompatActivity {
                     getApplicationContext().startActivity(intent);
                 }
             });
+
+            final TextView zhuluView = (TextView)view.findViewById(R.id.tv_select_abstract);
+            zhuluView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new pf().viewFileByType(FileSelectActivity.this,listText.get(position),".z.txt","2");
+                }
+            });
+
             if(map!=null&&map.containsKey(position)){
                 checkBox.setChecked(true);
             }else {

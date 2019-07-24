@@ -114,7 +114,7 @@ public class CaseFragment extends Fragment {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                strCaseNum = numEText.getText().toString().replaceAll(" |[^0-9]","");
+                strCaseNum = numEText.getText().toString().replaceAll(" |[^0-9X]","");
                 if(strCaseNum.length()<3){
                     Toast.makeText(getActivity(),"申请号格式不对", Toast.LENGTH_LONG).show();
                     return;
@@ -191,7 +191,7 @@ public class CaseFragment extends Fragment {
                             }
                         });
                 } else {
-                    builder.setMessage("无历史数据案例选择");
+                    builder.setMessage("无历史数据案例");
                 }
                 AlertDialog dialog = builder.create();  //创建对话框
                 dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏

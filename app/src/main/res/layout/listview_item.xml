@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/tv_select_fanyi"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="100dip"
+        android:layout_width="70dip"
         android:layout_height="40dp"
         android:text="翻译"
         android:layout_marginRight="5dp"
@@ -27,9 +27,20 @@
     <TextView
         android:id="@+id/tv_select_view"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="100dip"
+        android:layout_width="70dip"
         android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
         android:text="浏览"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tv_select_abstract"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="70dip"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:text="著录"
         android:background="@android:color/darker_gray"
         android:textColor="@android:color/black"
         android:textSize="15sp" />

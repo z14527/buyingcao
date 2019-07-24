@@ -338,32 +338,36 @@ class pf {
     public void viewFileByType(Context contex,String strCaseNum,String type1,String type2){
         String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
         String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
-        File f0 = null;
-        for(int i=0;i<filePaths.length;i++) {
-            File f1 = new File(filePaths[i]);
-            if (f1.exists()) {
-                if((type1.indexOf(".txt")>=0 || type1.indexOf(".log")>=0) && !type2.equals("0")) {
-                    Intent intent = new Intent(contex, RichEditActivity.class);
-                    intent.putExtra("fname", f1.getAbsolutePath());
-                    intent.putExtra("type", type2);
-                    contex.startActivity(intent);
-                }
-                if(type1.indexOf(".pdf")>=0 && type2.equals("0")) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        FileProvider7.setIntentDataAndType(contex, intent, "application/pdf", f1, true);
+        try {
+            File f0 = new File(sdPath);
+            for (int i = 0; i < filePaths.length; i++) {
+                File f1 = new File(filePaths[i]);
+                if (f1.exists()) {
+                    if ((type1.indexOf(".txt") >= 0 || type1.indexOf(".log") >= 0) && !type2.equals("0")) {
+                        Intent intent = new Intent(contex, RichEditActivity.class);
+                        intent.putExtra("fname", f1.getAbsolutePath());
+                        intent.putExtra("type", type2);
                         contex.startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(contex, "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                     }
+                    if (type1.indexOf(".pdf") >= 0 && type2.equals("0")) {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            FileProvider7.setIntentDataAndType(contex, intent, "application/pdf", f1, true);
+                            contex.startActivity(intent);
+                        } catch (Exception e) {
+                            Toast.makeText(contex, "Error on action send:\n" + e, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    f0 = f1;
+                    break;
                 }
-                f0 = f1;
-                break;
             }
-        }
-        if(f0.equals(null)){
-            Toast.makeText(contex, "没有找到文件", Toast.LENGTH_LONG).show();
+            if (f0.getAbsolutePath().length()<=sdPath.length()) {
+                Toast.makeText(contex, "没有找到文件", Toast.LENGTH_LONG).show();
+            }
+        }catch(Exception e1) {
+            Toast.makeText(contex, e1.toString(), Toast.LENGTH_LONG).show();
         }
     }
     public String getFilePathByType(String strCaseNum,String type1){
