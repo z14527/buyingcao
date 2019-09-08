@@ -335,6 +335,7 @@ class MyUtil {
 
 }
 class pf {
+    public Context context;
     public void viewFileByType(Context contex,String strCaseNum,String type1,String type2){
         String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
         String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
@@ -372,13 +373,20 @@ class pf {
     }
     public String getFilePathByType(String strCaseNum,String type1){
         String sdPath = Environment.getExternalStorageDirectory().getPath()+"/download/";
-        String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,sdPath+"CN"+strCaseNum+type1,sdPath+strCaseNum+type1,sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
+        String[] filePaths = {sdPath+"CN"+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,
+                sdPath+strCaseNum.substring(0,min(strCaseNum.length(),12))+type1,
+                sdPath+"CN"+strCaseNum+type1,
+                sdPath+strCaseNum+type1,
+                sdPath+"PCT-CN"+strCaseNum.substring(0,4)+"-"+strCaseNum.substring(4,10)+type1};
         for(int i=0;i<filePaths.length;i++) {
             File f1 = new File(filePaths[i]);
             if (f1.exists())
                 return f1.getAbsolutePath();
         }
-        return "";
+        String apath="";
+        for(int i=0;i<filePaths.length;i++)
+            apath = apath + filePaths[i] +"\n";
+        return apath;
     }
     /**
      * @describe 压缩多个文件

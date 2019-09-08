@@ -57,10 +57,10 @@ public class SearchFragment extends Fragment {
                     Toast.makeText(getActivity(),"可以生成检索式", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getActivity(),"无法生成检索式\n"+info, Toast.LENGTH_SHORT).show();
-                String zipFilePath = new pf().getFilePathByType(strCaseNum,".3.zip");
                 String patentPath1 = new pf().getFilePathByType(strCaseNum,".2.txt");
                 String patentPath2 = new pf().getFilePathByType(strCaseNum,".3.txt");
                 String patentPath3 = new pf().getFilePathByType(strCaseNum,".3.e.txt");
+                String zipFilePath = patentPath1.replace(".2.txt",".3.zip");
                 if(cbSearchEnglish.isChecked())
                     zipFilePath = zipFilePath.replace(".3.zip",".3.e.zip");
                 File[] files = new File[3];
@@ -107,13 +107,12 @@ public class SearchFragment extends Fragment {
                 String zipFilePath = patentPath1.replace(".2.txt",".3.zip");
                 if(cbSearchEnglish.isChecked())
                     zipFilePath = zipFilePath.replace(".3.zip",".3.e.zip");
-                File[] files = new File[3];
-                files[0] = new File(patentPath1);
-                files[1] = new File(patentPath2);
-                files[2] = new File(patentPath3);
-                for(int i=0;i<files.length;i++) {
+                String[] patentPath ={patentPath1,patentPath2,patentPath3};
+                File[] files = new File[patentPath.length];
+                for(int i=0;i<patentPath.length;i++) {
+                    files[i] = new File(patentPath[i]);
                     if (!files[i].exists()) {
-                        Toast.makeText(getActivity(), "文件不存在：\n" + files[i].getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "文件不存在：\n" + patentPath[i], Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
