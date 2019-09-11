@@ -505,7 +505,7 @@ public class RichEditActivity extends AppCompatActivity {
             return;
         }
         if(colors == null) {
-            String strColors = "#FF0000,#FFFFFF,#00FFFF,#C0C0C0,#0000FF,#808080,#0000A0,#000000,#ADD8E6,#FFA500,#800080,#A52A2A,#FFFF00,#800000,#00FF00,#008000,#FF00FF,#808000";
+            String strColors = "#FF0000,#FFFFAF,#00FFFF,#C0C0C0,#0000FF,#808080,#0000A0,#0000B0,#ADD8E6,#FFA500,#800080,#A52A2A,#FFFF00,#800000,#00FF00,#008000,#FF00FF,#808000";
             colors = strColors.split(",");
         }
         pref = PreferenceManager.getDefaultSharedPreferences(this);
