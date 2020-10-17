@@ -82,10 +82,20 @@ public class RichEditActivity extends AppCompatActivity {
         String cp = pref.getString(strCaseNum+"-page", "");
         if(!cp.equals(""))
             nPagView = Integer.parseInt(cp);
+        String content = "";
         txtFile = new File(txtFilePath);
         try {
-            if(!txtFile.exists())
+            if(!txtFile.exists()){
+                content  += "..fi cnabs |<br>";
+                content  += "致信互链/pa and gk_pn=yes |<br>";
+                content  += "..li gk_pn apd gk_pa gk_ic |<br>";
                 txtFile.createNewFile();
+            }
+            else{
+                pns = (new pf()).readfile(txtFilePath,"GBK");
+                for(int i=0;i<pns.length;i++)
+                    content  += pns[i]+"<br>";
+            }
          }catch (Exception e1){
             Toast.makeText(this,e1.toString(), Toast.LENGTH_LONG).show();
             return;
@@ -107,6 +117,10 @@ public class RichEditActivity extends AppCompatActivity {
             HorizontalScrollView  horizontalScrollView = (HorizontalScrollView)findViewById(R.id.tv_toolbar);
             horizontalScrollView.setVisibility(View.GONE);
             mEditor.setEditorFontColor(Color.BLACK);
+        }
+        if(viewType.equals("7")) {
+            mEditor.setHtml(content);
+            //return;
         }
         if(viewType.equals("3") && txtFilePath.indexOf(".log")>0) {
             //    mEditor.setEnabled(false);
@@ -138,7 +152,8 @@ public class RichEditActivity extends AppCompatActivity {
             String strTxt = "";
             try {
                 strTxt = new MyUtil(getApplication()).readExternal(txtFilePath).replaceAll("\n","<br>");
-                mEditor.setHtml(strTxt);
+                if(!viewType.equals("7"))
+                    mEditor.setHtml(strTxt);
                 if(viewType.equals("6")) {
                     String strCmd = getIntent().getStringExtra("cmd");
                     int n1 = strCmd.indexOf("getSipoe");
@@ -219,7 +234,7 @@ public class RichEditActivity extends AppCompatActivity {
                 }catch (Exception e) {
                     Toast.makeText(getApplication(), e.toString(), Toast.LENGTH_LONG).show();
                 }
-                if(viewType.equals("4") || viewType.equals("6")){
+                if(viewType.equals("4") || viewType.equals("6") || viewType.equals("7")){
                     try {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         File file = new File(txtFilePath);

@@ -206,5 +206,20 @@
                 android:textSize="18dip">
             </Button>
         </LinearLayout>
+            <LinearLayout
+                android:id="@+id/LinearLayout08"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <Button
+                android:id="@+id/case_zlfx"
+                android:layout_width="150dip"
+                android:layout_height="60dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="专利分析"
+                android:textSize="18dip">
+            </Button>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

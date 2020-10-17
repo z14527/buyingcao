@@ -41,7 +41,9 @@ import static java.lang.Math.min;
 
 public class CaseFragment extends Fragment {
     private TextView textView;
-    private Button btnImport,btnOK,btnClear,btnExec,btnSetAccountSx,btnGetRealSx,btnDSCAJ,btnResetEA,btnHistory;
+    private Button btnImport,btnOK,btnClear,btnExec,
+            btnSetAccountSx,btnGetRealSx,btnDSCAJ,
+            btnResetEA,btnHistory,btnZlfx;
     private EditText numEText,apdEText,classEText;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -231,7 +233,7 @@ public class CaseFragment extends Fragment {
                 Intent intent = new Intent(getContext(),RichEditActivity.class);
                 intent.putExtra("fname",txtFilePath);
                 intent.putExtra("type","6");
-                 intent.putExtra("cmd",strCmd);
+                intent.putExtra("cmd",strCmd);
                 startActivity(intent);
             }
         });
@@ -362,6 +364,20 @@ public class CaseFragment extends Fragment {
                 }catch (Exception e) {
                     Toast.makeText(getActivity(),"Error on action send:\n" + e, Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        btnZlfx=(Button)getActivity().findViewById(R.id.case_zlfx);
+        btnZlfx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String txtFilePath = Environment.getExternalStorageDirectory().getPath()+"/download/"+strCaseNum.substring(0,min(strCaseNum.length(),12))+".jss.txt";
+                if(strCaseNum.length()<12 && strCaseNum.length()>=10)
+                    txtFilePath = Environment.getExternalStorageDirectory().getPath() + "/download/" + strCaseNum.substring(0, 4) + "-" + strCaseNum.substring(4, 10) + ".jss.txt";
+                Intent intent = new Intent(getContext(),RichEditActivity.class);
+                intent.putExtra("fname",txtFilePath);
+                intent.putExtra("type","7");
+                intent.putExtra("zlfx","");
+                startActivity(intent);
             }
         });
     }
